@@ -17,18 +17,46 @@ const ContentBox = () => {
       case CODE_SECTION:
         return <CodeSection />;
       case HELP_CENTER_SECTION:
-        return <Typography paragraph>{actualContent}</Typography>;
+        return (
+          <Typography variant="body1" sx={{ p: 2 }}>
+            {actualContent}
+          </Typography>
+        );
       case CONTACT_US_SECTION:
-        return <Typography paragraph>{actualContent}</Typography>;
+        return (
+          <Typography variant="body1" sx={{ p: 2 }}>
+            {actualContent}
+          </Typography>
+        );
       default:
         return null;
     }
   };
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
       <DrawerHeader />
-      {getRenderContentBox()}
+      <Box
+        sx={{
+          flex: 1,
+          overflow: "auto",
+          p: { xs: 1.5, sm: 2, md: 3 },
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {getRenderContentBox()}
+      </Box>
     </Box>
   );
 };

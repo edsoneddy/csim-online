@@ -1,3 +1,3 @@
-export const defaultLanguage = "auto-detect";
+export const defaultLanguage = "python";
 export const languageField = "Language";
-export const languageOptions = [defaultLanguage, "cpp", "java", "python"];
+export const languageOptions = ["python", "javascript", "java", "cpp"];

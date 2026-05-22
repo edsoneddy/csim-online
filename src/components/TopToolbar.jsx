@@ -1,29 +1,43 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React from "react";
 import {
-  defaultLanguage,
   languageField,
   languageOptions,
 } from "../constants/toolbar";
 
-const TopToolbar = () => {
-  const [language, setLanguage] = React.useState(defaultLanguage);
+const TopToolbar = ({ language, onLanguageChange }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleChange = (event) => {
-    setLanguage(event.target.value);
+    onLanguageChange(event.target.value);
   };
 
   return (
-    <Box sx={{ paddingBottom: "1em" }}>
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">{languageField}</InputLabel>
+    <Box
+      sx={{
+        display: "flex",
+        gap: 1.5,
+        alignItems: "center",
+        flexWrap: "wrap",
+      }}
+    >
+      <FormControl size={isMobile ? "small" : "medium"} sx={{ minWidth: 120 }}>
+        <InputLabel id="language-select-label">{languageField}</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="language-select-label"
+          id="language-select"
           value={language}
-          label="Language"
+          label={languageField}
           onChange={handleChange}
-          sx={{ minWidth: "100px" }}
         >
           {languageOptions.map((option, index) => (
             <MenuItem key={index} value={option}>
