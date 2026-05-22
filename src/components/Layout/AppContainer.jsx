@@ -4,7 +4,7 @@ import MenuAppBar from './MenuAppBar';
 import MenuDrawer from './MenuDrawer';
 import ContentBox from './ContentBox';
 import { Provider } from 'react-redux';
-import store from '../hooks/store';
+import store from '../../hooks/redux/store';
 
 const AppContainer = () => {
   return (

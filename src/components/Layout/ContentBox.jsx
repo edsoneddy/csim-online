@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { DrawerHeader } from '../utils/menu';
+import { DrawerHeader } from '../../utils/menu';
 import { useSelector } from 'react-redux';
-import { CODE_SECTION, CONTACT_US_SECTION, HELP_CENTER_SECTION } from '../constants/menu';
-import CodeSection from './CodeSection';
+import { CODE_SECTION, CONTACT_US_SECTION, HELP_CENTER_SECTION } from '../../constants/ui';
+import CodeSection from '../CodeEditor/CodeSection';
 
 const ContentBox = () => {
   const actualContent = useSelector((state) => state.menu.actualContent);

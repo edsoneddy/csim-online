@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Typography, IconButton, Box } from '@mui/material';
+import { Typography, IconButton } from '@mui/material';
 import { Menu as MenuIcon, Language as LanguageIcon } from '@mui/icons-material';
-import { AppBar as CustomAppBar } from '../utils/menu';
+import { AppBar as CustomAppBar } from '../../utils/menu';
 import { Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { openSidebarMenu } from '../hooks/menuActions';
+import { openSidebarMenu } from '../../hooks/redux/menuActions';
 
 const MenuAppBar = () => {
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);

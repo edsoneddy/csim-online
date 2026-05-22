@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import TopToolbar from './TopToolbar';
 import BottomToolbar from './BottomToolbar';
-import { defaultLanguage } from '../constants/toolbar';
+import { defaultLanguage } from '../../constants/ui';
 
 const CodeSection = () => {
   const [code1, setCode1] = useState('');

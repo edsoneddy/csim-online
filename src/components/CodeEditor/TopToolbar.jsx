@@ -8,7 +8,7 @@ import {
   useTheme,
 } from '@mui/material';
 import React from 'react';
-import { languageField, languageOptions } from '../constants/toolbar';
+import { languageField, languageOptions } from '../../constants/ui';
 
 const TopToolbar = ({ language, onLanguageChange }) => {
   const theme = useTheme();

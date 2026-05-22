@@ -1,15 +1,7 @@
 import './App.css';
-import { StyledEngineProvider, ThemeProvider, createTheme, Box } from '@mui/material';
-import AppContainer from './components/AppContainer';
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  },
-});
+import { StyledEngineProvider, ThemeProvider, Box } from '@mui/material';
+import AppContainer from './components/Layout/AppContainer';
+import { darkTheme } from './styles/theme';
 
 function App() {
   return (

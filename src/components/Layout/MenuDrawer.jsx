@@ -18,11 +18,16 @@ import {
   Code as CodeIcon,
 } from '@mui/icons-material';
 
-import { Drawer as CustomDrawer, DrawerHeader as CustomDrawerHeader } from '../utils/menu';
+import { Drawer as CustomDrawer, DrawerHeader as CustomDrawerHeader } from '../../utils/menu';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeActualContent, openSidebarMenu } from '../hooks/menuActions';
+import { changeActualContent, openSidebarMenu } from '../../hooks/redux/menuActions';
 
-import { CODE_SECTION, CONTACT_US_SECTION, HELP_CENTER_SECTION, sections } from '../constants/menu';
+import {
+  CODE_SECTION,
+  CONTACT_US_SECTION,
+  HELP_CENTER_SECTION,
+  sections,
+} from '../../constants/ui';
 
 const MenuDrawer = () => {
   const theme = useTheme();

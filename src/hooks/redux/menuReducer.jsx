@@ -1,4 +1,4 @@
-import { CODE_SECTION } from '../constants/menu';
+import { CODE_SECTION } from '../../constants/ui';
 import { OPEN_SIDEBAR_MENU, OPEN_LANGUAGE_MENU, CHANGE_ACTUAL_CONTENT } from './menuActionTypes';
 
 const initialState = {
