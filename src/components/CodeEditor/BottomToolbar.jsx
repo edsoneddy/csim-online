@@ -19,6 +19,11 @@ const BottomToolbar = () => {
         sx={{
           textTransform: 'none',
           fontWeight: 600,
+          backgroundColor: '#1976d2',
+          color: '#fff',
+          '&:hover': {
+            backgroundColor: '#1565c0',
+          },
         }}
       >
         Analyze
@@ -29,6 +34,12 @@ const BottomToolbar = () => {
         sx={{
           textTransform: 'none',
           fontWeight: 600,
+          borderColor: '#1976d2',
+          color: '#1976d2',
+          '&:hover': {
+            backgroundColor: 'rgba(25, 118, 210, 0.08)',
+            borderColor: '#1565c0',
+          },
         }}
       >
         Clean Up

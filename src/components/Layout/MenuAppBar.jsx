@@ -27,8 +27,7 @@ const MenuAppBar = () => {
           onClick={() => {
             dispatch(openSidebarMenu());
           }}
-          edge="start"
-          size="medium"
+F          size="small"
           sx={{
             transition: 'all 0.3s ease',
             ...(open && { display: 'none' }),
@@ -41,6 +40,7 @@ const MenuAppBar = () => {
           noWrap
           component="div"
           sx={{
+            marginLeft: "32px",
             flex: 1,
             fontSize: { xs: '1rem', sm: '1.25rem' },
             fontWeight: 500,
@@ -48,7 +48,7 @@ const MenuAppBar = () => {
         >
           CSIM Online
         </Typography>
-        <IconButton color="inherit" aria-label="language selector" size="medium">
+        <IconButton color="inherit" aria-label="language selector" size="small">
           <LanguageIcon />
         </IconButton>
       </Toolbar>
