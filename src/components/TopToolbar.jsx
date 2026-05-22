@@ -6,16 +6,13 @@ import {
   Select,
   useMediaQuery,
   useTheme,
-} from "@mui/material";
-import React from "react";
-import {
-  languageField,
-  languageOptions,
-} from "../constants/toolbar";
+} from '@mui/material';
+import React from 'react';
+import { languageField, languageOptions } from '../constants/toolbar';
 
 const TopToolbar = ({ language, onLanguageChange }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (event) => {
     onLanguageChange(event.target.value);
@@ -24,13 +21,13 @@ const TopToolbar = ({ language, onLanguageChange }) => {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: 'flex',
         gap: 1.5,
-        alignItems: "center",
-        flexWrap: "wrap",
+        alignItems: 'center',
+        flexWrap: 'wrap',
       }}
     >
-      <FormControl size={isMobile ? "small" : "medium"} sx={{ minWidth: 120 }}>
+      <FormControl size={isMobile ? 'small' : 'medium'} sx={{ minWidth: 120 }}>
         <InputLabel id="language-select-label">{languageField}</InputLabel>
         <Select
           labelId="language-select-label"

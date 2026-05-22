@@ -1,4 +1,4 @@
-import { OPEN_SIDEBAR_MENU, OPEN_LANGUAGE_MENU, CHANGE_ACTUAL_CONTENT } from "./menuActionTypes";
+import { OPEN_SIDEBAR_MENU, OPEN_LANGUAGE_MENU, CHANGE_ACTUAL_CONTENT } from './menuActionTypes';
 
 export const openSidebarMenu = () => ({
   type: OPEN_SIDEBAR_MENU,

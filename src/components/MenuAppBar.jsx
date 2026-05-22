@@ -1,13 +1,10 @@
-import * as React from "react";
-import { Typography, IconButton, Box } from "@mui/material";
-import {
-  Menu as MenuIcon,
-  Language as LanguageIcon,
-} from "@mui/icons-material";
-import { AppBar as CustomAppBar } from "../utils/menu";
-import { Toolbar } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { openSidebarMenu } from "../hooks/menuActions";
+import * as React from 'react';
+import { Typography, IconButton, Box } from '@mui/material';
+import { Menu as MenuIcon, Language as LanguageIcon } from '@mui/icons-material';
+import { AppBar as CustomAppBar } from '../utils/menu';
+import { Toolbar } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { openSidebarMenu } from '../hooks/menuActions';
 
 const MenuAppBar = () => {
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
@@ -17,9 +14,9 @@ const MenuAppBar = () => {
     <CustomAppBar position="relative" open={open}>
       <Toolbar
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           gap: 1,
           px: { xs: 1, sm: 2 },
         }}
@@ -33,8 +30,8 @@ const MenuAppBar = () => {
           edge="start"
           size="medium"
           sx={{
-            transition: "all 0.3s ease",
-            ...(open && { display: "none" }),
+            transition: 'all 0.3s ease',
+            ...(open && { display: 'none' }),
           }}
         >
           <MenuIcon />
@@ -45,7 +42,7 @@ const MenuAppBar = () => {
           component="div"
           sx={{
             flex: 1,
-            fontSize: { xs: "1rem", sm: "1.25rem" },
+            fontSize: { xs: '1rem', sm: '1.25rem' },
             fontWeight: 500,
           }}
         >
