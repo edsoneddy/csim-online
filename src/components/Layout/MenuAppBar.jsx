@@ -27,7 +27,7 @@ const MenuAppBar = () => {
           onClick={() => {
             dispatch(openSidebarMenu());
           }}
-F          size="small"
+          size="small"
           sx={{
             transition: 'all 0.3s ease',
             ...(open && { display: 'none' }),
@@ -40,7 +40,7 @@ F          size="small"
           noWrap
           component="div"
           sx={{
-            marginLeft: "32px",
+            marginLeft: '32px',
             flex: 1,
             fontSize: { xs: '1rem', sm: '1.25rem' },
             fontWeight: 500,
