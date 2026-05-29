@@ -49,6 +49,9 @@ const MenuDrawer = () => {
       <List>
         <ListItem key={sections.code} disablePadding sx={{ display: 'block' }}>
           <ListItemButton
+            onClick={() => {
+              dispatch(changeActualContent(CODE_SECTION));
+            }}
             sx={{
               minHeight: 48,
               justifyContent: open ? 'initial' : 'center',
@@ -56,9 +59,6 @@ const MenuDrawer = () => {
             }}
           >
             <ListItemIcon
-              onClick={() => {
-                dispatch(changeActualContent(CODE_SECTION));
-              }}
               sx={{
                 minWidth: 0,
                 mr: open ? 3 : 'auto',

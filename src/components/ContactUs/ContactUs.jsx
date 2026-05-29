@@ -135,30 +135,11 @@ const ContactUs = () => {
       <Grid container spacing={4}>
         {/* Contact Information */}
         <Grid item xs={12} md={5}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>
-            Contact Information
-          </Typography>
-
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 4 }}>
             {contactInfo.map((info, index) => (
               <ContactInfoCard key={index} info={info} />
             ))}
           </Box>
-
-          <InfoSection>
-            <Typography variant="body2" sx={{ mb: 1.5 }}>
-              <strong>Average Response Time:</strong>
-            </Typography>
-            <Typography variant="body2" color="textSecondary" sx={{ mb: 1.5 }}>
-              We respond to all messages within 24 business hours.
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 1.5 }}>
-              <strong>Social Media:</strong>
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              Follow us on Twitter, LinkedIn, and GitHub for updates and news.
-            </Typography>
-          </InfoSection>
         </Grid>
 
         {/* Contact Form */}
