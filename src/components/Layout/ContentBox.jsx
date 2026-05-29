@@ -4,6 +4,8 @@ import { DrawerHeader } from '../../utils/menu';
 import { useSelector } from 'react-redux';
 import { CODE_SECTION, CONTACT_US_SECTION, HELP_CENTER_SECTION } from '../../constants/ui';
 import CodeSection from '../CodeEditor/CodeSection';
+import HelpCenter from '../HelpCenter/HelpCenter';
+import ContactUs from '../ContactUs/ContactUs';
 
 const ContentBox = () => {
   const actualContent = useSelector((state) => state.menu.actualContent);
@@ -13,17 +15,9 @@ const ContentBox = () => {
       case CODE_SECTION:
         return <CodeSection />;
       case HELP_CENTER_SECTION:
-        return (
-          <Typography variant="body1" sx={{ p: 2 }}>
-            {actualContent}
-          </Typography>
-        );
+        return <HelpCenter />;
       case CONTACT_US_SECTION:
-        return (
-          <Typography variant="body1" sx={{ p: 2 }}>
-            {actualContent}
-          </Typography>
-        );
+        return <ContactUs />;
       default:
         return null;
     }
