@@ -123,7 +123,10 @@ const HelpCenter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <PageHeader title="Help Center" subtitle="Learn how to use CSIM Online to detect code similarity and plagiarism">
+      <PageHeader
+        title="Help Center"
+        subtitle="Learn how to use CSIM Online to detect code similarity and plagiarism"
+      >
         <SearchBar
           placeholder="Search for a question..."
           value={searchQuery}

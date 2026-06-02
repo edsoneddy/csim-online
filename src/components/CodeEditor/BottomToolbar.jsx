@@ -4,12 +4,7 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import DownloadIcon from '@mui/icons-material/Download';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
-const BottomToolbar = ({ 
-  onAnalyze, 
-  onClear, 
-  canAnalyze = true,
-  isAnalyzing = false 
-}) => {
+const BottomToolbar = ({ onAnalyze, onClear, canAnalyze = true, isAnalyzing = false }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 

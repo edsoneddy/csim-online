@@ -4,12 +4,12 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import React from 'react';
 import { colorPalette } from '../../styles/colorPalette';
 
-const MatchNavigation = ({ 
-  currentMatch = 0, 
-  totalMatches = 0, 
-  onPrevious, 
+const MatchNavigation = ({
+  currentMatch = 0,
+  totalMatches = 0,
+  onPrevious,
   onNext,
-  disabled = false 
+  disabled = false,
 }) => {
   const hasMatches = totalMatches > 0;
 
@@ -28,7 +28,7 @@ const MatchNavigation = ({
       <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
         Matches:
       </Typography>
-      
+
       <Stack direction="row" spacing={1} alignItems="center">
         <Button
           size="small"
@@ -90,7 +90,10 @@ const MatchNavigation = ({
       </Stack>
 
       {hasMatches && (
-        <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary, ml: 'auto' }}>
+        <Typography
+          variant="caption"
+          sx={{ color: colorPalette.darkMode.textSecondary, ml: 'auto' }}
+        >
           Jump between detected matches
         </Typography>
       )}

@@ -14,7 +14,22 @@ export const sections = {
 // Language Options
 export const defaultLanguage = 'python';
 export const languageField = 'Language';
-export const languageOptions = ['python', 'javascript', 'java', 'cpp', 'c', 'typescript', 'jsx', 'tsx', 'json', 'xml', 'csharp', 'php', 'go', 'rust'];
+export const languageOptions = [
+  'python',
+  'javascript',
+  'java',
+  'cpp',
+  'c',
+  'typescript',
+  'jsx',
+  'tsx',
+  'json',
+  'xml',
+  'csharp',
+  'php',
+  'go',
+  'rust',
+];
 
 // UI Labels
 export const UI_LABELS = {
@@ -40,6 +55,21 @@ export const UI_LABELS = {
 
 // Supported File Extensions
 export const SUPPORTED_EXTENSIONS = [
-  '.js', '.py', '.java', '.cpp', '.c', '.ts', '.jsx', '.tsx', 
-  '.json', '.xml', '.txt', '.cs', '.rb', '.php', '.go', '.rs', '.swift'
+  '.js',
+  '.py',
+  '.java',
+  '.cpp',
+  '.c',
+  '.ts',
+  '.jsx',
+  '.tsx',
+  '.json',
+  '.xml',
+  '.txt',
+  '.cs',
+  '.rb',
+  '.php',
+  '.go',
+  '.rs',
+  '.swift',
 ];

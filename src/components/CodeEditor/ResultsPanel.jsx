@@ -147,7 +147,10 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
       {/* Details */}
       {results.details && (
         <Box>
-          <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary, fontWeight: 600 }}>
+          <Typography
+            variant="caption"
+            sx={{ color: colorPalette.darkMode.textSecondary, fontWeight: 600 }}
+          >
             Details
           </Typography>
           <Typography variant="body2" sx={{ mt: 1, color: colorPalette.darkMode.textPrimary }}>
@@ -158,18 +161,10 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
 
       {/* Action Buttons */}
       <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-        <Button
-          variant="outlined"
-          size="small"
-          sx={{ textTransform: 'none' }}
-        >
+        <Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>
           Download Report
         </Button>
-        <Button
-          variant="outlined"
-          size="small"
-          sx={{ textTransform: 'none' }}
-        >
+        <Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>
           Copy Results
         </Button>
       </Stack>
@@ -177,7 +172,7 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
       <Divider />
 
       {/* Match Navigation */}
-      <MatchNavigation 
+      <MatchNavigation
         currentMatch={currentMatch}
         totalMatches={results.matchedBlocks || 0}
         onPrevious={() => {

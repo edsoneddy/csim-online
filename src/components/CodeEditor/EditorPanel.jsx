@@ -4,16 +4,15 @@ import Editor from '@monaco-editor/react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../styles/monacoTheme';
 
-const EditorPanel = ({ 
-  value, 
-  onChange, 
-  language, 
+const EditorPanel = ({
+  value,
+  onChange,
+  language,
   fileName = null,
   fileSize = null,
   editorOptions,
   onClear,
 }) => {
-  
   const formatFileSize = (bytes) => {
     if (!bytes) return '';
     if (bytes < 1024) return `${bytes} B`;
@@ -25,7 +24,7 @@ const EditorPanel = ({
   const handleEditorDidMount = (editor, monaco) => {
     defineCSIMTheme(monaco);
     monaco.editor.setTheme(CSIM_THEME_NAME);
-    
+
     // Mantiene la compatibilidad con cualquier otra opción pasada por props
     if (editorOptions?.onMount) {
       editorOptions.onMount(editor, monaco);
@@ -64,7 +63,7 @@ const EditorPanel = ({
             <Typography variant="caption" sx={{ fontWeight: 600, color: '#F0F4F8' }}>
               {fileName}
             </Typography>
-            
+
             {fileSize && (
               <Chip
                 label={formatFileSize(fileSize)}
@@ -73,14 +72,14 @@ const EditorPanel = ({
                 sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
               />
             )}
-            
+
             <Chip
               label={`${lineCount} lines`}
               size="small"
               variant="outlined"
               sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
             />
-            
+
             <Chip
               label={`${charCount} chars`}
               size="small"
@@ -88,7 +87,7 @@ const EditorPanel = ({
               sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
             />
           </Stack>
-          
+
           {onClear && (
             <DeleteIcon
               onClick={onClear}
@@ -103,7 +102,7 @@ const EditorPanel = ({
           )}
         </Box>
       )}
-      
+
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
         <Editor
           height="100%"

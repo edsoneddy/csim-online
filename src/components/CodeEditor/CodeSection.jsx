@@ -60,7 +60,7 @@ const CodeSection = () => {
 
   const handleAnalyze = () => {
     if (!code1 || !code2) return;
-    
+
     setIsAnalyzing(true);
     // Simular análisis - más adelante aquí irá la lógica real
     setTimeout(() => {
@@ -73,7 +73,7 @@ const CodeSection = () => {
         details: 'Analysis completed. Check the navigation to browse through matches.',
       };
       setResults(mockResults);
-      
+
       // Agregar al historial de sesión
       const historyItem = {
         id: Date.now(),
@@ -85,7 +85,7 @@ const CodeSection = () => {
         totalLines: mockResults.totalLines,
         matchedBlocks: mockResults.matchedBlocks,
       };
-      
+
       setSessionHistory([historyItem, ...sessionHistory]);
       setIsAnalyzing(false);
     }, 2000);
@@ -107,13 +107,13 @@ const CodeSection = () => {
         gap: 1.5,
       }}
     >
-      <TopToolbar 
-        language={language} 
+      <TopToolbar
+        language={language}
         onLanguageChange={setLanguage}
         onFile1Uploaded={handleFile1Upload}
         onFile2Uploaded={handleFile2Upload}
       />
-      
+
       <Box
         sx={{
           display: 'grid',
@@ -148,18 +148,15 @@ const CodeSection = () => {
       </Box>
 
       <ResultsPanel results={results} isAnalyzing={isAnalyzing} />
-      
-      <BottomToolbar 
+
+      <BottomToolbar
         onAnalyze={handleAnalyze}
         onClear={handleClearAll}
         canAnalyze={canAnalyze}
         isAnalyzing={isAnalyzing}
       />
 
-      <SessionHistory 
-        history={sessionHistory}
-        onClearHistory={handleUpdateHistory}
-      />
+      <SessionHistory history={sessionHistory} onClearHistory={handleUpdateHistory} />
     </Box>
   );
 };

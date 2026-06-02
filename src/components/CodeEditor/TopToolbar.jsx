@@ -48,14 +48,8 @@ const TopToolbar = ({ language, onLanguageChange, onFile1Uploaded, onFile2Upload
         </FormControl>
       </Box>
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        <FileUploadButton 
-          label="Upload File 1" 
-          onFileSelected={onFile1Uploaded}
-        />
-        <FileUploadButton 
-          label="Upload File 2" 
-          onFileSelected={onFile2Uploaded}
-        />
+        <FileUploadButton label="Upload File 1" onFileSelected={onFile1Uploaded} />
+        <FileUploadButton label="Upload File 2" onFileSelected={onFile2Uploaded} />
       </Box>
     </Box>
   );

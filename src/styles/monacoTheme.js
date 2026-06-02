@@ -1,4 +1,3 @@
-
 export const CSIM_THEME_NAME = 'csimDarkTheme';
 
 export const defineCSIMTheme = (monaco) => {
@@ -6,7 +5,7 @@ export const defineCSIMTheme = (monaco) => {
     base: 'vs-dark',
     inherit: true,
     rules: [
-      { token: '', foreground: 'F0F4F8' }, 
+      { token: '', foreground: 'F0F4F8' },
       { token: 'comment', foreground: '10B981', fontStyle: 'italic' },
       { token: 'keyword', foreground: '00ACC1', fontStyle: 'bold' },
       { token: 'storage', foreground: '0097A7' },

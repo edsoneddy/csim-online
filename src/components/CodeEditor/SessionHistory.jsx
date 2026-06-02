@@ -51,8 +51,10 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
   };
 
   const getSimilarityIcon = (similarity) => {
-    if (similarity >= 75) return <ErrorIcon sx={{ color: colorPalette.status.error, fontSize: 18 }} />;
-    if (similarity >= 50) return <WarningIcon sx={{ color: colorPalette.status.alert, fontSize: 18 }} />;
+    if (similarity >= 75)
+      return <ErrorIcon sx={{ color: colorPalette.status.error, fontSize: 18 }} />;
+    if (similarity >= 50)
+      return <WarningIcon sx={{ color: colorPalette.status.alert, fontSize: 18 }} />;
     return <CheckCircleIcon sx={{ color: colorPalette.status.success, fontSize: 18 }} />;
   };
 
@@ -119,7 +121,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
                   {getSimilarityIcon(item.similarity)}
-                  
+
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Stack direction="row" spacing={1} alignItems="center">
                       <Typography variant="body2" sx={{ fontWeight: 500 }} noWrap>
@@ -163,15 +165,16 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                     sx={{
                       fontSize: 18,
                       transition: 'transform 0.3s',
-                      transform:
-                        expandedId === item.id ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transform: expandedId === item.id ? 'rotate(180deg)' : 'rotate(0deg)',
                     }}
                   />
                 </Box>
               </Box>
 
               <Collapse in={expandedId === item.id}>
-                <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${colorPalette.darkMode.border}` }}>
+                <Box
+                  sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${colorPalette.darkMode.border}` }}
+                >
                   <TableContainer>
                     <Table size="small">
                       <TableBody>
