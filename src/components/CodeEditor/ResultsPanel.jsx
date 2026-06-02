@@ -12,9 +12,13 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
-import React from 'react';
+import React, { useState } from 'react';
+import MatchNavigation from './MatchNavigation';
+import { ResultsLoadingSkeleton } from './LoadingSkeletons';
 
 const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
+  const [currentMatch, setCurrentMatch] = useState(0);
+
   if (!results && !isAnalyzing) {
     return (
       <Paper
@@ -33,14 +37,7 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
   }
 
   if (isAnalyzing) {
-    return (
-      <Paper sx={{ p: 2 }}>
-        <Typography variant="body2" sx={{ mb: 1 }}>
-          Analyzing...
-        </Typography>
-        <LinearProgress />
-      </Paper>
-    );
+    return <ResultsLoadingSkeleton />;
   }
 
   const getSimilarityColor = (similarity) => {
@@ -175,6 +172,24 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
           Copy Results
         </Button>
       </Stack>
+
+      <Divider />
+
+      {/* Match Navigation */}
+      <MatchNavigation 
+        currentMatch={currentMatch}
+        totalMatches={results.matchedBlocks || 0}
+        onPrevious={() => {
+          if (currentMatch > 0) {
+            setCurrentMatch(currentMatch - 1);
+          }
+        }}
+        onNext={() => {
+          if (currentMatch < (results.matchedBlocks || 0) - 1) {
+            setCurrentMatch(currentMatch + 1);
+          }
+        }}
+      />
     </Paper>
   );
 };

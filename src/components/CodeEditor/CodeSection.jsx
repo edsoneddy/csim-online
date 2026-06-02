@@ -4,6 +4,7 @@ import TopToolbar from './TopToolbar';
 import BottomToolbar from './BottomToolbar';
 import EditorPanel from './EditorPanel';
 import ResultsPanel from './ResultsPanel';
+import SessionHistory from './SessionHistory';
 import { defaultLanguage } from '../../constants/ui';
 
 const CodeSection = () => {
@@ -14,6 +15,7 @@ const CodeSection = () => {
   const [file2, setFile2] = useState(null);
   const [results, setResults] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [sessionHistory, setSessionHistory] = useState([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -67,12 +69,30 @@ const CodeSection = () => {
         matchingLines: Math.floor(Math.random() * 50),
         totalLines: Math.max(code1.split('\n').length, code2.split('\n').length),
         uniqueBlocks: Math.floor(Math.random() * 20),
-        matchedBlocks: Math.floor(Math.random() * 10),
-        details: 'Analysis completed. Check the highlighted sections in the editors.',
+        matchedBlocks: Math.floor(Math.random() * 10) + 1,
+        details: 'Analysis completed. Check the navigation to browse through matches.',
       };
       setResults(mockResults);
+      
+      // Agregar al historial de sesión
+      const historyItem = {
+        id: Date.now(),
+        timestamp: new Date(),
+        file1Name: file1?.name || 'Code 1',
+        file2Name: file2?.name || 'Code 2',
+        similarity: mockResults.similarity,
+        matchingLines: mockResults.matchingLines,
+        totalLines: mockResults.totalLines,
+        matchedBlocks: mockResults.matchedBlocks,
+      };
+      
+      setSessionHistory([historyItem, ...sessionHistory]);
       setIsAnalyzing(false);
     }, 2000);
+  };
+
+  const handleUpdateHistory = (newHistory) => {
+    setSessionHistory(newHistory);
   };
 
   const canAnalyze = code1.trim().length > 0 && code2.trim().length > 0;
@@ -134,6 +154,11 @@ const CodeSection = () => {
         onClear={handleClearAll}
         canAnalyze={canAnalyze}
         isAnalyzing={isAnalyzing}
+      />
+
+      <SessionHistory 
+        history={sessionHistory}
+        onClearHistory={handleUpdateHistory}
       />
     </Box>
   );
