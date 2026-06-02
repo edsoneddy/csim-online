@@ -18,48 +18,52 @@ const HelpCenter = () => {
       icon: <LocalLibraryIcon />,
       questions: [
         {
-          q: 'How do I start using the code editor?',
-          a: 'To get started, select a programming language from the dropdown menu in the top toolbar. Then you can write your code in the editor. Your code will be automatically saved to local storage.',
+          q: 'How do I use CSIM Online?',
+          a: 'Simply upload or paste two code files, select the programming language, and click "Analyze". The tool will compare the files and show you the similarity score along with detailed statistics.',
         },
         {
           q: 'What programming languages are supported?',
-          a: 'We currently support Python, JavaScript, Java, and C++. You can select the language from the selector in the top toolbar.',
+          a: 'We support Python, JavaScript, Java, C++, C, TypeScript, JSX, TSX, JSON, XML, C#, PHP, Go, Rust, and many more. Select your language from the dropdown at the top.',
+        },
+        {
+          q: 'Can I paste code directly instead of uploading files?',
+          a: 'Yes! You can paste code directly into the left and right editors. No files needed. Just paste, select the language, and click Analyze.',
         },
       ],
     },
     {
-      category: 'Editor Features',
+      category: 'Understanding Results',
       icon: <CodeIcon />,
       questions: [
         {
-          q: 'How do I save my code?',
-          a: 'Your code is automatically saved in your browser using local storage. You do not need to do anything special.',
+          q: 'What does the similarity percentage mean?',
+          a: 'The similarity percentage shows how much of the code matches between the two files. Higher percentage = more similar code. Green is low, Yellow is medium, Orange is high, and Red is critical similarity.',
         },
         {
-          q: 'Can I clear the editor?',
-          a: 'Yes, there is a button in the bottom toolbar that allows you to clear the editor content. Make sure to copy your code if you need it before clearing.',
+          q: 'What are "Matching Lines"?',
+          a: 'Matching Lines shows the total number of lines that are identical or very similar between both files. This helps identify duplicated code sections.',
         },
         {
-          q: 'Are there keyboard shortcuts?',
-          a: 'Yes, you can use standard shortcuts like Ctrl+Z to undo, Ctrl+Y to redo, and Ctrl+A to select all.',
+          q: 'What do "Matched Blocks" mean?',
+          a: 'Matched Blocks are segments of code that are identified as duplicates or similar. Each block represents a section of comparable code between the two files.',
         },
       ],
     },
     {
-      category: 'Troubleshooting',
+      category: 'Features',
       icon: <BugReportIcon />,
       questions: [
         {
-          q: 'My code disappeared. What happened?',
-          a: "Code is stored in your browser's local storage. If you cleared your browser storage, the code will be lost. Try restoring from your browser history if possible.",
+          q: 'Can I navigate through detected matches?',
+          a: 'Yes! Use the "Previous" and "Next" buttons in the match navigation panel to jump between detected code similarities.',
         },
         {
-          q: 'The editor is not responding. What should I do?',
-          a: 'Try refreshing the page. If the problem persists, clear local storage in your browser settings and try again.',
+          q: 'Does CSIM save my analysis history?',
+          a: 'Yes! All analyses from your current session are saved in the "Session History" at the bottom. You can expand each item to see detailed statistics.',
         },
         {
-          q: 'Can I use this offline?',
-          a: 'Yes, the editor will work offline once the page has been loaded.',
+          q: 'Can I download my results?',
+          a: 'The download and export features are available in the results panel. Click "Download Report" to get a detailed analysis report.',
         },
       ],
     },
@@ -68,12 +72,16 @@ const HelpCenter = () => {
       icon: <VideoLibraryIcon />,
       questions: [
         {
-          q: 'What are the best practices for writing clean code?',
-          a: 'Use descriptive names for variables, keep functions small and focused, comment complex code, and follow naming conventions for your language.',
+          q: 'How accurate is the plagiarism detection?',
+          a: 'Our algorithm compares code structure and content. For best results, analyze complete files rather than snippets. The accuracy improves with larger code samples.',
         },
         {
-          q: 'How do I organize my code?',
-          a: 'Divide your code into logical functions, group related code, and consider using comments to separate main sections.',
+          q: 'Should I analyze compiled or source code?',
+          a: 'Always use source code files (.py, .js, .java, etc.). Compiled code or executables cannot be properly analyzed for plagiarism detection.',
+        },
+        {
+          q: 'Can the tool detect obfuscated code?',
+          a: 'Our algorithm compares actual code logic and structure. While it can detect some obfuscation techniques, heavily obfuscated code may appear less similar.',
         },
       ],
     },
@@ -81,24 +89,24 @@ const HelpCenter = () => {
 
   const quickLinks = [
     {
-      title: 'Documentation',
-      description: 'Complete editor documentation',
+      title: 'How It Works',
+      description: 'Learn how our comparison algorithm works',
       icon: <LocalLibraryIcon sx={{ fontSize: 40 }} />,
     },
     {
-      title: 'Video Tutorials',
-      description: 'Step-by-step video tutorials',
-      icon: <VideoLibraryIcon sx={{ fontSize: 40 }} />,
-    },
-    {
-      title: 'Code Examples',
-      description: 'Code examples for different languages',
+      title: 'Supported Languages',
+      description: '14+ programming languages supported',
       icon: <CodeIcon sx={{ fontSize: 40 }} />,
     },
     {
-      title: 'API Reference',
-      description: 'Complete feature reference',
+      title: 'Understanding Results',
+      description: 'How to interpret similarity scores',
       icon: <QuestionAnswerIcon sx={{ fontSize: 40 }} />,
+    },
+    {
+      title: 'Contact Support',
+      description: 'Get help from our development team',
+      icon: <VideoLibraryIcon sx={{ fontSize: 40 }} />,
     },
   ];
 
@@ -115,7 +123,7 @@ const HelpCenter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <PageHeader title="Help Center" subtitle="Find answers to your frequently asked questions">
+      <PageHeader title="Help Center" subtitle="Learn how to use CSIM Online to detect code similarity and plagiarism">
         <SearchBar
           placeholder="Search for a question..."
           value={searchQuery}
@@ -142,8 +150,8 @@ const HelpCenter = () => {
       </Box>
 
       <ActionCard
-        title="Didn't find what you're looking for?"
-        description="Contact our support team for additional help"
+        title="Still have questions?"
+        description="Reach out to our developer Edson Eddy for additional help and support"
         actionText="Go to Contact Us"
         variant="primary"
       />

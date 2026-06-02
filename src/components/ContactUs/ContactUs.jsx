@@ -16,6 +16,7 @@ import {
   Send as SendIcon,
   CheckCircle as CheckCircleIcon,
   AccessTime as AccessTimeIcon,
+  X as XIcon,
 } from '@mui/icons-material';
 import { PageHeader, ContactInfoCard, FormField, InfoSection, ActionCard } from '../Common';
 
@@ -35,26 +36,32 @@ const ContactUs = () => {
     {
       icon: <EmailIcon sx={{ fontSize: 32 }} />,
       title: 'Email',
-      content: 'support@csim-online.com',
-      link: 'mailto:support@csim-online.com',
+      content: 'crew0eddy@gmail.com',
+      link: 'mailto:crew0eddy@gmail.com',
     },
     {
       icon: <PhoneIcon sx={{ fontSize: 32 }} />,
       title: 'Phone',
-      content: '+1 (555) 123-4567',
-      link: 'tel:+15551234567',
+      content: '+591 00000000',
+      link: 'tel:+59100000000',
     },
     {
       icon: <LocationOnIcon sx={{ fontSize: 32 }} />,
-      title: 'Location',
-      content: 'San Francisco, CA, USA',
-      link: '#',
+      title: 'GitHub',
+      content: '@edsoneddy',
+      link: 'https://github.com/edsoneddy',
     },
     {
       icon: <AccessTimeIcon sx={{ fontSize: 32 }} />,
-      title: 'Business Hours',
-      content: 'Mon - Fri: 9:00 AM - 6:00 PM',
+      title: 'Developer',
+      content: 'Edson Eddy',
       link: '#',
+    },
+    {
+      icon: <XIcon sx={{ fontSize: 32 }} />,
+      title: 'Twitter',
+      content: '@edsoneddy',
+      link: 'https://x.com/crew0eddy',
     },
   ];
 
