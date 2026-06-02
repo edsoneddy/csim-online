@@ -2,6 +2,7 @@ import { Box, Button, Stack, Chip, Typography } from '@mui/material';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import React from 'react';
+import { colorPalette } from '../../styles/colorPalette';
 
 const MatchNavigation = ({ 
   currentMatch = 0, 
@@ -19,12 +20,12 @@ const MatchNavigation = ({
         alignItems: 'center',
         gap: 2,
         p: 1.5,
-        backgroundColor: 'rgba(255, 255, 255, 0.02)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        backgroundColor: colorPalette.alpha.light,
+        border: `1px solid ${colorPalette.darkMode.border}`,
         borderRadius: 1,
       }}
     >
-      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+      <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
         Matches:
       </Typography>
       
@@ -37,15 +38,15 @@ const MatchNavigation = ({
           disabled={disabled || !hasMatches || currentMatch === 0}
           sx={{
             textTransform: 'none',
-            borderColor: 'rgba(255, 255, 255, 0.3)',
-            color: 'rgba(255, 255, 255, 0.7)',
+            borderColor: colorPalette.darkMode.border,
+            color: colorPalette.darkMode.textSecondary,
             '&:hover': {
-              borderColor: 'rgba(255, 255, 255, 0.5)',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              borderColor: colorPalette.primary.main,
+              backgroundColor: colorPalette.alpha.light,
             },
             '&:disabled': {
-              borderColor: 'rgba(255, 255, 255, 0.1)',
-              color: 'rgba(255, 255, 255, 0.3)',
+              borderColor: colorPalette.darkMode.border,
+              color: colorPalette.neutral.medium,
             },
           }}
         >
@@ -57,9 +58,9 @@ const MatchNavigation = ({
           variant="outlined"
           sx={{
             minWidth: 80,
-            backgroundColor: 'rgba(25, 118, 210, 0.1)',
-            borderColor: '#1976d2',
-            color: '#fff',
+            backgroundColor: colorPalette.alpha.light,
+            borderColor: colorPalette.primary.main,
+            color: colorPalette.primary.main,
             fontWeight: 600,
           }}
         />
@@ -72,15 +73,15 @@ const MatchNavigation = ({
           disabled={disabled || !hasMatches || currentMatch >= totalMatches - 1}
           sx={{
             textTransform: 'none',
-            borderColor: 'rgba(255, 255, 255, 0.3)',
-            color: 'rgba(255, 255, 255, 0.7)',
+            borderColor: colorPalette.darkMode.border,
+            color: colorPalette.darkMode.textSecondary,
             '&:hover': {
-              borderColor: 'rgba(255, 255, 255, 0.5)',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              borderColor: colorPalette.primary.main,
+              backgroundColor: colorPalette.alpha.light,
             },
             '&:disabled': {
-              borderColor: 'rgba(255, 255, 255, 0.1)',
-              color: 'rgba(255, 255, 255, 0.3)',
+              borderColor: colorPalette.darkMode.border,
+              color: colorPalette.neutral.medium,
             },
           }}
         >
@@ -89,7 +90,7 @@ const MatchNavigation = ({
       </Stack>
 
       {hasMatches && (
-        <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', ml: 'auto' }}>
+        <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary, ml: 'auto' }}>
           Jump between detected matches
         </Typography>
       )}

@@ -15,6 +15,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import React, { useState } from 'react';
 import MatchNavigation from './MatchNavigation';
 import { ResultsLoadingSkeleton } from './LoadingSkeletons';
+import { colorPalette } from '../../styles/colorPalette';
 
 const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
   const [currentMatch, setCurrentMatch] = useState(0);
@@ -25,11 +26,11 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
         sx={{
           p: 3,
           textAlign: 'center',
-          backgroundColor: 'rgba(255, 255, 255, 0.02)',
-          border: '1px dashed rgba(255, 255, 255, 0.1)',
+          backgroundColor: colorPalette.alpha.light,
+          border: `1px dashed ${colorPalette.darkMode.border}`,
         }}
       >
-        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+        <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
           Load two files and click "Analyze" to see results
         </Typography>
       </Paper>
@@ -41,16 +42,16 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
   }
 
   const getSimilarityColor = (similarity) => {
-    if (similarity >= 75) return '#ff6b6b'; // Red - High
-    if (similarity >= 50) return '#ffa500'; // Orange - Medium
-    if (similarity >= 25) return '#ffd700'; // Yellow - Low
-    return '#4caf50'; // Green - Very Low
+    if (similarity >= 75) return colorPalette.status.error; // Red - Critical
+    if (similarity >= 50) return colorPalette.status.alert; // Orange - High
+    if (similarity >= 25) return colorPalette.status.warning; // Amber - Medium
+    return colorPalette.status.success; // Green - Low
   };
 
   const getSimilarityIcon = (similarity) => {
-    if (similarity >= 75) return <ErrorIcon sx={{ color: '#ff6b6b' }} />;
-    if (similarity >= 50) return <WarningIcon sx={{ color: '#ffa500' }} />;
-    return <CheckCircleIcon sx={{ color: '#4caf50' }} />;
+    if (similarity >= 75) return <ErrorIcon sx={{ color: colorPalette.status.error }} />;
+    if (similarity >= 50) return <WarningIcon sx={{ color: colorPalette.status.alert }} />;
+    return <CheckCircleIcon sx={{ color: colorPalette.status.success }} />;
   };
 
   const getSimilarityLabel = (similarity) => {
@@ -67,7 +68,7 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
           {getSimilarityIcon(results.similarity)}
           <Box sx={{ flex: 1 }}>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
               Overall Similarity
             </Typography>
             <Typography variant="h6" sx={{ fontWeight: 700 }}>
@@ -78,7 +79,7 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
             label={getSimilarityLabel(results.similarity)}
             sx={{
               backgroundColor: getSimilarityColor(results.similarity),
-              color: '#fff',
+              color: colorPalette.neutral.white,
               fontWeight: 600,
             }}
           />
@@ -87,7 +88,7 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
           variant="determinate"
           value={results.similarity}
           sx={{
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            backgroundColor: colorPalette.alpha.light,
             '& .MuiLinearProgress-bar': {
               backgroundColor: getSimilarityColor(results.similarity),
             },
@@ -101,40 +102,40 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
       <Grid container spacing={2}>
         <Grid item xs={6} sm={3}>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
               Matching Lines
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#ffa500' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.status.warning }}>
               {results.matchingLines || 0}
             </Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
               Total Lines
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.primary.main }}>
               {results.totalLines || 0}
             </Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
               Unique Blocks
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#4caf50' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.status.success }}>
               {results.uniqueBlocks || 0}
             </Typography>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
               Matched Blocks
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#ff6b6b' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.status.error }}>
               {results.matchedBlocks || 0}
             </Typography>
           </Box>
@@ -146,10 +147,10 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
       {/* Details */}
       {results.details && (
         <Box>
-          <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.7)', fontWeight: 600 }}>
+          <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary, fontWeight: 600 }}>
             Details
           </Typography>
-          <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255, 255, 255, 0.8)' }}>
+          <Typography variant="body2" sx={{ mt: 1, color: colorPalette.darkMode.textPrimary }}>
             {results.details}
           </Typography>
         </Box>

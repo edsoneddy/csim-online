@@ -20,6 +20,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
 import React, { useState } from 'react';
+import { colorPalette } from '../../styles/colorPalette';
 
 const SessionHistory = ({ history = [], onClearHistory }) => {
   const [expandedId, setExpandedId] = useState(null);
@@ -31,11 +32,11 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
         sx={{
           p: 2,
           textAlign: 'center',
-          backgroundColor: 'rgba(255, 255, 255, 0.02)',
-          border: '1px dashed rgba(255, 255, 255, 0.1)',
+          backgroundColor: colorPalette.alpha.light,
+          border: `1px dashed ${colorPalette.darkMode.border}`,
         }}
       >
-        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+        <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
           No analysis history yet. Load files and click "Analyze" to start.
         </Typography>
       </Paper>
@@ -43,16 +44,16 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
   }
 
   const getSimilarityColor = (similarity) => {
-    if (similarity >= 75) return '#ff6b6b'; // Red
-    if (similarity >= 50) return '#ffa500'; // Orange
-    if (similarity >= 25) return '#ffd700'; // Yellow
-    return '#4caf50'; // Green
+    if (similarity >= 75) return colorPalette.status.error;
+    if (similarity >= 50) return colorPalette.status.alert;
+    if (similarity >= 25) return colorPalette.status.warning;
+    return colorPalette.status.success;
   };
 
   const getSimilarityIcon = (similarity) => {
-    if (similarity >= 75) return <ErrorIcon sx={{ color: '#ff6b6b', fontSize: 18 }} />;
-    if (similarity >= 50) return <WarningIcon sx={{ color: '#ffa500', fontSize: 18 }} />;
-    return <CheckCircleIcon sx={{ color: '#4caf50', fontSize: 18 }} />;
+    if (similarity >= 75) return <ErrorIcon sx={{ color: colorPalette.status.error, fontSize: 18 }} />;
+    if (similarity >= 50) return <WarningIcon sx={{ color: colorPalette.status.alert, fontSize: 18 }} />;
+    return <CheckCircleIcon sx={{ color: colorPalette.status.success, fontSize: 18 }} />;
   };
 
   const toggleExpand = (id) => {
@@ -61,21 +62,20 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
 
   const handleDelete = (index) => {
     const newHistory = history.filter((_, i) => i !== index);
-    // Update parent history
     if (onClearHistory) {
       onClearHistory(newHistory);
     }
   };
 
   return (
-    <Paper sx={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
+    <Paper sx={{ backgroundColor: colorPalette.alpha.light }}>
       <Box
         sx={{
           p: 2,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: `1px solid ${colorPalette.darkMode.border}`,
         }}
       >
         <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
@@ -84,7 +84,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
         {history.length > 0 && (
           <Typography
             variant="caption"
-            sx={{ color: 'rgba(255, 255, 255, 0.5)', cursor: 'pointer' }}
+            sx={{ color: colorPalette.darkMode.textSecondary, cursor: 'pointer' }}
             onClick={() => onClearHistory?.([])}
           >
             Clear all
@@ -98,13 +98,13 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
             <Paper
               sx={{
                 p: 1.5,
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                backgroundColor: colorPalette.darkMode.hover,
+                border: `1px solid ${colorPalette.darkMode.border}`,
                 cursor: 'pointer',
                 transition: 'all 0.2s',
                 '&:hover': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  borderColor: 'rgba(255, 255, 255, 0.15)',
+                  backgroundColor: colorPalette.darkMode.border,
+                  borderColor: colorPalette.primary.main,
                 },
               }}
               onClick={() => toggleExpand(item.id)}
@@ -127,7 +127,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                       </Typography>
                       <Typography
                         variant="caption"
-                        sx={{ color: 'rgba(255, 255, 255, 0.5)' }}
+                        sx={{ color: colorPalette.darkMode.textSecondary }}
                       >
                         {new Date(item.timestamp).toLocaleTimeString()}
                       </Typography>
@@ -138,7 +138,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                     label={`${item.similarity.toFixed(1)}%`}
                     sx={{
                       backgroundColor: getSimilarityColor(item.similarity),
-                      color: '#fff',
+                      color: colorPalette.neutral.white,
                       fontWeight: 600,
                       minWidth: 70,
                     }}
@@ -153,8 +153,8 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                       handleDelete(index);
                     }}
                     sx={{
-                      color: '#ff6b6b',
-                      '&:hover': { backgroundColor: 'rgba(255, 107, 107, 0.1)' },
+                      color: colorPalette.status.error,
+                      '&:hover': { backgroundColor: colorPalette.alpha.light },
                     }}
                   >
                     <DeleteIcon fontSize="small" />
@@ -171,7 +171,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
               </Box>
 
               <Collapse in={expandedId === item.id}>
-                <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <Box sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${colorPalette.darkMode.border}` }}>
                   <TableContainer>
                     <Table size="small">
                       <TableBody>
@@ -179,7 +179,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                           <TableCell
                             sx={{
                               border: 'none',
-                              color: 'rgba(255, 255, 255, 0.6)',
+                              color: colorPalette.darkMode.textSecondary,
                               py: 0.5,
                             }}
                           >
@@ -188,7 +188,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                           <TableCell
                             sx={{
                               border: 'none',
-                              color: '#fff',
+                              color: colorPalette.darkMode.textPrimary,
                               fontWeight: 600,
                               py: 0.5,
                             }}
@@ -200,7 +200,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                           <TableCell
                             sx={{
                               border: 'none',
-                              color: 'rgba(255, 255, 255, 0.6)',
+                              color: colorPalette.darkMode.textSecondary,
                               py: 0.5,
                             }}
                           >
@@ -209,7 +209,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                           <TableCell
                             sx={{
                               border: 'none',
-                              color: '#fff',
+                              color: colorPalette.darkMode.textPrimary,
                               fontWeight: 600,
                               py: 0.5,
                             }}
@@ -221,7 +221,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                           <TableCell
                             sx={{
                               border: 'none',
-                              color: 'rgba(255, 255, 255, 0.6)',
+                              color: colorPalette.darkMode.textSecondary,
                               py: 0.5,
                             }}
                           >
@@ -230,7 +230,7 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                           <TableCell
                             sx={{
                               border: 'none',
-                              color: '#fff',
+                              color: colorPalette.darkMode.textPrimary,
                               fontWeight: 600,
                               py: 0.5,
                             }}
