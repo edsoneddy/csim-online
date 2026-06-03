@@ -1,4 +1,4 @@
-import { Button, Box, TextField } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import React, { useRef } from 'react';
 
@@ -16,6 +16,10 @@ const FileUploadButton = ({ onFileSelected, label = 'Upload File', disabled = fa
           size: file.size,
           type: file.type,
         });
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
       };
       reader.readAsText(file);
     }

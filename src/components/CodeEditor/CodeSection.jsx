@@ -18,6 +18,8 @@ const CodeSection = () => {
   const [sessionHistory, setSessionHistory] = useState([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [isCode1Modified, setIsCode1Modified] = useState(false);
+  const [isCode2Modified, setIsCode2Modified] = useState(false);
 
   const editorOptions = {
     selectOnLineNumbers: true,
@@ -30,24 +32,38 @@ const CodeSection = () => {
     contextmenu: true,
   };
 
+  const handleCode1Change = (newValue) => {
+    setCode1(newValue);
+    setIsCode1Modified(true);
+  };
+
+  const handleCode2Change = (newValue) => {
+    setCode2(newValue);
+    setIsCode2Modified(true);
+  };
+
   const handleFile1Upload = (fileData) => {
     setFile1(fileData);
     setCode1(fileData.content);
+    setIsCode1Modified(false);
   };
 
   const handleFile2Upload = (fileData) => {
     setFile2(fileData);
     setCode2(fileData.content);
+    setIsCode2Modified(false);
   };
 
   const handleClearEditor1 = () => {
     setFile1(null);
     setCode1('');
+    setIsCode1Modified(false);
   };
 
   const handleClearEditor2 = () => {
     setFile2(null);
     setCode2('');
+    setIsCode2Modified(false);
   };
 
   const handleClearAll = () => {
@@ -56,13 +72,15 @@ const CodeSection = () => {
     setCode1('');
     setCode2('');
     setResults(null);
+    setIsCode1Modified(false);
+    setIsCode2Modified(false);
   };
 
   const handleAnalyze = () => {
     if (!code1 || !code2) return;
 
     setIsAnalyzing(true);
-    // Simular análisis - más adelante aquí irá la lógica real
+
     setTimeout(() => {
       const mockResults = {
         similarity: Math.random() * 100,
@@ -74,7 +92,6 @@ const CodeSection = () => {
       };
       setResults(mockResults);
 
-      // Agregar al historial de sesión
       const historyItem = {
         id: Date.now(),
         timestamp: new Date(),
@@ -129,21 +146,23 @@ const CodeSection = () => {
       >
         <EditorPanel
           value={code1}
-          onChange={setCode1}
+          onChange={handleCode1Change}
           language={language}
           fileName={file1?.name}
           fileSize={file1?.size}
           editorOptions={editorOptions}
-          onClear={file1 ? handleClearEditor1 : undefined}
+          onClear={handleClearEditor1}
+          isModified={isCode1Modified}
         />
         <EditorPanel
           value={code2}
-          onChange={setCode2}
+          onChange={handleCode2Change}
           language={language}
           fileName={file2?.name}
           fileSize={file2?.size}
           editorOptions={editorOptions}
-          onClear={file2 ? handleClearEditor2 : undefined}
+          onClear={handleClearEditor2}
+          isModified={isCode2Modified}
         />
       </Box>
 

@@ -12,6 +12,7 @@ const EditorPanel = ({
   fileSize = null,
   editorOptions,
   onClear,
+  isModified = false,
 }) => {
   const formatFileSize = (bytes) => {
     if (!bytes) return '';
@@ -20,12 +21,10 @@ const EditorPanel = ({
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
 
-  // Inyecta y registra el tema personalizado de CSIM al montar Monaco
   const handleEditorDidMount = (editor, monaco) => {
     defineCSIMTheme(monaco);
     monaco.editor.setTheme(CSIM_THEME_NAME);
 
-    // Mantiene la compatibilidad con cualquier otra opción pasada por props
     if (editorOptions?.onMount) {
       editorOptions.onMount(editor, monaco);
     }
@@ -43,65 +42,72 @@ const EditorPanel = ({
         display: 'flex',
         flexDirection: 'column',
         boxShadow: 3,
-        backgroundColor: '#0F1419', // Fondo general (Dark Mode default)
-        border: '1px solid #2D3748', // Borde unificado
+        backgroundColor: '#0F1419',
+        border: '1px solid #2D3748',
       }}
     >
-      {fileName && (
-        <Box
-          sx={{
-            p: 1.5,
-            backgroundColor: '#1A1F2E', // Paper surface
-            borderBottom: '1px solid #2D3748', // Border divider
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 1,
-          }}
-        >
-          <Stack direction="row" spacing={1} alignItems="center" sx={{ flex: 1 }}>
+      <Box
+        sx={{
+          p: 1.5,
+          backgroundColor: '#1A1F2E', // Paper surface
+          borderBottom: '1px solid #2D3748', // Border divider
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 1,
+        }}
+      >
+        <Stack direction="row" spacing={1} alignItems="center" sx={{ flex: 1 }}>
+          {fileName && (
             <Typography variant="caption" sx={{ fontWeight: 600, color: '#F0F4F8' }}>
               {fileName}
             </Typography>
+          )}
 
-            {fileSize && (
-              <Chip
-                label={formatFileSize(fileSize)}
-                size="small"
-                variant="outlined"
-                sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
-              />
-            )}
-
+          {fileName && isModified && (
             <Chip
-              label={`${lineCount} lines`}
+              label={'Modified'}
               size="small"
               variant="outlined"
               sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
-            />
-
-            <Chip
-              label={`${charCount} chars`}
-              size="small"
-              variant="outlined"
-              sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
-            />
-          </Stack>
-
-          {onClear && (
-            <DeleteIcon
-              onClick={onClear}
-              sx={{
-                cursor: 'pointer',
-                fontSize: 18,
-                color: '#EF5350', // Red (Critical status color)
-                transition: 'opacity 0.2s',
-                '&:hover': { opacity: 0.7 },
-              }}
             />
           )}
-        </Box>
-      )}
+
+          {fileSize && !isModified && (
+            <Chip
+              label={formatFileSize(fileSize)}
+              size="small"
+              variant="outlined"
+              sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+            />
+          )}
+
+          <Chip
+            label={`${lineCount} lines`}
+            size="small"
+            variant="outlined"
+            sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+          />
+
+          <Chip
+            label={`${charCount} chars`}
+            size="small"
+            variant="outlined"
+            sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+          />
+        </Stack>
+
+        <DeleteIcon
+          onClick={onClear}
+          sx={{
+            cursor: 'pointer',
+            fontSize: 18,
+            color: '#EF5350', // Red (Critical status color)
+            transition: 'opacity 0.2s',
+            '&:hover': { opacity: 0.7 },
+          }}
+        />
+      </Box>
 
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
         <Editor
