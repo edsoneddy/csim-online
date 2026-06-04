@@ -54,6 +54,26 @@ export const darkTheme = createTheme({
     borderRadius: 8,
   },
   components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: colorPalette.semantic.hint,
+          color: colorPalette.darkMode.textPrimary,
+          border: `1px solid ${colorPalette.darkMode.border}`,
+          fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+          fontSize: '0.75rem',
+          borderRadius: 6,
+          padding: '6px 10px',
+          boxShadow: `0px 4px 12px ${colorPalette.shadows.dark}`,
+        },
+        arrow: {
+          color: colorPalette.semantic.hint,
+          '&::before': {
+            border: `1px solid ${colorPalette.darkMode.border}`,
+          },
+        },
+      },
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {

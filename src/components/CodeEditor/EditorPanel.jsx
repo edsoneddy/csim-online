@@ -3,6 +3,7 @@ import { Box, Paper, Chip, Typography, Stack } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../styles/monacoTheme';
+import TooltipIconButton from '../Common/TooltipIconButton';
 
 const EditorPanel = ({
   value,
@@ -96,17 +97,18 @@ const EditorPanel = ({
             sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
           />
         </Stack>
-
-        <DeleteIcon
-          onClick={onClear}
-          sx={{
-            cursor: 'pointer',
-            fontSize: 18,
-            color: '#EF5350', // Red (Critical status color)
-            transition: 'opacity 0.2s',
-            '&:hover': { opacity: 0.7 },
-          }}
-        />
+        <TooltipIconButton props={{ title: 'Delete' }}>
+          <DeleteIcon
+            onClick={onClear}
+            sx={{
+              cursor: 'pointer',
+              fontSize: 18,
+              color: '#EF5350', // Red (Critical status color)
+              transition: 'opacity 0.2s',
+              '&:hover': { opacity: 0.7 },
+            }}
+          />
+        </TooltipIconButton>
       </Box>
 
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
