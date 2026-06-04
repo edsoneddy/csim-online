@@ -220,13 +220,6 @@ const ContactUs = () => {
                 </Button>
               </Box>
             </form>
-
-            <InfoSection>
-              <Typography variant="body2" color="textSecondary">
-                <strong>Note:</strong> All fields are required. Your information will be treated
-                confidentially in accordance with our privacy policy.
-              </Typography>
-            </InfoSection>
           </Paper>
         </Grid>
       </Grid>
@@ -235,7 +228,7 @@ const ContactUs = () => {
         title="Quick Question?"
         description="Check our Help Center for immediate answers"
         actionText="View FAQ"
-        variant="secondary"
+        variant="primary"
       />
     </Container>
   );
