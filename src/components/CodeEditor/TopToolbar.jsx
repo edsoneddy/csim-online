@@ -7,11 +7,9 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import React from 'react';
 import { languageField, languageOptions } from '../../constants/ui';
-import FileUploadButton from './FileUploadButton';
 
-const TopToolbar = ({ language, onLanguageChange, onFile1Uploaded, onFile2Uploaded }) => {
+const TopToolbar = ({ language, onLanguageChange }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -46,10 +44,6 @@ const TopToolbar = ({ language, onLanguageChange, onFile1Uploaded, onFile2Upload
             ))}
           </Select>
         </FormControl>
-      </Box>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        <FileUploadButton label="Upload File 1" onFileSelected={onFile1Uploaded} />
-        <FileUploadButton label="Upload File 2" onFileSelected={onFile2Uploaded} />
       </Box>
     </Box>
   );

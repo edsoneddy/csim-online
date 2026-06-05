@@ -1,8 +1,8 @@
-import { Button, Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
-const FileUploadButton = ({ onFileSelected, label = 'Upload File', disabled = false }) => {
+const FileUploadButton = ({ onFileSelected, disabled = false }) => {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
@@ -26,28 +26,31 @@ const FileUploadButton = ({ onFileSelected, label = 'Upload File', disabled = fa
   };
 
   return (
-    <Box>
-      <input
-        ref={fileInputRef}
-        type="file"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-        accept=".js,.py,.java,.cpp,.c,.ts,.jsx,.tsx,.json,.xml,.txt,.cs,.rb,.php,.go,.rs,.swift"
-        disabled={disabled}
-      />
-      <Button
-        variant="outlined"
-        startIcon={<CloudUploadIcon />}
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <IconButton
         onClick={() => fileInputRef.current?.click()}
-        size="small"
         disabled={disabled}
+        disableRipple
         sx={{
-          textTransform: 'none',
-          fontWeight: 500,
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+          '&.Mui-focusVisible': {
+            backgroundColor: 'transparent',
+          },
+          padding: 0,
         }}
       >
-        {label}
-      </Button>
+        <CloudUploadIcon />
+        <input
+          ref={fileInputRef}
+          type="file"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+          accept=".js,.py,.java,.cpp,.c,.ts,.jsx,.tsx,.json,.xml,.txt,.cs,.rb,.php,.go,.rs,.swift"
+          disabled={disabled}
+        />
+      </IconButton>
     </Box>
   );
 };

@@ -1,5 +1,5 @@
-import { Box, Paper, useMediaQuery, useTheme } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { useState } from 'react';
 import TopToolbar from './TopToolbar';
 import BottomToolbar from './BottomToolbar';
 import EditorPanel from './EditorPanel';
@@ -124,12 +124,7 @@ const CodeSection = () => {
         gap: 1.5,
       }}
     >
-      <TopToolbar
-        language={language}
-        onLanguageChange={setLanguage}
-        onFile1Uploaded={handleFile1Upload}
-        onFile2Uploaded={handleFile2Upload}
-      />
+      <TopToolbar language={language} onLanguageChange={setLanguage} />
 
       <Box
         sx={{
@@ -153,6 +148,7 @@ const CodeSection = () => {
           editorOptions={editorOptions}
           onClear={handleClearEditor1}
           isModified={isCode1Modified}
+          onFileUploaded={handleFile1Upload}
         />
         <EditorPanel
           value={code2}
@@ -163,6 +159,7 @@ const CodeSection = () => {
           editorOptions={editorOptions}
           onClear={handleClearEditor2}
           isModified={isCode2Modified}
+          onFileUploaded={handleFile2Upload}
         />
       </Box>
 

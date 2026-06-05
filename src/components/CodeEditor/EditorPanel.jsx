@@ -1,9 +1,9 @@
-import React from 'react';
 import { Box, Paper, Chip, Typography, Stack } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../styles/monacoTheme';
 import TooltipIconButton from '../Common/TooltipIconButton';
+import FileUploadButton from './FileUploadButton';
 
 const EditorPanel = ({
   value,
@@ -14,6 +14,7 @@ const EditorPanel = ({
   editorOptions,
   onClear,
   isModified = false,
+  onFileUploaded,
 }) => {
   const formatFileSize = (bytes) => {
     if (!bytes) return '';
@@ -97,15 +98,14 @@ const EditorPanel = ({
             sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
           />
         </Stack>
+        <TooltipIconButton props={{ title: 'Upload' }}>
+          <FileUploadButton onFileSelected={onFileUploaded} />
+        </TooltipIconButton>
         <TooltipIconButton props={{ title: 'Delete' }}>
           <DeleteIcon
             onClick={onClear}
             sx={{
-              cursor: 'pointer',
-              fontSize: 18,
-              color: '#EF5350', // Red (Critical status color)
-              transition: 'opacity 0.2s',
-              '&:hover': { opacity: 0.7 },
+              color: '#EF5350',
             }}
           />
         </TooltipIconButton>
