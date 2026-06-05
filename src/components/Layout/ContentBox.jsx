@@ -34,7 +34,6 @@ const ContentBox = () => {
         overflow: 'hidden',
       }}
     >
-      <DrawerHeader />
       <Box
         sx={{
           flex: 1,
