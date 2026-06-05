@@ -1,5 +1,4 @@
 import { Box, Skeleton, Stack, Paper } from '@mui/material';
-import React from 'react';
 
 const ResultsLoadingSkeleton = () => {
   return (

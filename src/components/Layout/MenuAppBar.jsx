@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Typography, IconButton } from '@mui/material';
 import { Menu as MenuIcon, Language as LanguageIcon } from '@mui/icons-material';
 import { AppBar as CustomAppBar } from '../../utils/menu';

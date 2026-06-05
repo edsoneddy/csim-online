@@ -5,26 +5,23 @@ import {
   Stack,
   IconButton,
   Collapse,
-  Divider,
   Chip,
   TableContainer,
   Table,
   TableBody,
   TableRow,
   TableCell,
-  useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { colorPalette } from '../../styles/colorPalette';
 
 const SessionHistory = ({ history = [], onClearHistory }) => {
   const [expandedId, setExpandedId] = useState(null);
-  const theme = useTheme();
 
   if (!history || history.length === 0) {
     return (

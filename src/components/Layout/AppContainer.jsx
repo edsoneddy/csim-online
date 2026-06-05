@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import MenuAppBar from './MenuAppBar';
 import MenuDrawer from './MenuDrawer';

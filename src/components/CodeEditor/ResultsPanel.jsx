@@ -12,7 +12,7 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MatchNavigation from './MatchNavigation';
 import { ResultsLoadingSkeleton } from './LoadingSkeletons';
 import { colorPalette } from '../../styles/colorPalette';

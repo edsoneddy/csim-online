@@ -1,14 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Grid,
-  Button,
-  Box,
-  Alert,
-  CircularProgress,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { useState } from 'react';
+import { Container, Grid, Button, Box, Alert, CircularProgress, Paper } from '@mui/material';
 import {
   Email as EmailIcon,
   Phone as PhoneIcon,
@@ -18,7 +9,7 @@ import {
   AccessTime as AccessTimeIcon,
   X as XIcon,
 } from '@mui/icons-material';
-import { PageHeader, ContactInfoCard, FormField, InfoSection, ActionCard } from '../Common';
+import { PageHeader, ContactInfoCard, FormField, ActionCard } from '../Common';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, Typography, Paper, Box } from '@mui/material';
 import {
   QuestionAnswer as QuestionAnswerIcon,

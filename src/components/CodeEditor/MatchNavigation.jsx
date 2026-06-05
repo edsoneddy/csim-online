@@ -1,7 +1,6 @@
 import { Box, Button, Stack, Chip, Typography } from '@mui/material';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import React from 'react';
 import { colorPalette } from '../../styles/colorPalette';
 
 const MatchNavigation = ({

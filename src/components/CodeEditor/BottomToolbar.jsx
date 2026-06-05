@@ -1,5 +1,4 @@
 import { Stack, Button, useMediaQuery, useTheme, Box } from '@mui/material';
-import React from 'react';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import DownloadIcon from '@mui/icons-material/Download';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';

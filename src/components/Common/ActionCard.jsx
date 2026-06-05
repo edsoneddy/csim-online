@@ -1,5 +1,4 @@
-import React from 'react';
-import { Paper, Typography, Link, Box } from '@mui/material';
+import { Paper, Typography, Link } from '@mui/material';
 
 const ActionCard = ({ title, description, actionText, actionHref, variant = 'primary' }) => {
   const bgColor = variant === 'primary' ? 'primary.main' : 'secondary.light';

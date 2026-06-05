@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Fade } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
