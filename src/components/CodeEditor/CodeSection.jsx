@@ -20,6 +20,7 @@ const CodeSection = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isCode1Modified, setIsCode1Modified] = useState(false);
   const [isCode2Modified, setIsCode2Modified] = useState(false);
+  const [isResultsModified, setIsResultsModified] = useState(false);
 
   const editorOptions = {
     selectOnLineNumbers: true,
@@ -72,6 +73,7 @@ const CodeSection = () => {
     setCode1('');
     setCode2('');
     setResults(null);
+    setIsResultsModified(false);
     setIsCode1Modified(false);
     setIsCode2Modified(false);
   };
@@ -124,49 +126,56 @@ const CodeSection = () => {
         gap: 1.5,
       }}
     >
-      <TopToolbar language={language} onLanguageChange={setLanguage} />
+      {!isResultsModified && (
+        <>
+          <TopToolbar language={language} onLanguageChange={setLanguage} />
 
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            sm: '1fr 1fr',
-          },
-          gap: 2,
-          flex: 1,
-          minHeight: 0,
-          width: '100%',
-        }}
-      >
-        <EditorPanel
-          value={code1}
-          onChange={handleCode1Change}
-          language={language}
-          fileName={file1?.name}
-          fileSize={file1?.size}
-          editorOptions={editorOptions}
-          onClear={handleClearEditor1}
-          isModified={isCode1Modified}
-          onFileUploaded={handleFile1Upload}
-        />
-        <EditorPanel
-          value={code2}
-          onChange={handleCode2Change}
-          language={language}
-          fileName={file2?.name}
-          fileSize={file2?.size}
-          editorOptions={editorOptions}
-          onClear={handleClearEditor2}
-          isModified={isCode2Modified}
-          onFileUploaded={handleFile2Upload}
-        />
-      </Box>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: '1fr 1fr',
+              },
+              gap: 2,
+              flex: 1,
+              minHeight: 0,
+              width: '100%',
+            }}
+          >
+            <EditorPanel
+              value={code1}
+              onChange={handleCode1Change}
+              language={language}
+              fileName={file1?.name}
+              fileSize={file1?.size}
+              editorOptions={editorOptions}
+              onClear={handleClearEditor1}
+              isModified={isCode1Modified}
+              onFileUploaded={handleFile1Upload}
+            />
+            <EditorPanel
+              value={code2}
+              onChange={handleCode2Change}
+              language={language}
+              fileName={file2?.name}
+              fileSize={file2?.size}
+              editorOptions={editorOptions}
+              onClear={handleClearEditor2}
+              isModified={isCode2Modified}
+              onFileUploaded={handleFile2Upload}
+            />
+          </Box>
+        </>
+      )}
 
       <ResultsPanel results={results} isAnalyzing={isAnalyzing} />
 
       <BottomToolbar
-        onAnalyze={handleAnalyze}
+        onAnalyze={() => {
+          setIsResultsModified(true);
+          handleAnalyze();
+        }}
         onClear={handleClearAll}
         canAnalyze={canAnalyze}
         isAnalyzing={isAnalyzing}
