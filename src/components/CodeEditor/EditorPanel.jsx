@@ -98,12 +98,11 @@ const EditorPanel = ({
             sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
           />
         </Stack>
-        <TooltipIconButton props={{ title: 'Upload' }}>
+        <TooltipIconButton props={{ title: 'Upload' }} asChild>
           <FileUploadButton onFileSelected={onFileUploaded} />
         </TooltipIconButton>
-        <TooltipIconButton props={{ title: 'Delete' }}>
+        <TooltipIconButton props={{ title: 'Delete', onClick: onClear }}>
           <DeleteIcon
-            onClick={onClear}
             sx={{
               color: '#EF5350',
             }}

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { DrawerHeader } from '../../utils/menu';
 import { useSelector } from 'react-redux';
 import { CODE_SECTION, CONTACT_US_SECTION, HELP_CENTER_SECTION } from '../../constants/ui';
 import CodeSection from '../CodeEditor/CodeSection';
