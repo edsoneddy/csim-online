@@ -14,9 +14,7 @@ export const sections = {
 // Language Options
 export const defaultLanguage = 'python';
 export const languageField = 'Language';
-export const languageOptions = [
-  'python',
-];
+export const languageOptions = ['python'];
 
 // UI Labels
 export const UI_LABELS = {
@@ -41,6 +39,4 @@ export const UI_LABELS = {
 };
 
 // Supported File Extensions
-export const SUPPORTED_EXTENSIONS = [
-  '.py',
-];
+export const SUPPORTED_EXTENSIONS = ['.py'];

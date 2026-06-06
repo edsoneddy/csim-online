@@ -6,6 +6,8 @@ import EditorPanel from './EditorPanel';
 import ResultsPanel from './ResultsPanel';
 import SessionHistory from './SessionHistory';
 import { defaultLanguage } from '../../constants/ui';
+import { createAnalysisPayload } from '../../utils/analysisPayload';
+import { sendPostRequest } from '../../utils/requestHandler';
 
 const CodeSection = () => {
   const [code1, setCode1] = useState('');
@@ -78,36 +80,54 @@ const CodeSection = () => {
     setIsCode2Modified(false);
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!code1 || !code2) return;
 
     setIsAnalyzing(true);
+    setIsResultsModified(true);
 
-    setTimeout(() => {
-      const mockResults = {
-        similarity: Math.random() * 100,
-        matchingLines: Math.floor(Math.random() * 50),
+    const payload = createAnalysisPayload(language, code1, code2, file1, file2);
+
+    try {
+      const data = await sendPostRequest('/api/analyze', payload);
+
+      const rawSimilarity = data.result;
+      const similarityPercentage = rawSimilarity <= 1 ? rawSimilarity * 100 : rawSimilarity;
+
+      const apiResults = {
+        similarity: similarityPercentage,
+        matchingLines: 0,
         totalLines: Math.max(code1.split('\n').length, code2.split('\n').length),
-        uniqueBlocks: Math.floor(Math.random() * 20),
-        matchedBlocks: Math.floor(Math.random() * 10) + 1,
-        details: 'Analysis completed. Check the navigation to browse through matches.',
+        uniqueBlocks: 0,
+        matchedBlocks: 0,
+        details: `Analysis successfully executed using APTED Tree Edit Distance algorithm for ${language.toUpperCase()}.`,
       };
-      setResults(mockResults);
+
+      setResults(apiResults);
 
       const historyItem = {
         id: Date.now(),
         timestamp: new Date(),
-        file1Name: file1?.name || 'Code 1',
-        file2Name: file2?.name || 'Code 2',
-        similarity: mockResults.similarity,
-        matchingLines: mockResults.matchingLines,
-        totalLines: mockResults.totalLines,
-        matchedBlocks: mockResults.matchedBlocks,
+        file1Name: payload.files[0].name,
+        file2Name: payload.files[1].name,
+        similarity: apiResults.similarity,
+        totalLines: apiResults.totalLines,
       };
 
-      setSessionHistory([historyItem, ...sessionHistory]);
+      setSessionHistory((prevHistory) => [historyItem, ...prevHistory]);
+    } catch (error) {
+      console.error('Error running csim analysis:', error);
+      setResults({
+        similarity: 0,
+        matchingLines: 0,
+        totalLines: 0,
+        uniqueBlocks: 0,
+        matchedBlocks: 0,
+        details: error.message || 'Failed to connect to the csim backend analysis server.',
+      });
+    } finally {
       setIsAnalyzing(false);
-    }, 2000);
+    }
   };
 
   const handleUpdateHistory = (newHistory) => {
@@ -172,10 +192,7 @@ const CodeSection = () => {
       <ResultsPanel results={results} isAnalyzing={isAnalyzing} />
 
       <BottomToolbar
-        onAnalyze={() => {
-          setIsResultsModified(true);
-          handleAnalyze();
-        }}
+        onAnalyze={handleAnalyze}
         onClear={handleClearAll}
         canAnalyze={canAnalyze}
         isAnalyzing={isAnalyzing}
