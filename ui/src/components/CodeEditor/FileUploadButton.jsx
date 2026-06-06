@@ -39,7 +39,7 @@ const FileUploadButton = forwardRef(({ onFileSelected, disabled = false, ...prop
         type="file"
         onChange={handleFileChange}
         style={{ display: 'none' }}
-        accept=".js,.py,.java,.cpp,.c,.ts,.jsx,.tsx,.json,.xml,.txt,.cs,.rb,.php,.go,.rs,.swift"
+        accept=".py"
         disabled={disabled}
       />
     </IconButton>

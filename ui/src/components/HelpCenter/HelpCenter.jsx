@@ -23,7 +23,7 @@ const HelpCenter = () => {
         },
         {
           q: 'What programming languages are supported?',
-          a: 'We support Python, JavaScript, Java, C++, C, TypeScript, JSX, TSX, JSON, XML, C#, PHP, Go, Rust, and many more. Select your language from the dropdown at the top.',
+          a: 'Currently, we support Python. We are actively working on adding more languages like Java, C++, and JavaScript in the near future.',
         },
         {
           q: 'Can I paste code directly instead of uploading files?',
@@ -77,7 +77,7 @@ const HelpCenter = () => {
         },
         {
           q: 'Should I analyze compiled or source code?',
-          a: 'Always use source code files (.py, .js, .java, etc.). Compiled code or executables cannot be properly analyzed for plagiarism detection.',
+          a: 'Always use source code files (.py). Compiled code or executables cannot be properly analyzed for plagiarism detection.',
         },
         {
           q: 'Can the tool detect obfuscated code?',
