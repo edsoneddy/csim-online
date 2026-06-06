@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   api:
     build:
@@ -7,22 +5,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ./api:/app
-      - /app/venv
     environment:
-      - ENV=development
+      - ENV=production
+    restart: always
 
   ui:
     build:
       context: ./ui
       dockerfile: Dockerfile
     ports:
-      - "5173:5173"
-    volumes:
-      - ./ui:/app
-      - /app/node_modules
+      - "80:80"
     environment:
       - VITE_API_URL=http://localhost:8000
+    restart: always
     depends_on:
       - api
