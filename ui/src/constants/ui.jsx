@@ -1,9 +1,13 @@
 export const drawerWidth = 240;
 
-// Code Editor Sections
+// Sections
 export const CODE_SECTION = 'CODE_SECTION';
 export const HELP_CENTER_SECTION = 'HELP_CENTER_SECTION';
 export const CONTACT_US_SECTION = 'CONTACT_US_SECTION';
+
+// Tabs
+export const DUAL_EDITOR = 'Dual Editor';
+export const BULK_EDITOR = 'Bulk Editor';
 
 export const sections = {
   code: 'Code',

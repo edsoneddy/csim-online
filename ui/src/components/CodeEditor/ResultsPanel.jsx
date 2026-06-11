@@ -1,25 +1,11 @@
-import {
-  Box,
-  Paper,
-  Typography,
-  LinearProgress,
-  Stack,
-  Chip,
-  Divider,
-  Button,
-  Grid,
-} from '@mui/material';
+import { Box, Paper, Typography, LinearProgress, Stack, Chip, Divider } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
-import { useState } from 'react';
-import MatchNavigation from './MatchNavigation';
 import { ResultsLoadingSkeleton } from './LoadingSkeletons';
 import { colorPalette } from '../../styles/colorPalette';
 
 const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
-  const [currentMatch, setCurrentMatch] = useState(0);
-
   if (!results && !isAnalyzing) {
     return (
       <Paper
@@ -62,7 +48,15 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
   };
 
   return (
-    <Paper sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Paper
+      sx={{
+        p: 2.5,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        backgroundColor: colorPalette.alpha.light,
+      }}
+    >
       {/* Main Similarity Score */}
       <Box>
         <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
@@ -98,53 +92,6 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
 
       <Divider />
 
-      {/* Statistics Grid */}
-      <Grid container spacing={2}>
-        <Grid item xs={6} sm={3}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
-              Matching Lines
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.status.warning }}>
-              {results.matchingLines || 0}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
-              Total Lines
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.primary.main }}>
-              {results.totalLines || 0}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
-              Unique Blocks
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.status.success }}>
-              {results.uniqueBlocks || 0}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="caption" sx={{ color: colorPalette.darkMode.textSecondary }}>
-              Matched Blocks
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: colorPalette.status.error }}>
-              {results.matchedBlocks || 0}
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid>
-
-      <Divider />
-
-      {/* Details */}
       {results.details && (
         <Box>
           <Typography
@@ -158,34 +105,6 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
           </Typography>
         </Box>
       )}
-
-      {/* Action Buttons */}
-      <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-        <Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>
-          Download Report
-        </Button>
-        <Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>
-          Copy Results
-        </Button>
-      </Stack>
-
-      <Divider />
-
-      {/* Match Navigation */}
-      <MatchNavigation
-        currentMatch={currentMatch}
-        totalMatches={results.matchedBlocks || 0}
-        onPrevious={() => {
-          if (currentMatch > 0) {
-            setCurrentMatch(currentMatch - 1);
-          }
-        }}
-        onNext={() => {
-          if (currentMatch < (results.matchedBlocks || 0) - 1) {
-            setCurrentMatch(currentMatch + 1);
-          }
-        }}
-      />
     </Paper>
   );
 };

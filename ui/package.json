@@ -19,6 +19,7 @@
     "@vitejs/plugin-react": "^4.2.4",
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
+    "knip": "^6.16.1",
     "prettier": "^3.8.3",
     "vite": "^5.3.1"
   },
@@ -28,7 +29,8 @@
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx,json,css}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx,json,css}\"",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean": "knip"
   },
   "browserslist": {
     "production": [

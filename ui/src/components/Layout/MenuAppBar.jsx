@@ -1,5 +1,5 @@
 import { Typography, IconButton } from '@mui/material';
-import { Menu as MenuIcon, Language as LanguageIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, ViewSidebar as ViewSidebarIcon } from '@mui/icons-material';
 import { AppBar as CustomAppBar } from '../../utils/menu';
 import { Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,7 +48,7 @@ const MenuAppBar = () => {
           CSIM Online
         </Typography>
         <IconButton color="inherit" aria-label="language selector" size="small">
-          <LanguageIcon />
+          <ViewSidebarIcon />
         </IconButton>
       </Toolbar>
     </CustomAppBar>
