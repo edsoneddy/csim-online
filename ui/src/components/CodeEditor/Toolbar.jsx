@@ -1,11 +1,16 @@
-import { Stack, Button, useMediaQuery, useTheme } from '@mui/material';
+import { Stack, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
-const Toolbar = ({ onAnalyze, onClear, canAnalyze = true, isAnalyzing = false }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+import { languageField, languageOptions } from '../../constants/ui';
+const Toolbar = ({
+  onAnalyze,
+  onClear,
+  canAnalyze = true,
+  isAnalyzing = false,
+  language,
+  onLanguageChange,
+}) => {
   return (
     <Stack
       spacing={1.5}
@@ -18,9 +23,27 @@ const Toolbar = ({ onAnalyze, onClear, canAnalyze = true, isAnalyzing = false })
         '& .MuiButton-root': { whiteSpace: 'nowrap' },
       }}
     >
+      <FormControl size={'small'} sx={{ minWidth: 120 }}>
+        <InputLabel id="language-select-label">{languageField}</InputLabel>
+        <Select
+          labelId="language-select-label"
+          id="language-select"
+          value={language}
+          label={languageField}
+          onChange={(event) => {
+            onLanguageChange(event.target.value);
+          }}
+        >
+          {languageOptions.map((option, index) => (
+            <MenuItem key={index} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
       <Button
         variant="contained"
-        size={isMobile ? 'small' : 'medium'}
         endIcon={<VerifiedIcon />}
         onClick={() => {}}
         disabled={!canAnalyze || isAnalyzing}
@@ -34,7 +57,6 @@ const Toolbar = ({ onAnalyze, onClear, canAnalyze = true, isAnalyzing = false })
       </Button>
       <Button
         variant="contained"
-        size={isMobile ? 'small' : 'medium'}
         endIcon={<CompareArrowsIcon />}
         onClick={onAnalyze}
         disabled={!canAnalyze || isAnalyzing}
@@ -48,7 +70,6 @@ const Toolbar = ({ onAnalyze, onClear, canAnalyze = true, isAnalyzing = false })
       </Button>
       <Button
         variant="outlined"
-        size={isMobile ? 'small' : 'medium'}
         endIcon={<PlagiarismIcon />}
         onClick={onClear}
         sx={{

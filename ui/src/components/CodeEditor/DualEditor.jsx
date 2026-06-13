@@ -1,6 +1,5 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useState } from 'react';
-import TopToolbar from './TopToolbar';
 import Toolbar from './Toolbar';
 import EditorPanel from './EditorPanel';
 import ResultsPanel from './ResultsPanel';
@@ -19,7 +18,6 @@ const DualEditor = ({ handleUpdateHistory }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isCode1Modified, setIsCode1Modified] = useState(false);
   const [isCode2Modified, setIsCode2Modified] = useState(false);
-  const [isResultsModified, setIsResultsModified] = useState(false);
 
   const editorOptions = {
     selectOnLineNumbers: true,
@@ -72,7 +70,6 @@ const DualEditor = ({ handleUpdateHistory }) => {
     setCode1('');
     setCode2('');
     setResults(null);
-    setIsResultsModified(false);
     setIsCode1Modified(false);
     setIsCode2Modified(false);
   };
@@ -81,13 +78,10 @@ const DualEditor = ({ handleUpdateHistory }) => {
     if (!code1 || !code2) return;
 
     setIsAnalyzing(true);
-    setIsResultsModified(true);
-
     const payload = createAnalysisPayload(language, code1, code2, file1, file2);
 
     try {
       const data = await sendPostRequest('/api/analyze', payload);
-
       const rawSimilarity = data.result;
       const similarityPercentage = rawSimilarity <= 1 ? rawSimilarity * 100 : rawSimilarity;
 
@@ -139,57 +133,53 @@ const DualEditor = ({ handleUpdateHistory }) => {
         gap: 1.5,
       }}
     >
-      {!isResultsModified && (
-        <>
-          <TopToolbar language={language} onLanguageChange={setLanguage} />
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            md: '1fr min-content 1fr',
+          },
+          gap: 2,
+          flex: 1,
+          minHeight: 0,
+          width: '100%',
+          alignItems: 'center',
+        }}
+      >
+        <EditorPanel
+          value={code1}
+          onChange={handleCode1Change}
+          language={language}
+          fileName={file1?.name}
+          fileSize={file1?.size}
+          editorOptions={editorOptions}
+          onClear={handleClearEditor1}
+          isModified={isCode1Modified}
+          onFileUploaded={handleFile1Upload}
+        />
 
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: {
-                xs: '1fr',
-                md: '1fr min-content 1fr',
-              },
-              gap: 2,
-              flex: 1,
-              minHeight: 0,
-              width: '100%',
-              alignItems: 'center',
-            }}
-          >
-            <EditorPanel
-              value={code1}
-              onChange={handleCode1Change}
-              language={language}
-              fileName={file1?.name}
-              fileSize={file1?.size}
-              editorOptions={editorOptions}
-              onClear={handleClearEditor1}
-              isModified={isCode1Modified}
-              onFileUploaded={handleFile1Upload}
-            />
+        <Toolbar
+          onAnalyze={handleAnalyze}
+          onClear={handleClearAll}
+          canAnalyze={canAnalyze}
+          isAnalyzing={isAnalyzing}
+          language={language}
+          onLanguageChange={setLanguage}
+        />
 
-            <Toolbar
-              onAnalyze={handleAnalyze}
-              onClear={handleClearAll}
-              canAnalyze={canAnalyze}
-              isAnalyzing={isAnalyzing}
-            />
-
-            <EditorPanel
-              value={code2}
-              onChange={handleCode2Change}
-              language={language}
-              fileName={file2?.name}
-              fileSize={file2?.size}
-              editorOptions={editorOptions}
-              onClear={handleClearEditor2}
-              isModified={isCode2Modified}
-              onFileUploaded={handleFile2Upload}
-            />
-          </Box>
-        </>
-      )}
+        <EditorPanel
+          value={code2}
+          onChange={handleCode2Change}
+          language={language}
+          fileName={file2?.name}
+          fileSize={file2?.size}
+          editorOptions={editorOptions}
+          onClear={handleClearEditor2}
+          isModified={isCode2Modified}
+          onFileUploaded={handleFile2Upload}
+        />
+      </Box>
 
       <ResultsPanel results={results} isAnalyzing={isAnalyzing} />
     </Box>
