@@ -91,7 +91,7 @@ const DualEditor = ({ handleUpdateHistory }) => {
         totalLines: Math.max(code1.split('\n').length, code2.split('\n').length),
         uniqueBlocks: 0,
         matchedBlocks: 0,
-        details: `Analysis successfully executed using APTED Tree Edit Distance algorithm for ${language.toUpperCase()}.`,
+        details: `Analysis successfully completed`,
       };
 
       setResults(apiResults);
