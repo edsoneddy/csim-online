@@ -1,10 +1,16 @@
 import { CODE_SECTION } from '../../constants/ui';
-import { OPEN_SIDEBAR_MENU, OPEN_LANGUAGE_MENU, CHANGE_ACTUAL_CONTENT } from './menuActionTypes';
+import {
+  OPEN_SIDEBAR_MENU,
+  OPEN_LANGUAGE_MENU,
+  CHANGE_ACTUAL_CONTENT,
+  OPEN_HISTORY_MENU,
+} from './menuActionTypes';
 
 const initialState = {
   menu: {
     isOpenSidebarMenu: false,
     isOpenLanguageMenu: false,
+    isOpenHistoryMenu: false,
     actualContent: CODE_SECTION,
   },
 };
@@ -33,6 +39,14 @@ const menuReducer = (state = initialState, action) => {
         menu: {
           ...state.menu,
           actualContent: action.content,
+        },
+      };
+    case OPEN_HISTORY_MENU:
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          isOpenHistoryMenu: !state.menu.isOpenHistoryMenu,
         },
       };
     default:

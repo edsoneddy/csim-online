@@ -3,7 +3,7 @@ import { Menu as MenuIcon, ViewSidebar as ViewSidebarIcon } from '@mui/icons-mat
 import { AppBar as CustomAppBar } from '../../utils/menu';
 import { Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { openSidebarMenu } from '../../hooks/redux/menuActions';
+import { openHistoryMenu, openSidebarMenu } from '../../hooks/redux/menuActions';
 
 const MenuAppBar = () => {
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
@@ -47,7 +47,14 @@ const MenuAppBar = () => {
         >
           CSIM Online
         </Typography>
-        <IconButton color="inherit" aria-label="language selector" size="small">
+        <IconButton
+          color="inherit"
+          aria-label="language selector"
+          size="small"
+          onClick={() => {
+            dispatch(openHistoryMenu());
+          }}
+        >
           <ViewSidebarIcon />
         </IconButton>
       </Toolbar>

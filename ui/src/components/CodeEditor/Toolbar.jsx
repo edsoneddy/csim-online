@@ -1,7 +1,7 @@
 import { Stack, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { languageField, languageOptions } from '../../constants/ui';
 const Toolbar = ({
   onAnalyze,
@@ -57,7 +57,7 @@ const Toolbar = ({
       </Button>
       <Button
         variant="contained"
-        endIcon={<CompareArrowsIcon />}
+        endIcon={<PlagiarismIcon />}
         onClick={onAnalyze}
         disabled={!canAnalyze || isAnalyzing}
         sx={{
@@ -70,7 +70,7 @@ const Toolbar = ({
       </Button>
       <Button
         variant="outlined"
-        endIcon={<PlagiarismIcon />}
+        endIcon={<ClearAllIcon />}
         onClick={onClear}
         sx={{
           textTransform: 'none',

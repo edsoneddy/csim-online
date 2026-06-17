@@ -1,38 +1,43 @@
-import { Box, CssBaseline } from '@mui/material';
+import { Box, CssBaseline, Drawer } from '@mui/material';
 import MenuAppBar from './MenuAppBar';
 import MenuDrawer from './MenuDrawer';
 import ContentBox from './ContentBox';
-import { Provider } from 'react-redux';
-import store from '../../hooks/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import HistoryDrawer from './HistoryDrawer';
+import { openHistoryMenu } from '../../hooks/redux/menuActions';
 
 const AppContainer = () => {
+  const open = useSelector((state) => state.menu.isOpenHistoryMenu);
+  const dispatch = useDispatch();
+
   return (
-    <Provider store={store}>
-      <>
-        <CssBaseline />
+    <>
+      <CssBaseline />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <MenuAppBar />
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'column',
+            flex: 1,
             width: '100%',
-            height: '100%',
+            overflow: 'hidden',
           }}
         >
-          <MenuAppBar />
-          <Box
-            sx={{
-              display: 'flex',
-              flex: 1,
-              width: '100%',
-              overflow: 'hidden',
-            }}
-          >
-            <MenuDrawer />
-            <ContentBox />
-          </Box>
+          <MenuDrawer />
+          <ContentBox />
         </Box>
-      </>
-    </Provider>
+      </Box>
+      <Drawer anchor={'right'} open={open} onClose={() => dispatch(openHistoryMenu())}>
+        <HistoryDrawer />
+      </Drawer>
+    </>
   );
 };
 export default AppContainer;
