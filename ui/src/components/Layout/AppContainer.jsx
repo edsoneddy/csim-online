@@ -3,8 +3,8 @@ import MenuAppBar from './MenuAppBar';
 import MenuDrawer from './MenuDrawer';
 import ContentBox from './ContentBox';
 import { useDispatch, useSelector } from 'react-redux';
-import HistoryDrawer from './HistoryDrawer';
 import { openHistoryMenu } from '../../hooks/redux/menuActions';
+import SessionHistory from '../CodeEditor/SessionHistory';
 
 const AppContainer = () => {
   const open = useSelector((state) => state.menu.isOpenHistoryMenu);
@@ -34,8 +34,18 @@ const AppContainer = () => {
           <ContentBox />
         </Box>
       </Box>
-      <Drawer anchor={'right'} open={open} onClose={() => dispatch(openHistoryMenu())}>
-        <HistoryDrawer />
+      <Drawer
+        anchor={'right'}
+        open={open}
+        onClose={() => dispatch(openHistoryMenu())}
+        sx={{
+          '& .MuiDrawer-paper': {
+            top: '64px',
+            height: 'calc(100% - 64px)',
+          },
+        }}
+      >
+        <SessionHistory />
       </Drawer>
     </>
   );

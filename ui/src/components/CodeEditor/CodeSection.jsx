@@ -28,7 +28,7 @@ const CodeSection = () => {
 
       <Box sx={{ flex: 1, minHeight: 0 }}>
         <CodeTabPanel value={currentTab} index={0}>
-          <DualEditor handleUpdateHistory={() => {}} />
+          <DualEditor />
         </CodeTabPanel>
 
         <CodeTabPanel value={currentTab} index={1}>

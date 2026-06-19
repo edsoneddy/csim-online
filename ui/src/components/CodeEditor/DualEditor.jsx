@@ -6,7 +6,9 @@ import ResultsPanel from './ResultsPanel';
 import { defaultLanguage } from '../../constants/ui';
 import { createAnalysisPayload } from '../../utils/analysisPayload';
 import { sendPostRequest } from '../../utils/requestHandler';
-const DualEditor = ({ handleUpdateHistory }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { updateHistory } from '../../hooks/redux/menuActions';
+const DualEditor = () => {
   const [code1, setCode1] = useState('');
   const [code2, setCode2] = useState('');
   const [language, setLanguage] = useState(defaultLanguage);
@@ -18,6 +20,8 @@ const DualEditor = ({ handleUpdateHistory }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [isCode1Modified, setIsCode1Modified] = useState(false);
   const [isCode2Modified, setIsCode2Modified] = useState(false);
+  const history = useSelector((state) => state.history);
+  const dispatch = useDispatch();
 
   const editorOptions = {
     selectOnLineNumbers: true,
@@ -105,7 +109,8 @@ const DualEditor = ({ handleUpdateHistory }) => {
         totalLines: apiResults.totalLines,
       };
 
-      handleUpdateHistory(historyItem);
+      const newHistory = [historyItem, ...history];
+      dispatch(updateHistory(newHistory));
     } catch (error) {
       console.error('Error running csim analysis:', error);
       setResults({

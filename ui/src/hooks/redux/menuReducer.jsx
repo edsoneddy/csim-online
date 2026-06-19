@@ -4,6 +4,7 @@ import {
   OPEN_LANGUAGE_MENU,
   CHANGE_ACTUAL_CONTENT,
   OPEN_HISTORY_MENU,
+  UPDATE_HISTORY,
 } from './menuActionTypes';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
     isOpenHistoryMenu: false,
     actualContent: CODE_SECTION,
   },
+  history: [],
 };
 
 const menuReducer = (state = initialState, action) => {
@@ -48,6 +50,11 @@ const menuReducer = (state = initialState, action) => {
           ...state.menu,
           isOpenHistoryMenu: !state.menu.isOpenHistoryMenu,
         },
+      };
+    case UPDATE_HISTORY:
+      return {
+        ...state,
+        history: action.history,
       };
     default:
       return state;

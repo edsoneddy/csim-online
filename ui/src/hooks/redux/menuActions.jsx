@@ -3,6 +3,7 @@ import {
   OPEN_LANGUAGE_MENU,
   CHANGE_ACTUAL_CONTENT,
   OPEN_HISTORY_MENU,
+  UPDATE_HISTORY,
 } from './menuActionTypes';
 
 export const openSidebarMenu = () => ({
@@ -20,4 +21,9 @@ export const changeActualContent = (actualContent) => ({
 
 export const openHistoryMenu = () => ({
   type: OPEN_HISTORY_MENU,
+});
+
+export const updateHistory = (history) => ({
+  type: UPDATE_HISTORY,
+  history,
 });

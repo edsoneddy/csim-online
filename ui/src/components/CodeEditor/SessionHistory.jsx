@@ -1,16 +1,14 @@
 import {
   Box,
-  Paper,
   Typography,
-  Stack,
   IconButton,
   Collapse,
   Chip,
-  TableContainer,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Stack,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,26 +17,17 @@ import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
 import { useState } from 'react';
 import { colorPalette } from '../../styles/colorPalette';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateHistory } from '../../hooks/redux/menuActions';
 
-const SessionHistory = ({ history = [], onClearHistory }) => {
+const SessionHistory = () => {
   const [expandedId, setExpandedId] = useState(null);
+  const dispatch = useDispatch();
+  const history = useSelector((state) => state.history);
 
-  if (!history || history.length === 0) {
-    return (
-      <Paper
-        sx={{
-          p: 2,
-          textAlign: 'center',
-          backgroundColor: colorPalette.alpha.light,
-          border: `1px dashed ${colorPalette.darkMode.border}`,
-        }}
-      >
-        <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
-          No analysis history yet. Load files and click "Analyze" to start.
-        </Typography>
-      </Paper>
-    );
-  }
+  const onClearHistory = (newHistory) => {
+    dispatch(updateHistory(newHistory));
+  };
 
   const getSimilarityColor = (similarity) => {
     if (similarity >= 75) return colorPalette.status.error;
@@ -61,13 +50,20 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
 
   const handleDelete = (index) => {
     const newHistory = history.filter((_, i) => i !== index);
-    if (onClearHistory) {
-      onClearHistory(newHistory);
-    }
+    if (onClearHistory) onClearHistory(newHistory);
   };
 
   return (
-    <Paper sx={{ backgroundColor: colorPalette.alpha.light }}>
+    <Box
+      sx={{
+        width: 350,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: colorPalette.alpha.light,
+      }}
+      role="presentation"
+    >
       <Box
         sx={{
           p: 2,
@@ -77,80 +73,78 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
           borderBottom: `1px solid ${colorPalette.darkMode.border}`,
         }}
       >
-        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
           Session History ({history.length})
         </Typography>
-        {history.length > 0 && (
-          <Typography
-            variant="caption"
-            sx={{ color: colorPalette.darkMode.textSecondary, cursor: 'pointer' }}
-            onClick={() => onClearHistory?.([])}
-          >
-            Clear all
-          </Typography>
-        )}
+        <Typography
+          variant="caption"
+          sx={{
+            color: colorPalette.darkMode.textSecondary,
+            cursor: 'pointer',
+            '&:hover': { color: colorPalette.status.error },
+          }}
+          onClick={() => onClearHistory?.([])}
+        >
+          Clear all
+        </Typography>
       </Box>
 
-      <Stack spacing={1} sx={{ p: 1 }}>
-        {history.map((item, index) => (
-          <Box key={index}>
-            <Paper
+      <List disablePadding sx={{ overflowY: 'auto', flexGrow: 1 }}>
+        {history.map((item, index) => {
+          const isExpanded = expandedId === item.id;
+          return (
+            <ListItem
+              key={item.id || index}
+              disablePadding
+              divider
               sx={{
-                p: 1.5,
-                backgroundColor: colorPalette.darkMode.hover,
-                border: `1px solid ${colorPalette.darkMode.border}`,
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                '&:hover': {
-                  backgroundColor: colorPalette.darkMode.border,
-                  borderColor: colorPalette.primary.main,
-                },
+                flexDirection: 'column',
+                alignItems: 'stretch',
+                backgroundColor: isExpanded ? colorPalette.darkMode.hover : 'transparent',
               }}
-              onClick={() => toggleExpand(item.id)}
             >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1.5,
-                  justifyContent: 'space-between',
-                }}
+              <Stack
+                direction="row"
+                alignItems="center"
+                gap={1.5}
+                sx={{ py: 1, px: 2, width: '100%', boxSizing: 'border-box' }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
+                <ListItemIcon sx={{ minWidth: 'auto', display: 'flex' }}>
                   {getSimilarityIcon(item.similarity)}
+                </ListItemIcon>
 
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <Typography variant="body2" sx={{ fontWeight: 500 }} noWrap>
-                        {item.file1Name} vs {item.file2Name}
-                      </Typography>
-                      <Typography
-                        variant="caption"
-                        sx={{ color: colorPalette.darkMode.textSecondary }}
-                      >
-                        {new Date(item.timestamp).toLocaleTimeString()}
-                      </Typography>
-                    </Stack>
-                  </Box>
+                <ListItemText
+                  primary={item.file1Name + ' vs ' + item.file2Name}
+                  secondary={new Date(item.timestamp).toLocaleTimeString()}
+                  primaryTypographyProps={{
+                    variant: 'body2',
+                    fontWeight: 500,
+                    noWrap: true,
+                    sx: { maxWidth: 140 },
+                  }}
+                  secondaryTypographyProps={{
+                    variant: 'caption',
+                    sx: { color: colorPalette.darkMode.textSecondary },
+                  }}
+                />
 
-                  <Chip
-                    label={`${item.similarity.toFixed(1)}%`}
-                    sx={{
-                      backgroundColor: getSimilarityColor(item.similarity),
-                      color: colorPalette.neutral.white,
-                      fontWeight: 600,
-                      minWidth: 70,
-                    }}
-                  />
-                </Box>
+                <Chip
+                  label={`${item.similarity.toFixed(0)}%`}
+                  size="small"
+                  sx={{
+                    backgroundColor: getSimilarityColor(item.similarity),
+                    color: colorPalette.neutral.white,
+                    fontWeight: 600,
+                    height: 20,
+                    fontSize: '0.70rem',
+                    ml: 'auto',
+                  }}
+                />
 
-                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                <Stack direction="row" alignItems="center" gap={0.5}>
                   <IconButton
                     size="small"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(index);
-                    }}
+                    onClick={() => handleDelete(index)}
                     sx={{
                       color: colorPalette.status.error,
                       '&:hover': { backgroundColor: colorPalette.alpha.light },
@@ -158,96 +152,50 @@ const SessionHistory = ({ history = [], onClearHistory }) => {
                   >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
-                  <ExpandMoreIcon
-                    sx={{
-                      fontSize: 18,
-                      transition: 'transform 0.3s',
-                      transform: expandedId === item.id ? 'rotate(180deg)' : 'rotate(0deg)',
-                    }}
-                  />
-                </Box>
-              </Box>
 
-              <Collapse in={expandedId === item.id}>
-                <Box
-                  sx={{ mt: 1.5, pt: 1.5, borderTop: `1px solid ${colorPalette.darkMode.border}` }}
-                >
-                  <TableContainer>
-                    <Table size="small">
-                      <TableBody>
-                        <TableRow>
-                          <TableCell
-                            sx={{
-                              border: 'none',
-                              color: colorPalette.darkMode.textSecondary,
-                              py: 0.5,
-                            }}
-                          >
-                            Matching Lines:
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              border: 'none',
-                              color: colorPalette.darkMode.textPrimary,
-                              fontWeight: 600,
-                              py: 0.5,
-                            }}
-                          >
-                            {item.matchingLines || 0}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{
-                              border: 'none',
-                              color: colorPalette.darkMode.textSecondary,
-                              py: 0.5,
-                            }}
-                          >
-                            Total Lines:
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              border: 'none',
-                              color: colorPalette.darkMode.textPrimary,
-                              fontWeight: 600,
-                              py: 0.5,
-                            }}
-                          >
-                            {item.totalLines || 0}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{
-                              border: 'none',
-                              color: colorPalette.darkMode.textSecondary,
-                              py: 0.5,
-                            }}
-                          >
-                            Matched Blocks:
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              border: 'none',
-                              color: colorPalette.darkMode.textPrimary,
-                              fontWeight: 600,
-                              py: 0.5,
-                            }}
-                          >
-                            {item.matchedBlocks || 0}
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Box>
+                  <IconButton size="small" onClick={() => toggleExpand(item.id)}>
+                    <ExpandMoreIcon
+                      fontSize="small"
+                      sx={{
+                        transition: 'transform 0.2s',
+                        transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                        color: colorPalette.darkMode.textSecondary,
+                      }}
+                    />
+                  </IconButton>
+                </Stack>
+              </Stack>
+
+              <Collapse in={isExpanded} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
+                <Stack sx={{ p: 2, pt: 0, gap: 1, backgroundColor: colorPalette.darkMode.hover }}>
+                  {[
+                    { label: 'Matching Lines', value: item.matchingLines },
+                    { label: 'Total Lines', value: item.totalLines },
+                    { label: 'Matched Blocks', value: item.matchedBlocks },
+                  ].map((detail, idx) => (
+                    <Stack key={idx} direction="row" justifyContent="space-between">
+                      <Typography
+                        variant="caption"
+                        sx={{ color: colorPalette.darkMode.textSecondary }}
+                      >
+                        {detail.label}:
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        fontWeight={600}
+                        sx={{ color: colorPalette.darkMode.textPrimary }}
+                      >
+                        {detail.value || 0}
+                      </Typography>
+                    </Stack>
+                  ))}
+                </Stack>
               </Collapse>
-            </Paper>
-          </Box>
-        ))}
-      </Stack>
-    </Paper>
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
   );
 };
 
