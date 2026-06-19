@@ -12,13 +12,11 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import WarningIcon from '@mui/icons-material/Warning';
-import ErrorIcon from '@mui/icons-material/Error';
 import { useState } from 'react';
 import { colorPalette } from '../../styles/colorPalette';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateHistory } from '../../hooks/redux/menuActions';
+import { getSimilarityIcon, getSimilarityColor } from '../../utils/results';
 
 const SessionHistory = () => {
   const [expandedId, setExpandedId] = useState(null);
@@ -27,21 +25,6 @@ const SessionHistory = () => {
 
   const onClearHistory = (newHistory) => {
     dispatch(updateHistory(newHistory));
-  };
-
-  const getSimilarityColor = (similarity) => {
-    if (similarity >= 75) return colorPalette.status.error;
-    if (similarity >= 50) return colorPalette.status.alert;
-    if (similarity >= 25) return colorPalette.status.warning;
-    return colorPalette.status.success;
-  };
-
-  const getSimilarityIcon = (similarity) => {
-    if (similarity >= 75)
-      return <ErrorIcon sx={{ color: colorPalette.status.error, fontSize: 18 }} />;
-    if (similarity >= 50)
-      return <WarningIcon sx={{ color: colorPalette.status.alert, fontSize: 18 }} />;
-    return <CheckCircleIcon sx={{ color: colorPalette.status.success, fontSize: 18 }} />;
   };
 
   const toggleExpand = (id) => {
@@ -129,7 +112,7 @@ const SessionHistory = () => {
                 />
 
                 <Chip
-                  label={`${item.similarity.toFixed(0)}%`}
+                  label={item.similarity !== null ? `${item.similarity.toFixed(0)}%` : 'N/A'}
                   size="small"
                   sx={{
                     backgroundColor: getSimilarityColor(item.similarity),

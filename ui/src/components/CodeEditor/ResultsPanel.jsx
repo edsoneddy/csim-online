@@ -7,10 +7,8 @@ import {
   Chip,
   CircularProgress,
 } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import WarningIcon from '@mui/icons-material/Warning';
 import { colorPalette } from '../../styles/colorPalette';
+import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../utils/results';
 
 const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
   if (!results && !isAnalyzing) {
@@ -60,26 +58,6 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
     );
   }
 
-  const getSimilarityColor = (similarity) => {
-    if (similarity >= 75) return colorPalette.status.error; // Red - Critical
-    if (similarity >= 50) return colorPalette.status.alert; // Orange - High
-    if (similarity >= 25) return colorPalette.status.warning; // Amber - Medium
-    return colorPalette.status.success; // Green - Low
-  };
-
-  const getSimilarityIcon = (similarity) => {
-    if (similarity >= 75) return <ErrorIcon sx={{ color: colorPalette.status.error }} />;
-    if (similarity >= 50) return <WarningIcon sx={{ color: colorPalette.status.alert }} />;
-    return <CheckCircleIcon sx={{ color: colorPalette.status.success }} />;
-  };
-
-  const getSimilarityLabel = (similarity) => {
-    if (similarity >= 75) return 'Critical Match';
-    if (similarity >= 50) return 'High Match';
-    if (similarity >= 25) return 'Medium Match';
-    return 'Low Match';
-  };
-
   return (
     <Paper
       sx={{
@@ -101,7 +79,7 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
               Overall Similarity
             </Typography>
             <Typography variant="h6" sx={{ fontWeight: 700 }}>
-              {results.similarity.toFixed(1)}%
+              {results.similarity !== null ? `${results.similarity.toFixed(1)}%` : 'N/A'}
             </Typography>
           </Box>
           <Chip
@@ -115,7 +93,7 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
         </Stack>
         <LinearProgress
           variant="determinate"
-          value={results.similarity}
+          value={results.similarity ?? 0}
           sx={{
             backgroundColor: colorPalette.alpha.light,
             '& .MuiLinearProgress-bar': {

@@ -38,6 +38,7 @@ export const colorPalette = {
     warning: '#F59E0B', // Amber-Orange - Medium similarity (Caution)
     alert: '#FF9800', // Orange - High similarity (Warning)
     error: '#EF5350', // Red - Critical similarity (Danger)
+    failed: '#B0BEC5', // Gray - Analysis failed or no data
   },
 
   // Semantic Colors - For UI elements

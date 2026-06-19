@@ -83,13 +83,14 @@ const DualEditor = () => {
 
     setIsAnalyzing(true);
     const payload = createAnalysisPayload(language, code1, code2, file1, file2);
-
+    let apiResults = null;
+    let historyItem = null;
     try {
       const data = await sendPostRequest('/api/analyze', payload);
       const rawSimilarity = data.result;
       const similarityPercentage = rawSimilarity <= 1 ? rawSimilarity * 100 : rawSimilarity;
 
-      const apiResults = {
+      apiResults = {
         similarity: similarityPercentage,
         matchingLines: 0,
         totalLines: Math.max(code1.split('\n').length, code2.split('\n').length),
@@ -98,9 +99,7 @@ const DualEditor = () => {
         details: `Analysis successfully completed`,
       };
 
-      setResults(apiResults);
-
-      const historyItem = {
+      historyItem = {
         id: Date.now(),
         timestamp: new Date(),
         file1Name: payload.files[0].name,
@@ -108,22 +107,30 @@ const DualEditor = () => {
         similarity: apiResults.similarity,
         totalLines: apiResults.totalLines,
       };
-
-      const newHistory = [historyItem, ...history];
-      dispatch(updateHistory(newHistory));
     } catch (error) {
-      console.error('Error running csim analysis:', error);
-      setResults({
-        similarity: 0,
+      console.info('Error running csim analysis:', error);
+      apiResults = {
+        similarity: null,
         matchingLines: 0,
         totalLines: 0,
         uniqueBlocks: 0,
         matchedBlocks: 0,
-        details: error.message || 'Failed to connect to the csim backend analysis server.',
-      });
+        details: 'An error occurred during analysis. Please try again.',
+      };
+      historyItem = {
+        id: Date.now(),
+        timestamp: new Date(),
+        file1Name: payload.files[0].name,
+        file2Name: payload.files[1].name,
+        similarity: null,
+        totalLines: 0,
+      };
     } finally {
       setIsAnalyzing(false);
     }
+    setResults(apiResults);
+    const newHistory = [historyItem, ...history];
+    dispatch(updateHistory(newHistory));
   };
 
   const canAnalyze = code1.trim().length > 0 && code2.trim().length > 0;
