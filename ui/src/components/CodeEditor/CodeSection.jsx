@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Box } from '@mui/material';
 import CodeTabsHeader from './CodeTabsHeader';
 import CodeTabPanel from './CodeTabPanel';
-import DualEditor from './DualEditor';
-import BulkEditor from './BulkEditor';
+import DualEditor from './DualEditor/DualEditor';
+import BulkEditor from './BulkEditor/BulkEditor';
 
 const CodeSection = () => {
   const [currentTab, setCurrentTab] = useState(0);

@@ -1,9 +1,9 @@
 import { Box, Paper, Chip, Typography, Stack } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import ClearIcon from '@mui/icons-material/Clear';
-import { defineCSIMTheme, CSIM_THEME_NAME } from '../../styles/monacoTheme';
-import TooltipIconButton from '../Common/TooltipIconButton';
-import FileUploadButton from './FileUploadButton';
+import { defineCSIMTheme, CSIM_THEME_NAME } from '../../../styles/monacoTheme';
+import TooltipIconButton from '../../Common/TooltipIconButton';
+import FileUploadButton from '../../Common/FileUploadButton';
 
 const EditorPanel = ({
   value,

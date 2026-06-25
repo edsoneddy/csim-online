@@ -1,13 +1,14 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useState } from 'react';
-import Toolbar from './Toolbar';
+import Toolbar from '../Toolbar';
 import EditorPanel from './EditorPanel';
-import ResultsPanel from './ResultsPanel';
-import { defaultLanguage } from '../../constants/ui';
-import { createAnalysisPayload } from '../../utils/analysisPayload';
-import { sendPostRequest } from '../../utils/requestHandler';
+import SingleResultsPanel from './SingleResultsPanel';
+import { defaultLanguage } from '../../../constants/ui';
+import { createAnalysisPayload } from '../../../utils/analysisPayload';
+import { sendPostRequest } from '../../../utils/requestHandler';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateHistory } from '../../hooks/redux/menuActions';
+import { updateHistory } from '../../../hooks/redux/menuActions';
+
 const DualEditor = () => {
   const [code1, setCode1] = useState('');
   const [code2, setCode2] = useState('');
@@ -193,7 +194,7 @@ const DualEditor = () => {
         />
       </Box>
 
-      <ResultsPanel results={results} isAnalyzing={isAnalyzing} />
+      <SingleResultsPanel results={results} isAnalyzing={isAnalyzing} />
     </Box>
   );
 };

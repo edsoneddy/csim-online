@@ -37,7 +37,7 @@ const ContentBox = () => {
         sx={{
           flex: 1,
           overflow: 'auto',
-          p: { xs: 1.5, sm: 2, md: 3 },
+          p: 1.5,
           display: 'flex',
           flexDirection: 'column',
         }}

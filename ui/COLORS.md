@@ -191,7 +191,7 @@ src/styles/
   └── ...
 
 Components using colorPalette:
-  ├── ResultsPanel.jsx
+  ├── SingleResultsPanel.jsx
   ├── SessionHistory.jsx
   ├── MatchNavigation.jsx
   └── ...

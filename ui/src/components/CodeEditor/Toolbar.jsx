@@ -41,7 +41,6 @@ const Toolbar = ({
           ))}
         </Select>
       </FormControl>
-
       <Button
         variant="contained"
         endIcon={<VerifiedIcon />}

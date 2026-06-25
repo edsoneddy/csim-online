@@ -7,10 +7,10 @@ import {
   Chip,
   CircularProgress,
 } from '@mui/material';
-import { colorPalette } from '../../styles/colorPalette';
-import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../utils/results';
+import { colorPalette } from '../../../styles/colorPalette';
+import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../../utils/results';
 
-const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
+const SingleResultsPanel = ({ results = null, isAnalyzing = false }) => {
   if (!results && !isAnalyzing) {
     return (
       <Paper
@@ -115,4 +115,4 @@ const ResultsPanel = ({ results = null, isAnalyzing = false }) => {
   );
 };
 
-export default ResultsPanel;
+export default SingleResultsPanel;
