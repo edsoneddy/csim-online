@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import Toolbar from '../Toolbar';
-import FilesPanel from './FilesPanel';
+import FilePanel from './FilePanel';
 import MultiResultsPanel from './MultiResultsPanel';
 
 const BulkEditor = () => {
@@ -33,7 +33,7 @@ const BulkEditor = () => {
           justifyItems: 'center',
         }}
       >
-        <FilesPanel />
+        <FilePanel />
         <Toolbar orientation={{ xs: 'row', md: 'column' }} />
         <MultiResultsPanel />
       </Box>

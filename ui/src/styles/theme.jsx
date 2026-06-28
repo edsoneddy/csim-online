@@ -109,6 +109,13 @@ export const darkTheme = createTheme({
             borderColor: colorPalette.primary.light,
           },
         },
+        secondary: {
+          backgroundColor: colorPalette.alpha.light,
+          color: colorPalette.darkMode.textSecondary,
+          '&:hover': {
+            backgroundColor: colorPalette.alpha.medium,
+          },
+        },
       },
     },
     MuiChip: {

@@ -1,15 +1,7 @@
 import { Box, Paper, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
 import DescriptionIcon from '@mui/icons-material/Description';
-const data = [
-  { name: 'file1.py', content: '2048' },
-  { name: 'file2.js', content: '4096' },
-  { name: 'file3.java', content: '10240' },
-];
 
-const MultiResultsPanel = ({ onFileUploaded }) => {
-  const [files, setFiles] = useState(data);
-
+const MultiResultsPanel = () => {
   return (
     <Paper
       sx={{

@@ -2,7 +2,7 @@ import { Fade } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
-const TooltipIconButton = ({ props, children, asChild = false }) => {
+const TooltipIconButton = ({ props, children, asChild = false, sx = {} }) => {
   const { title, placement = 'top', hiddenTooltip = false, onClick = () => {} } = props || {};
 
   if (hiddenTooltip) {
@@ -31,7 +31,13 @@ const TooltipIconButton = ({ props, children, asChild = false }) => {
         transition: { timeout: 600 },
       }}
     >
-      {asChild ? children : <IconButton onClick={onClick}>{children}</IconButton>}
+      {asChild ? (
+        children
+      ) : (
+        <IconButton onClick={onClick} sx={sx}>
+          {children}
+        </IconButton>
+      )}
     </Tooltip>
   );
 };

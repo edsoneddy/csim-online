@@ -8,7 +8,7 @@
  * - Success: Emerald Green (#10B981) - Safety, All Good
  * - Warning: Orange (#FF9800) - Caution, Medium Risk
  * - Error: Red (#EF5350) - Critical, High Risk
- * - Neutral: Gray (#F5F5F5 / #212121) - Light/Dark text & backgrounds
+ * - Neutral: Gray (#F5F5F5 / rgb(33, 33, 33)) - Light/Dark text & backgrounds
  */
 
 export const colorPalette = {
@@ -99,6 +99,17 @@ export const colorPalette = {
     light: 'rgba(0, 0, 0, 0.05)',
     medium: 'rgba(0, 0, 0, 0.1)',
     dark: 'rgba(0, 0, 0, 0.2)',
+  },
+
+  // Table/List Colors - For rows, headers, and dividers
+  table: {
+    toolbar: 'rgba(0, 172, 193, 0.4)', // Toolbar background
+    toolbarActive: 'rgba(0, 172, 193, 0.6)', // Active toolbar background
+    header: 'rgba(0, 172, 193, 0.2)', // Dark header background
+    row: '#0F1419', // Row background
+    rowHover: '#2D3748', // Row hover state
+    divider: '#2D3748', // Divider lines
+    selectedRow: 'rgba(0, 172, 193, 0.4)', // Selected row background
   },
 };
 
