@@ -115,7 +115,7 @@ const FilePanel = ({ onFileUploaded }) => {
           sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
         />
         <TooltipIconButton props={{ title: 'Upload' }} asChild>
-          <FileUploadButton onFileSelected={onFileUploaded} />
+          <FileUploadButton onFileSelected={onFileUploaded} multiple />
         </TooltipIconButton>
       </Box>
 

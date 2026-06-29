@@ -3,7 +3,7 @@ import MenuAppBar from './MenuAppBar';
 import MenuDrawer from './MenuDrawer';
 import ContentBox from './ContentBox';
 import { useDispatch, useSelector } from 'react-redux';
-import { openHistoryMenu } from '../../hooks/redux/menuActions';
+import { openHistoryMenu } from '../../hooks/redux/appActions';
 import SessionHistory from '../CodeEditor/SessionHistory';
 
 const AppContainer = () => {

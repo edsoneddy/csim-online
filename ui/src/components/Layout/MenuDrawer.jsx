@@ -19,7 +19,7 @@ import {
 
 import { Drawer as CustomDrawer, DrawerHeader as CustomDrawerHeader } from '../../utils/menu';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeActualContent, openSidebarMenu } from '../../hooks/redux/menuActions';
+import { changeActualContent, openSidebarMenu } from '../../hooks/redux/appActions';
 
 import {
   CODE_SECTION,

@@ -6,7 +6,7 @@ import TooltipIconButton from '../../Common/TooltipIconButton';
 import FileUploadButton from '../../Common/FileUploadButton';
 
 const EditorPanel = ({
-  value,
+  value = '',
   onChange,
   language,
   fileName = null,
@@ -34,7 +34,6 @@ const EditorPanel = ({
 
   const lineCount = value ? value.split('\n').length : 0;
   const charCount = value ? value.length : 0;
-
   return (
     <Paper
       sx={{

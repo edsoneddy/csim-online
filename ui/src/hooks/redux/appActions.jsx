@@ -4,7 +4,9 @@ import {
   CHANGE_ACTUAL_CONTENT,
   OPEN_HISTORY_MENU,
   UPDATE_HISTORY,
-} from './menuActionTypes';
+  UPDATE_DUAL_EDITOR_FILE_BY_KEY,
+  UPDATE_DUAL_EDITOR_FILE_CONTENT_BY_KEY,
+} from './appActionTypes';
 
 export const openSidebarMenu = () => ({
   type: OPEN_SIDEBAR_MENU,
@@ -26,4 +28,16 @@ export const openHistoryMenu = () => ({
 export const updateHistory = (history) => ({
   type: UPDATE_HISTORY,
   history,
+});
+
+export const updateDualEditorFileByKey = (keyFile, file) => ({
+  type: UPDATE_DUAL_EDITOR_FILE_BY_KEY,
+  keyFile,
+  file,
+});
+
+export const updateDualEditorFileContentByKey = (keyFile, content) => ({
+  type: UPDATE_DUAL_EDITOR_FILE_CONTENT_BY_KEY,
+  keyFile,
+  content,
 });

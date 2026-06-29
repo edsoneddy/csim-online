@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { colorPalette } from '../../styles/colorPalette';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateHistory } from '../../hooks/redux/menuActions';
+import { updateHistory } from '../../hooks/redux/appActions';
 import { getSimilarityIcon, getSimilarityColor } from '../../utils/results';
 
 const SessionHistory = () => {

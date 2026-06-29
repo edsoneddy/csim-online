@@ -4,6 +4,10 @@ import FilePanel from './FilePanel';
 import MultiResultsPanel from './MultiResultsPanel';
 
 const BulkEditor = () => {
+  const handleFileUploaded = (files) => {
+    console.log({ files });
+  };
+
   return (
     <Box
       sx={{
@@ -33,7 +37,7 @@ const BulkEditor = () => {
           justifyItems: 'center',
         }}
       >
-        <FilePanel />
+        <FilePanel onFileUploaded={handleFileUploaded} />
         <Toolbar orientation={{ xs: 'row', md: 'column' }} />
         <MultiResultsPanel />
       </Box>

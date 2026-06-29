@@ -44,3 +44,9 @@ export const UI_LABELS = {
 
 // Supported File Extensions
 export const SUPPORTED_EXTENSIONS = ['.py'];
+
+// File Manager
+export const CODE_1_KEY = 'code1';
+export const CODE_2_KEY = 'code2';
+export const FILE_1_KEY = 'file1';
+export const FILE_2_KEY = 'file2';

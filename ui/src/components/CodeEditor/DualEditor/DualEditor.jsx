@@ -1,28 +1,37 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Toolbar from '../Toolbar';
 import EditorPanel from './EditorPanel';
 import SingleResultsPanel from './SingleResultsPanel';
-import { defaultLanguage } from '../../../constants/ui';
+import {
+  defaultLanguage,
+  FILE_1_KEY,
+  FILE_2_KEY,
+} from '../../../constants/ui';
 import { createAnalysisPayload } from '../../../utils/analysisPayload';
 import { sendPostRequest } from '../../../utils/requestHandler';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateHistory } from '../../../hooks/redux/menuActions';
+import {
+  updateDualEditorFileByKey,
+  updateDualEditorFileContentByKey,
+  updateHistory,
+} from '../../../hooks/redux/appActions';
+import { debounce } from 'lodash';
 
 const DualEditor = () => {
-  const [code1, setCode1] = useState('');
-  const [code2, setCode2] = useState('');
   const [language, setLanguage] = useState(defaultLanguage);
-  const [file1, setFile1] = useState(null);
-  const [file2, setFile2] = useState(null);
+  const [file1, setFile1] = useState({});
+  const [file2, setFile2] = useState({});
   const [results, setResults] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [isCode1Modified, setIsCode1Modified] = useState(false);
-  const [isCode2Modified, setIsCode2Modified] = useState(false);
   const history = useSelector((state) => state.history);
   const dispatch = useDispatch();
+
+  // Load files from Redux store if they exist
+  const file1Stored = useSelector((state) => state.fileManager.dualEditorFiles[FILE_1_KEY]);
+  const file2Stored = useSelector((state) => state.fileManager.dualEditorFiles[FILE_2_KEY]);
 
   const editorOptions = {
     selectOnLineNumbers: true,
@@ -35,55 +44,68 @@ const DualEditor = () => {
     contextmenu: true,
   };
 
+  useEffect(() => {
+    if (file1Stored) {
+      setFile1(file1Stored);
+    }
+    if (file2Stored) {
+      setFile2(file2Stored);
+    }
+  }, [file1Stored, file2Stored]);
+
+  const debouncedUpdateFileContent = useMemo(
+    () =>
+      debounce((fileKey, newContent) => {
+        dispatch(updateDualEditorFileContentByKey(fileKey, newContent));
+      }, 500),
+    [dispatch]
+  );
+
   const handleCode1Change = (newValue) => {
-    setCode1(newValue);
-    setIsCode1Modified(true);
+    setFile1((prevFile) => ({ ...prevFile, content: newValue }));
+    debouncedUpdateFileContent(FILE_1_KEY, newValue);
   };
 
   const handleCode2Change = (newValue) => {
-    setCode2(newValue);
-    setIsCode2Modified(true);
+    setFile2((prevFile) => ({ ...prevFile, content: newValue }));
+    debouncedUpdateFileContent(FILE_2_KEY, newValue);
   };
 
-  const handleFile1Upload = (fileData) => {
+  const handleFile1Upload = (files) => {
+    const fileData = files[0];
     setFile1(fileData);
-    setCode1(fileData.content);
-    setIsCode1Modified(false);
+    dispatch(updateDualEditorFileByKey(FILE_1_KEY, fileData));
   };
 
-  const handleFile2Upload = (fileData) => {
+  const handleFile2Upload = (files) => {
+    const fileData = files[0];
     setFile2(fileData);
-    setCode2(fileData.content);
-    setIsCode2Modified(false);
+    dispatch(updateDualEditorFileByKey(FILE_2_KEY, fileData));
   };
 
   const handleClearEditor1 = () => {
-    setFile1(null);
-    setCode1('');
-    setIsCode1Modified(false);
+    setFile1({});
+    dispatch(updateDualEditorFileByKey(FILE_1_KEY, {}));
   };
 
   const handleClearEditor2 = () => {
-    setFile2(null);
-    setCode2('');
-    setIsCode2Modified(false);
+    setFile2({});
+    dispatch(updateDualEditorFileByKey(FILE_2_KEY, {}));
   };
 
   const handleClearAll = () => {
-    setFile1(null);
-    setFile2(null);
-    setCode1('');
-    setCode2('');
+    setFile1({});
+    setFile2({});
     setResults(null);
-    setIsCode1Modified(false);
-    setIsCode2Modified(false);
+    dispatch(updateDualEditorFileByKey(FILE_1_KEY, {}));
+    dispatch(updateDualEditorFileByKey(FILE_2_KEY, {}));
   };
 
   const handleAnalyze = async () => {
-    if (!code1 || !code2) return;
+    if (!file1?.content || !file2?.content) return;
 
     setIsAnalyzing(true);
-    const payload = createAnalysisPayload(language, code1, code2, file1, file2);
+    const payload = createAnalysisPayload(language, file1, file2);
     let apiResults = null;
     let historyItem = null;
     try {
@@ -94,7 +116,7 @@ const DualEditor = () => {
       apiResults = {
         similarity: similarityPercentage,
         matchingLines: 0,
-        totalLines: Math.max(code1.split('\n').length, code2.split('\n').length),
+        totalLines: Math.max(file1?.content.split('\n').length, file2?.content.split('\n').length),
         uniqueBlocks: 0,
         matchedBlocks: 0,
         details: `Analysis successfully completed`,
@@ -134,7 +156,7 @@ const DualEditor = () => {
     dispatch(updateHistory(newHistory));
   };
 
-  const canAnalyze = code1.trim().length > 0 && code2.trim().length > 0;
+  const canAnalyze = file1?.content?.trim().length > 0 && file2?.content?.trim().length > 0;
 
   return (
     <Box
@@ -161,14 +183,13 @@ const DualEditor = () => {
         }}
       >
         <EditorPanel
-          value={code1}
+          value={file1?.content}
           onChange={handleCode1Change}
           language={language}
           fileName={file1?.name}
           fileSize={file1?.size}
           editorOptions={editorOptions}
           onClear={handleClearEditor1}
-          isModified={isCode1Modified}
           onFileUploaded={handleFile1Upload}
         />
 
@@ -182,14 +203,13 @@ const DualEditor = () => {
         />
 
         <EditorPanel
-          value={code2}
+          value={file2?.content}
           onChange={handleCode2Change}
           language={language}
           fileName={file2?.name}
           fileSize={file2?.size}
           editorOptions={editorOptions}
           onClear={handleClearEditor2}
-          isModified={isCode2Modified}
           onFileUploaded={handleFile2Upload}
         />
       </Box>

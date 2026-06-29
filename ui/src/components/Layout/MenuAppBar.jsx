@@ -3,7 +3,7 @@ import { Menu as MenuIcon, ViewSidebar as ViewSidebarIcon } from '@mui/icons-mat
 import { AppBar as CustomAppBar } from '../../utils/menu';
 import { Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { openHistoryMenu, openSidebarMenu } from '../../hooks/redux/menuActions';
+import { openHistoryMenu, openSidebarMenu } from '../../hooks/redux/appActions';
 
 const MenuAppBar = () => {
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
