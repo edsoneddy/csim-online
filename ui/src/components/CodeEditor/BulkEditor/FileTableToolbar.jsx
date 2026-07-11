@@ -5,6 +5,11 @@ import TooltipIconButton from '../../Common/TooltipIconButton';
 import { useState } from 'react';
 import { colorPalette } from '../../../styles/colorPalette';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  removeFilesFromBulkEditor,
+  updateBulkEditorSelectedFiles,
+} from '../../../hooks/redux/appActions';
 
 const FileTableToolbar = ({
   numSelected,
@@ -15,6 +20,8 @@ const FileTableToolbar = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
+  const dispatch = useDispatch();
 
   const handleOpenPopover = (event) => setAnchorEl(event.currentTarget);
   const handleClosePopover = () => {
@@ -37,6 +44,11 @@ const FileTableToolbar = ({
       handleAddClick();
     }
   };
+  const handleClearSelectedFiles = () => {
+    const selectedIds = selected.map((file) => file.id);
+    dispatch(removeFilesFromBulkEditor(selectedIds));
+    dispatch(updateBulkEditorSelectedFiles([]));
+  };
   return (
     <Toolbar
       sx={{
@@ -50,7 +62,7 @@ const FileTableToolbar = ({
       {numSelected > 0 ? (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <TooltipIconButton
-            props={{ title: 'Delete' }}
+            props={{ title: 'View' }}
             sx={{
               p: 0,
               color: 'text.secondary',
@@ -63,7 +75,7 @@ const FileTableToolbar = ({
             <VisibilityIcon />
           </TooltipIconButton>
           <TooltipIconButton
-            props={{ title: 'Delete' }}
+            props={{ title: 'Delete', onClick: handleClearSelectedFiles }}
             sx={{
               p: 0,
               color: 'text.secondary',

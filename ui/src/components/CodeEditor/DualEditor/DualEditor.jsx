@@ -3,11 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Toolbar from '../Toolbar';
 import EditorPanel from './EditorPanel';
 import SingleResultsPanel from './SingleResultsPanel';
-import {
-  defaultLanguage,
-  FILE_1_KEY,
-  FILE_2_KEY,
-} from '../../../constants/ui';
+import { defaultLanguage, FILE_1_KEY, FILE_2_KEY } from '../../../constants/ui';
 import { createAnalysisPayload } from '../../../utils/analysisPayload';
 import { sendPostRequest } from '../../../utils/requestHandler';
 import { useDispatch, useSelector } from 'react-redux';

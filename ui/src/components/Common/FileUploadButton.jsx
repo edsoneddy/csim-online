@@ -3,7 +3,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useRef, forwardRef } from 'react';
 
 const FileUploadButton = forwardRef(
-  ({ onFileSelected, disabled = false, multiple = false, ...props }, ref) => {
+  ({ onFilesSelected, disabled = false, multiple = false, ...props }, ref) => {
     const fileInputRef = useRef(null);
 
     const handleFileChange = async (event) => {
@@ -13,8 +13,11 @@ const FileUploadButton = forwardRef(
       const filePromises = Array.from(files).map((file) => {
         return new Promise((resolve) => {
           const reader = new FileReader();
+          const dateNow = new Date();
           reader.onload = (e) => {
             resolve({
+              id: `${file.name}_${dateNow.getTime()}`,
+              date: dateNow.getTime(),
               name: file.name,
               content: e.target?.result || '',
               size: file.size,
@@ -27,7 +30,7 @@ const FileUploadButton = forwardRef(
 
       const processedFiles = await Promise.all(filePromises);
 
-      onFileSelected(processedFiles);
+      onFilesSelected(processedFiles);
 
       if (fileInputRef.current) {
         fileInputRef.current.value = '';

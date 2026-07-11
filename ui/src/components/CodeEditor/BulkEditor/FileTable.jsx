@@ -3,9 +3,9 @@ import { colorPalette } from '../../../styles/colorPalette';
 import FileTableToolbar from './FileTableToolbar';
 import FileTableHeader from './FileTableHeader';
 import FileTableRow from './FileTableRow';
+import { useSelector } from 'react-redux';
 
 const FileTable = ({
-  selected,
   page,
   setPage,
   rowsPerPage,
@@ -24,6 +24,7 @@ const FileTable = ({
   handleToggle,
   filteredFiles,
 }) => {
+  const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
   return (
     <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Paper
@@ -57,15 +58,18 @@ const FileTable = ({
 
         <Box sx={{ flexGrow: 1, overflowY: 'auto', overscrollBehavior: 'none' }}>
           <List disablePadding>
-            {visibleFiles.map((file, index) => (
-              <FileTableRow
-                key={file.id}
-                file={file}
-                isSelected={selected.includes(file.name)}
-                labelId={`checkbox-list-label-${index}`}
-                onToggle={handleToggle(file.name)}
-              />
-            ))}
+            {visibleFiles.map((file, index) => {
+              const isSelected = selected.some((selectedFile) => selectedFile.id === file.id);
+              return (
+                <FileTableRow
+                  key={file.id}
+                  file={file}
+                  isSelected={isSelected}
+                  labelId={`checkbox-list-label-${index}`}
+                  onToggle={handleToggle(file)}
+                />
+              );
+            })}
 
             {visibleFiles.length === 0 && (
               <Box sx={{ p: 3, textAlign: 'center' }}>

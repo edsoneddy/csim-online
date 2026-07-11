@@ -34,7 +34,7 @@ const FileTableRow = ({ file, isSelected, labelId, onToggle }) => (
           inputProps={{ 'aria-labelledby': labelId }}
         />
       </ListItemIcon>
-      <ListItemText id={labelId} primary={`Line item [${file.name}]`} />
+      <ListItemText id={labelId} primary={file.name} />
     </ListItemButton>
   </ListItem>
 );

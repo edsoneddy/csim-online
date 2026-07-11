@@ -5,24 +5,25 @@ import { useMemo, useState } from 'react';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileTable from './FileTable';
 import { getComparator } from '../../../utils/table';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addFilesToBulkEditor,
+  updateBulkEditorSelectedFiles,
+} from '../../../hooks/redux/appActions';
 
-const FilePanel = ({ onFileUploaded }) => {
-  const totalFiles = useMemo(
-    () =>
-      Array.from({ length: 200 }, (_, index) => ({
-        id: index + 1,
-        name: `File ${index + 1}`,
-        size: (index + 1) * 2,
-      })),
-    []
-  );
-
-  const [selected, setSelected] = useState([]);
+const FilePanel = () => {
+  const totalFiles = useSelector((state) => state.fileManager.bulkEditorFiles.files);
+  const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [activeFilters, setActiveFilters] = useState([]);
+  const dispatch = useDispatch();
+
+  const handleFileUploaded = (files) => {
+    dispatch(addFilesToBulkEditor(files));
+  };
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -34,7 +35,7 @@ const FilePanel = ({ onFileUploaded }) => {
     if (!activeFilters.includes(newFilterToken)) {
       setActiveFilters([...activeFilters, newFilterToken]);
       setPage(0);
-      setSelected([]);
+      dispatch(updateBulkEditorSelectedFiles([]));
     }
   };
 
@@ -56,19 +57,19 @@ const FilePanel = ({ onFileUploaded }) => {
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   }, [filteredFiles, order, orderBy, page, rowsPerPage]);
 
-  const handleToggle = (fileName) => () => {
-    const currentIndex = selected.indexOf(fileName);
+  const handleToggle = (file) => () => {
+    const currentIndex = selected.findIndex((f) => f.name === file.name);
     const newSelected = [...selected];
-    if (currentIndex === -1) newSelected.push(fileName);
+    if (currentIndex === -1) newSelected.push(file);
     else newSelected.splice(currentIndex, 1);
-    setSelected(newSelected);
+    dispatch(updateBulkEditorSelectedFiles(newSelected));
   };
 
   const handleSelectPageClick = () => {
     if (selected.length > 0) {
-      setSelected([]);
+      dispatch(updateBulkEditorSelectedFiles([]));
     } else {
-      setSelected(visibleFiles.map((f) => f.name));
+      dispatch(updateBulkEditorSelectedFiles(visibleFiles));
     }
   };
 
@@ -115,13 +116,12 @@ const FilePanel = ({ onFileUploaded }) => {
           sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
         />
         <TooltipIconButton props={{ title: 'Upload' }} asChild>
-          <FileUploadButton onFileSelected={onFileUploaded} multiple />
+          <FileUploadButton onFilesSelected={handleFileUploaded} multiple />
         </TooltipIconButton>
       </Box>
 
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
         <FileTable
-          selected={selected}
           page={page}
           setPage={setPage}
           rowsPerPage={rowsPerPage}
@@ -137,8 +137,8 @@ const FilePanel = ({ onFileUploaded }) => {
           visibleFiles={visibleFiles}
           handleToggle={handleToggle}
           filteredFiles={filteredFiles}
-          handleSelectAllGlobalClick={() => setSelected(filteredFiles.map((f) => f.name))}
-          handleClearSelection={() => setSelected([])}
+          handleSelectAllGlobalClick={() => dispatch(updateBulkEditorSelectedFiles(filteredFiles))}
+          handleClearSelection={() => dispatch(updateBulkEditorSelectedFiles([]))}
         />
       </Box>
     </Paper>

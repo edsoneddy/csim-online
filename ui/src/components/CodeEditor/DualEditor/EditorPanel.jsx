@@ -98,7 +98,7 @@ const EditorPanel = ({
           />
         </Stack>
         <TooltipIconButton props={{ title: 'Upload' }} asChild>
-          <FileUploadButton onFileSelected={onFileUploaded} />
+          <FileUploadButton onFilesSelected={onFileUploaded} />
         </TooltipIconButton>
         <TooltipIconButton props={{ title: 'Clear', onClick: onClear }}>
           <ClearIcon
