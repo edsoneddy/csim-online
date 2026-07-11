@@ -92,7 +92,9 @@ const FileTableHeader = ({
           onClick={() => onRequestSort('name')}
           sx={{ fontWeight: '600', '& .MuiTableSortLabel-icon': { color: 'text.secondary' } }}
         >
-          File Name
+          <Typography variant="body2" sx={{ fontWeight: '600', color: 'text.primary' }}>
+            File Name
+          </Typography>
         </TableSortLabel>
       </Box>
 

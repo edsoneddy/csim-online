@@ -17,6 +17,7 @@ const FileTableToolbar = ({
   onDeleteFilter,
   onApplyFilter,
   onClearAllFilters,
+  onViewSelected,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -53,23 +54,22 @@ const FileTableToolbar = ({
     <Toolbar
       sx={{
         bgcolor: numSelected > 0 ? colorPalette.table.toolbarActive : colorPalette.table.toolbar,
+        '&.MuiToolbar-root': {
+          paddingLeft: '16px',
+          paddingRight: '16px',
+        },
       }}
       variant="dense"
     >
       <Typography sx={{ flex: '1 1 100%' }} variant={numSelected > 0 ? 'subtitle1' : 'subtitle1'}>
-        {numSelected > 0 ? `${numSelected} selected` : 'Files'}
+        {numSelected > 0 ? `${numSelected} selected` : '0 selected'}
       </Typography>
       {numSelected > 0 ? (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <TooltipIconButton
-            props={{ title: 'View' }}
+            props={{ title: 'View', onClick: () => onViewSelected?.(selected) }}
             sx={{
               p: 0,
-              color: 'text.secondary',
-              '&:hover': {
-                color: 'primary.main',
-                bgcolor: 'action.hover',
-              },
             }}
           >
             <VisibilityIcon />
@@ -78,11 +78,6 @@ const FileTableToolbar = ({
             props={{ title: 'Delete', onClick: handleClearSelectedFiles }}
             sx={{
               p: 0,
-              color: 'text.secondary',
-              '&:hover': {
-                color: 'error.main',
-                bgcolor: 'action.hover',
-              },
             }}
           >
             <DeleteIcon />
@@ -90,10 +85,10 @@ const FileTableToolbar = ({
         </Box>
       ) : (
         <TooltipIconButton
-          props={{ title: 'Filter list', onClick: handleOpenPopover }}
+          props={{ title: 'Filter', onClick: handleOpenPopover }}
           sx={{
             p: 0,
-            color: isPopoverOpen || activeFilters.length > 0 ? 'primary.main' : 'text.secondary',
+            color: isPopoverOpen || activeFilters.length > 0 ? 'primary.main' : 'text.primary',
             bgcolor: isPopoverOpen ? 'action.selected' : 'transparent',
             borderRadius: '4px',
             transition: 'all 0.2s ease',

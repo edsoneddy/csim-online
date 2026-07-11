@@ -101,11 +101,7 @@ const EditorPanel = ({
           <FileUploadButton onFilesSelected={onFileUploaded} />
         </TooltipIconButton>
         <TooltipIconButton props={{ title: 'Clear', onClick: onClear }}>
-          <ClearIcon
-            sx={{
-              color: '#EF5350',
-            }}
-          />
+          <ClearIcon />
         </TooltipIconButton>
       </Box>
 

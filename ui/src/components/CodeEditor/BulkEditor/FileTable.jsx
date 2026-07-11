@@ -23,6 +23,7 @@ const FileTable = ({
   visibleFiles,
   handleToggle,
   filteredFiles,
+  onViewSelected,
 }) => {
   const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
   return (
@@ -43,6 +44,7 @@ const FileTable = ({
           onDeleteFilter={handleDeleteFilter}
           onApplyFilter={handleApplyFilter}
           onClearAllFilters={handleClearAllFilters}
+          onViewSelected={onViewSelected}
         />
 
         <FileTableHeader
