@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import Toolbar from '../Toolbar';
+import EditorToolbar from '../EditorToolbar';
 import FilePanel from './FilePanel';
 import MultiResultsPanel from './MultiResultsPanel';
+import { EDITOR_TYPES } from '../../../utils/toolbar';
 
 const BulkEditor = () => {
   return (
@@ -34,7 +35,7 @@ const BulkEditor = () => {
         }}
       >
         <FilePanel />
-        <Toolbar orientation={{ xs: 'row', md: 'column' }} />
+        <EditorToolbar orientation={{ xs: 'row', md: 'column' }} editorType={EDITOR_TYPES.BULK_EDITOR} />
         <MultiResultsPanel />
       </Box>
     </Box>

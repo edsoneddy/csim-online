@@ -65,7 +65,7 @@ const FileTableToolbar = ({
         {numSelected > 0 ? `${numSelected} selected` : '0 selected'}
       </Typography>
       {numSelected > 0 ? (
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <TooltipIconButton
             props={{ title: 'View', onClick: () => onViewSelected?.(selected) }}
             sx={{

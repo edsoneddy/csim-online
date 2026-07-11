@@ -1,6 +1,6 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import Toolbar from '../Toolbar';
+import EditorToolbar from '../EditorToolbar';
 import EditorPanel from './EditorPanel';
 import SingleResultsPanel from './SingleResultsPanel';
 import { defaultLanguage, FILE_1_KEY, FILE_2_KEY } from '../../../constants/ui';
@@ -13,6 +13,7 @@ import {
   updateHistory,
 } from '../../../hooks/redux/appActions';
 import { debounce } from 'lodash';
+import { EDITOR_TYPES } from '../../../utils/toolbar';
 
 const DualEditor = () => {
   const [language, setLanguage] = useState(defaultLanguage);
@@ -189,13 +190,14 @@ const DualEditor = () => {
           onFileUploaded={handleFile1Upload}
         />
 
-        <Toolbar
+        <EditorToolbar
           onAnalyze={handleAnalyze}
           onClear={handleClearAll}
           canAnalyze={canAnalyze}
           isAnalyzing={isAnalyzing}
           language={language}
           onLanguageChange={setLanguage}
+          editorType={EDITOR_TYPES.DUAL_EDITOR}
         />
 
         <EditorPanel

@@ -25,31 +25,8 @@ const getLanguageFromFileName = (fileName = '') => {
   const extension = fileName.split('.').pop()?.toLowerCase();
 
   switch (extension) {
-    case 'js':
-    case 'mjs':
-    case 'cjs':
-    case 'jsx':
-      return 'javascript';
-    case 'ts':
-    case 'tsx':
-      return 'typescript';
     case 'py':
       return 'python';
-    case 'json':
-      return 'json';
-    case 'html':
-      return 'html';
-    case 'css':
-      return 'css';
-    case 'md':
-      return 'markdown';
-    case 'yml':
-    case 'yaml':
-      return 'yaml';
-    case 'xml':
-      return 'xml';
-    case 'sh':
-      return 'shell';
     default:
       return 'plaintext';
   }
