@@ -10,6 +10,8 @@ import {
   REMOVE_FILES_FROM_BULK_EDITOR,
   ADD_FILES_TO_BULK_EDITOR,
   UPDATE_BULK_EDITOR_SELECTED_FILES,
+  REMOVE_ALL_FILES_FROM_BULK_EDITOR,
+  UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
 } from './appActionTypes';
 
 const initialState = {
@@ -24,10 +26,12 @@ const initialState = {
     dualEditorFiles: {
       [FILE_1_KEY]: {},
       [FILE_2_KEY]: {},
+      results: null,
     },
     bulkEditorFiles: {
       files: [],
       selected: [],
+      results: null,
     },
   },
 };
@@ -130,6 +134,29 @@ const appReducer = (state = initialState, action) => {
           bulkEditorFiles: {
             ...state.fileManager.bulkEditorFiles,
             selected: action.selectedFiles,
+          },
+        },
+      };
+    case REMOVE_ALL_FILES_FROM_BULK_EDITOR:
+      return {
+        ...state,
+        fileManager: {
+          ...state.fileManager,
+          bulkEditorFiles: {
+            ...state.fileManager.bulkEditorFiles,
+            files: [],
+            selected: [],
+          },
+        },
+      };
+    case UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY:
+      return {
+        ...state,
+        fileManager: {
+          ...state.fileManager,
+          [action.editorKey]: {
+            ...state.fileManager[action.editorKey],
+            results: action.results,
           },
         },
       };

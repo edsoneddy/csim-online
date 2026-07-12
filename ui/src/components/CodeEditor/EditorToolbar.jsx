@@ -7,8 +7,10 @@ import {
   CLEAR_BUTTON,
   EDITOR_TYPES,
   LANGUAGE_SELECT,
+  THRESHOLD_SLIDER,
   TOOLBAR_BUTTONS,
 } from '../../utils/toolbar';
+import InputSlider from '../Common/InputSlider';
 const EditorToolbar = ({
   editorType = EDITOR_TYPES.DUAL_EDITOR,
   onAnalyze,
@@ -17,6 +19,8 @@ const EditorToolbar = ({
   isAnalyzing = false,
   language,
   onLanguageChange,
+  threshold,
+  onThresholdChange,
 }) => {
   const getToolbarOption = (option) => {
     switch (option) {
@@ -73,6 +77,17 @@ const EditorToolbar = ({
           >
             Clear All
           </Button>
+        );
+      case THRESHOLD_SLIDER:
+        return (
+          <InputSlider
+            label="Threshold"
+            value={threshold}
+            onChange={onThresholdChange}
+            min={0}
+            max={1}
+            step={0.05}
+          />
         );
       default:
         return null;

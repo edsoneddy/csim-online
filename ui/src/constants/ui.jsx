@@ -19,6 +19,7 @@ export const sections = {
 export const defaultLanguage = 'python';
 export const languageField = 'Language';
 export const languageOptions = ['python'];
+export const defaultThreshold = 0.75;
 
 // UI Labels
 export const UI_LABELS = {

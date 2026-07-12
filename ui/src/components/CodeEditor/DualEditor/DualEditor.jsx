@@ -1,25 +1,23 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import EditorToolbar from '../EditorToolbar';
 import EditorPanel from './EditorPanel';
 import SingleResultsPanel from './SingleResultsPanel';
 import { defaultLanguage, FILE_1_KEY, FILE_2_KEY } from '../../../constants/ui';
-import { createAnalysisPayload } from '../../../utils/analysisPayload';
+import { createAnalyzePayload } from '../../../utils/analysisPayload';
 import { sendPostRequest } from '../../../utils/requestHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   updateDualEditorFileByKey,
   updateDualEditorFileContentByKey,
+  updateFileManagerResultsByEditorKey,
   updateHistory,
 } from '../../../hooks/redux/appActions';
 import { debounce } from 'lodash';
-import { EDITOR_TYPES } from '../../../utils/toolbar';
+import { DUAL_EDITOR_FILES_KEY, EDITOR_TYPES } from '../../../utils/toolbar';
 
 const DualEditor = () => {
   const [language, setLanguage] = useState(defaultLanguage);
-  const [file1, setFile1] = useState({});
-  const [file2, setFile2] = useState({});
-  const [results, setResults] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -27,8 +25,8 @@ const DualEditor = () => {
   const dispatch = useDispatch();
 
   // Load files from Redux store if they exist
-  const file1Stored = useSelector((state) => state.fileManager.dualEditorFiles[FILE_1_KEY]);
-  const file2Stored = useSelector((state) => state.fileManager.dualEditorFiles[FILE_2_KEY]);
+  const file1 = useSelector((state) => state.fileManager.dualEditorFiles[FILE_1_KEY]);
+  const file2 = useSelector((state) => state.fileManager.dualEditorFiles[FILE_2_KEY]);
 
   const editorOptions = {
     selectOnLineNumbers: true,
@@ -41,59 +39,42 @@ const DualEditor = () => {
     contextmenu: true,
   };
 
-  useEffect(() => {
-    if (file1Stored) {
-      setFile1(file1Stored);
-    }
-    if (file2Stored) {
-      setFile2(file2Stored);
-    }
-  }, [file1Stored, file2Stored]);
-
   const debouncedUpdateFileContent = useMemo(
     () =>
       debounce((fileKey, newContent) => {
         dispatch(updateDualEditorFileContentByKey(fileKey, newContent));
-      }, 500),
+      }, 250),
     [dispatch]
   );
 
   const handleCode1Change = (newValue) => {
-    setFile1((prevFile) => ({ ...prevFile, content: newValue }));
     debouncedUpdateFileContent(FILE_1_KEY, newValue);
   };
 
   const handleCode2Change = (newValue) => {
-    setFile2((prevFile) => ({ ...prevFile, content: newValue }));
     debouncedUpdateFileContent(FILE_2_KEY, newValue);
   };
 
   const handleFile1Upload = (files) => {
     const fileData = files[0];
-    setFile1(fileData);
     dispatch(updateDualEditorFileByKey(FILE_1_KEY, fileData));
   };
 
   const handleFile2Upload = (files) => {
     const fileData = files[0];
-    setFile2(fileData);
     dispatch(updateDualEditorFileByKey(FILE_2_KEY, fileData));
   };
 
   const handleClearEditor1 = () => {
-    setFile1({});
     dispatch(updateDualEditorFileByKey(FILE_1_KEY, {}));
   };
 
   const handleClearEditor2 = () => {
-    setFile2({});
     dispatch(updateDualEditorFileByKey(FILE_2_KEY, {}));
   };
 
   const handleClearAll = () => {
-    setFile1({});
-    setFile2({});
-    setResults(null);
+    dispatch(updateFileManagerResultsByEditorKey(DUAL_EDITOR_FILES_KEY, null));
     dispatch(updateDualEditorFileByKey(FILE_1_KEY, {}));
     dispatch(updateDualEditorFileByKey(FILE_2_KEY, {}));
   };
@@ -102,7 +83,7 @@ const DualEditor = () => {
     if (!file1?.content || !file2?.content) return;
 
     setIsAnalyzing(true);
-    const payload = createAnalysisPayload(language, file1, file2);
+    const payload = createAnalyzePayload(language, file1, file2);
     let apiResults = null;
     let historyItem = null;
     try {
@@ -148,7 +129,7 @@ const DualEditor = () => {
     } finally {
       setIsAnalyzing(false);
     }
-    setResults(apiResults);
+    dispatch(updateFileManagerResultsByEditorKey(DUAL_EDITOR_FILES_KEY, apiResults));
     const newHistory = [historyItem, ...history];
     dispatch(updateHistory(newHistory));
   };
@@ -212,7 +193,7 @@ const DualEditor = () => {
         />
       </Box>
 
-      <SingleResultsPanel results={results} isAnalyzing={isAnalyzing} />
+      <SingleResultsPanel isAnalyzing={isAnalyzing} />
     </Box>
   );
 };

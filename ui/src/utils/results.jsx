@@ -24,6 +24,11 @@ export const getSimilarityIcon = (similarity) => {
   return <CheckCircleIcon sx={{ color: colorPalette.status.success }} />;
 };
 
+export const getSimilarityIconForBulk = (success) => {
+  if (!success) return <ReportOffIcon sx={{ color: colorPalette.status.failed }} />;
+  return <CheckCircleIcon sx={{ color: colorPalette.status.success }} />;
+};
+
 export const getSimilarityLabel = (similarity) => {
   if (similarity === null) return 'Analysis Failed';
   if (similarity >= 75) return 'Critical Match';

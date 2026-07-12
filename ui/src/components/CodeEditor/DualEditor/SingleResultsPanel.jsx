@@ -9,8 +9,11 @@ import {
 } from '@mui/material';
 import { colorPalette } from '../../../styles/colorPalette';
 import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../../utils/results';
+import { useSelector } from 'react-redux';
 
-const SingleResultsPanel = ({ results = null, isAnalyzing = false }) => {
+const SingleResultsPanel = ({ isAnalyzing = false }) => {
+  const results = useSelector((state) => state.fileManager.dualEditorFiles.results);
+
   if (!results && !isAnalyzing) {
     return (
       <Paper

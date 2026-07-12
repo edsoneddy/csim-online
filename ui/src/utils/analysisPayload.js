@@ -1,7 +1,7 @@
 /**
  * Prepares the payload for the csim analysis API.
  */
-export const createAnalysisPayload = (language, file1, file2) => {
+export const createAnalyzePayload = (language, file1, file2) => {
   return {
     lang: language,
     threshold: 0.0,
@@ -16,4 +16,17 @@ export const createAnalysisPayload = (language, file1, file2) => {
       },
     ],
   };
+};
+
+export const createAnalyzeAllPayload = (language, files, threshold = 0.0) => {
+  const payload = {
+    lang: language,
+    threshold: threshold,
+    files: files.map((file) => ({
+      name: file.name || 'Untitled',
+      content: file.content,
+    })),
+  };
+
+  return payload;
 };

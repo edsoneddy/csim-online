@@ -9,6 +9,8 @@ import {
   ADD_FILES_TO_BULK_EDITOR,
   REMOVE_FILES_FROM_BULK_EDITOR,
   UPDATE_BULK_EDITOR_SELECTED_FILES,
+  REMOVE_ALL_FILES_FROM_BULK_EDITOR,
+  UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
 } from './appActionTypes';
 
 export const openSidebarMenu = () => ({
@@ -58,4 +60,14 @@ export const removeFilesFromBulkEditor = (fileIds) => ({
 export const updateBulkEditorSelectedFiles = (selectedFiles) => ({
   type: UPDATE_BULK_EDITOR_SELECTED_FILES,
   selectedFiles,
+});
+
+export const removeAllFilesFromBulkEditor = () => ({
+  type: REMOVE_ALL_FILES_FROM_BULK_EDITOR,
+});
+
+export const updateFileManagerResultsByEditorKey = (editorKey, results) => ({
+  type: UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
+  editorKey,
+  results,
 });
