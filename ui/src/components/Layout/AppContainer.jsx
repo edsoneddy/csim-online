@@ -10,6 +10,15 @@ const AppContainer = () => {
   const open = useSelector((state) => state.menu.isOpenHistoryMenu);
   const dispatch = useDispatch();
 
+  const handleCloseHistoryMenu = () => {
+    // Blur the active element to remove focus from any input fields or buttons
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    dispatch(openHistoryMenu());
+  };
+
   return (
     <>
       <CssBaseline />
@@ -37,7 +46,7 @@ const AppContainer = () => {
       <Drawer
         anchor={'right'}
         open={open}
-        onClose={() => dispatch(openHistoryMenu())}
+        onClose={handleCloseHistoryMenu}
         sx={{
           '& .MuiDrawer-paper': {
             top: '64px',

@@ -36,3 +36,9 @@ export const getSimilarityLabel = (similarity) => {
   if (similarity >= 25) return 'Medium Match';
   return 'Low Match';
 };
+
+export const RESULTS_STATUS = {
+  EMPTY: 'empty',
+  ERROR: 'error',
+  SUCCESS: 'success',
+};

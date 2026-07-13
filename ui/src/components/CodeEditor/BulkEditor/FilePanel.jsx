@@ -4,7 +4,6 @@ import FileUploadButton from '../../Common/FileUploadButton';
 import { useMemo, useState } from 'react';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileTable from './FileTable';
-import FileViewerDialog from './FileViewerDialog';
 import { getComparator } from '../../../utils/table';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -12,7 +11,7 @@ import {
   updateBulkEditorSelectedFiles,
 } from '../../../hooks/redux/appActions';
 
-const FilePanel = () => {
+const FilePanel = ({ onViewSelected }) => {
   const totalFiles = useSelector((state) => state.fileManager.bulkEditorFiles.files);
   const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
   const [page, setPage] = useState(0);
@@ -20,8 +19,6 @@ const FilePanel = () => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [activeFilters, setActiveFilters] = useState([]);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [viewerFiles, setViewerFiles] = useState([]);
   const dispatch = useDispatch();
 
   const handleFileUploaded = (files) => {
@@ -79,16 +76,6 @@ const FilePanel = () => {
   const handleClearAllFilters = () => {
     setActiveFilters([]);
     setPage(0);
-  };
-
-  const handleViewSelected = (filesToView) => {
-    if (!filesToView || filesToView.length === 0) return;
-    setViewerFiles(filesToView);
-    setIsViewerOpen(true);
-  };
-
-  const handleCloseViewer = () => {
-    setIsViewerOpen(false);
   };
 
   return (
@@ -152,11 +139,9 @@ const FilePanel = () => {
           filteredFiles={filteredFiles}
           handleSelectAllGlobalClick={() => dispatch(updateBulkEditorSelectedFiles(filteredFiles))}
           handleClearSelection={() => dispatch(updateBulkEditorSelectedFiles([]))}
-          onViewSelected={handleViewSelected}
+          onViewSelected={onViewSelected}
         />
       </Box>
-
-      <FileViewerDialog open={isViewerOpen} onClose={handleCloseViewer} files={viewerFiles} />
     </Paper>
   );
 };

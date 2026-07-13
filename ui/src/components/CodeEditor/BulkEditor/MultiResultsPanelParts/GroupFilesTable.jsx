@@ -18,7 +18,7 @@ const GroupFilesTable = ({ files }) => {
         <TableHead>
           <TableRow>
             <TableCell sx={{ color: '#8892B0', borderBottom: '1px solid #2D3748', py: 1.5 }}>
-              File Name
+              Name
             </TableCell>
             <TableCell sx={{ color: '#8892B0', borderBottom: '1px solid #2D3748', py: 1.5 }}>
               Size

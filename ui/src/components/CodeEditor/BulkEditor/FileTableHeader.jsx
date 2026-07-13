@@ -93,13 +93,13 @@ const FileTableHeader = ({
           sx={{ fontWeight: '600', '& .MuiTableSortLabel-icon': { color: 'text.secondary' } }}
         >
           <Typography variant="body2" sx={{ fontWeight: '600', color: 'text.primary' }}>
-            File Name
+            Name
           </Typography>
         </TableSortLabel>
       </Box>
 
       <Typography variant="body2" sx={{ fontWeight: '600', color: 'text.primary', pr: 1 }}>
-        File Size
+        Size
       </Typography>
     </Box>
   );

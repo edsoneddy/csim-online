@@ -13,10 +13,13 @@ import { createAnalyzeAllPayload } from '../../../utils/analysisPayload';
 import { useState } from 'react';
 import { defaultLanguage, defaultThreshold } from '../../../constants/ui';
 import { sendPostRequest } from '../../../utils/requestHandler';
+import FileViewerDialog from './FileViewerDialog';
 
 const BulkEditor = () => {
   const [language, setLanguage] = useState(defaultLanguage);
   const [threshold, setThreshold] = useState(defaultThreshold);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [viewerFiles, setViewerFiles] = useState([]);
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const dispatch = useDispatch();
@@ -57,10 +60,12 @@ const BulkEditor = () => {
     let apiResults = null;
     let historyItem = null;
     try {
-      const data = await sendPostRequest('/api/analyzeAll', payload);
+      dispatch(updateFileManagerResultsByEditorKey(BULK_EDITOR_FILES_KEY, null));
+      const data = await sendPostRequest('/api/analyze-all', payload);
       const similarity_groups = data.similarity_groups || [];
       const similarity_groups_avg = data.similarity_groups_avg || [];
       const unique_groups = data.unique_groups || [];
+      const printable_output = data.printable_output || '';
 
       const bulkSummary = getBulkSummary(
         similarity_groups,
@@ -74,11 +79,9 @@ const BulkEditor = () => {
         unique_groups: unique_groups,
         details: `Analysis successfully completed`,
         threshold: threshold,
-        files: selected.map((file) => ({
-          name: file.name || 'Untitled',
-          content: file.content,
-        })),
+        files: selected,
         success: true,
+        printable_output: printable_output,
       };
 
       historyItem = {
@@ -105,6 +108,7 @@ const BulkEditor = () => {
           content: file.content,
         })),
         success: false,
+        printable_output: '',
       };
       historyItem = {
         id: Date.now() + Math.floor(Math.random() * 1000),
@@ -127,6 +131,16 @@ const BulkEditor = () => {
   const handleClearAll = () => {
     dispatch(updateFileManagerResultsByEditorKey(BULK_EDITOR_FILES_KEY, null));
     dispatch(removeAllFilesFromBulkEditor());
+  };
+
+  const handleViewSelected = (filesToView) => {
+    if (!filesToView || filesToView.length === 0) return;
+    setViewerFiles(filesToView);
+    setIsViewerOpen(true);
+  };
+
+  const handleCloseViewer = () => {
+    setIsViewerOpen(false);
   };
 
   const canAnalyze = selected.length > 1;
@@ -160,7 +174,7 @@ const BulkEditor = () => {
           justifyItems: 'center',
         }}
       >
-        <FilePanel />
+        <FilePanel onViewSelected={handleViewSelected} />
         <EditorToolbar
           onClear={handleClearAll}
           isAnalyzing={isAnalyzing}
@@ -173,8 +187,9 @@ const BulkEditor = () => {
           onThresholdChange={setThreshold}
           canAnalyze={canAnalyze}
         />
-        <MultiResultsPanel isAnalyzing={isAnalyzing} />
+        <MultiResultsPanel isAnalyzing={isAnalyzing} onViewSelected={handleViewSelected} />
       </Box>
+      <FileViewerDialog open={isViewerOpen} onClose={handleCloseViewer} files={viewerFiles} />
     </Box>
   );
 };

@@ -7,12 +7,13 @@ import {
   ListItemText,
 } from '@mui/material';
 import { colorPalette } from '../../../styles/colorPalette';
+import { formatBytes } from './MultiResultsPanelParts/formatters';
 
 const FileTableRow = ({ file, isSelected, labelId, onToggle }) => (
   <ListItem
     secondaryAction={
       <Typography variant="body2" color="text.secondary">
-        {file.size} MB
+        {formatBytes(file.size)}
       </Typography>
     }
     sx={{

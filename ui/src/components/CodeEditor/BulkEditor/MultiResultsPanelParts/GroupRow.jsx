@@ -17,7 +17,7 @@ const getRiskMeta = (avg, isUnique) => {
   const avgPercentage = avg * 100;
   if (avgPercentage >= 90) {
     return {
-      riskLabel: 'High Risk',
+      riskLabel: 'High',
       borderColor: '#f44336',
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
@@ -25,20 +25,20 @@ const getRiskMeta = (avg, isUnique) => {
 
   if (avgPercentage >= 70) {
     return {
-      riskLabel: 'Medium Risk',
+      riskLabel: 'Medium',
       borderColor: '#ff9800',
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
   }
 
   return {
-    riskLabel: 'Low Risk',
+    riskLabel: 'Low',
     borderColor: '#4caf50',
     percentageText: `${avgPercentage.toFixed(1)}%`,
   };
 };
 
-const GroupRow = ({ fileNames, avg, isUnique, allFiles }) => {
+const GroupRow = ({ fileNames, avg, isUnique, allFiles, onViewSelected }) => {
   const [open, setOpen] = useState(false);
   const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique);
 
@@ -84,6 +84,7 @@ const GroupRow = ({ fileNames, avg, isUnique, allFiles }) => {
             height: 22,
             fontSize: '0.7rem',
             mr: 3,
+            minWidth: '62px',
           }}
         />
 
@@ -94,12 +95,14 @@ const GroupRow = ({ fileNames, avg, isUnique, allFiles }) => {
         <Button
           variant="outlined"
           size="small"
-          disabled
           startIcon={<VisibilityIcon />}
           sx={{ ml: 2, mr: 2, textTransform: 'none', borderColor: '#2D3748' }}
-          onClick={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation();
+            onViewSelected(groupFilesData);
+          }}
         >
-          View Diff
+          View
         </Button>
 
         <IconButton size="small" sx={{ color: '#8892B0' }}>

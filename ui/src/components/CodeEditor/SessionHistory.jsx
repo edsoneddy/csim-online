@@ -60,7 +60,7 @@ const SessionHistory = () => {
     return [
       { label: 'Unique Files', value: summary.uniqueFiles },
       { label: 'Copied Files', value: summary.copiedFiles },
-      { label: 'Threshold', value: `${summary.threshold}%` },
+      { label: 'Threshold', value: `${summary.threshold}` },
     ];
   };
 
@@ -152,7 +152,9 @@ const SessionHistory = () => {
                     label={item.success ? 'Success' : 'Failed'}
                     size="small"
                     sx={{
-                      backgroundColor: colorPalette.darkMode.textSecondary,
+                      backgroundColor: item.success
+                        ? colorPalette.status.success
+                        : colorPalette.status.error,
                       color: colorPalette.neutral.white,
                       fontWeight: 600,
                       height: 20,

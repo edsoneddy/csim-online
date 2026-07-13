@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from csim import Compare
+from csim.utils import group_by_exhaustive_search
 
 
 class FileItem(BaseModel):
@@ -68,4 +69,33 @@ def analyze_similarity(data: AnalysisRequest):
 
     return {
         "result": similarity_index,
+    }
+
+@app.post("/api/analyze-all")
+def analyze_similarity_all(data: AnalysisRequest):
+    if len(data.files) < 2:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="You must provide at least two files to compare similarity.",
+        )
+
+    language = data.lang
+    threshold = data.threshold
+    file_names = [file.name for file in data.files]
+    file_contents = [file.content for file in data.files]
+
+    similarity_groups, similarity_groups_avg, unique_groups, printable_output = group_by_exhaustive_search(
+        file_names=file_names,
+        file_contents=file_contents,
+        lang=language,
+        threshold=threshold,
+        ted_algorithm="apted",
+        printable_output=False
+    )
+
+    return {
+        "similarity_groups": similarity_groups,
+        "similarity_groups_avg": similarity_groups_avg,
+        "unique_groups": unique_groups,
+        "printable_output": printable_output
     }
