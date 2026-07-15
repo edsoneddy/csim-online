@@ -4,6 +4,7 @@ import FileTableToolbar from './FileTableToolbar';
 import FileTableHeader from './FileTableHeader';
 import FileTableRow from './FileTableRow';
 import { useSelector } from 'react-redux';
+import { PAGE_SIZE_OPTIONS } from '../../../utils/table';
 
 const FileTable = ({
   page,
@@ -84,7 +85,7 @@ const FileTable = ({
         </Box>
 
         <TablePagination
-          rowsPerPageOptions={[10, 25, 50, 100]}
+          rowsPerPageOptions={PAGE_SIZE_OPTIONS}
           component="div"
           count={filteredFiles.length}
           rowsPerPage={rowsPerPage}

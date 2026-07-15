@@ -3,7 +3,13 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 const TooltipIconButton = ({ props, children, asChild = false, sx = {} }) => {
-  const { title, placement = 'top', hiddenTooltip = false, onClick = () => {} } = props || {};
+  const {
+    title,
+    placement = 'top',
+    hiddenTooltip = false,
+    onClick = () => {},
+    disabled = false,
+  } = props || {};
 
   if (hiddenTooltip) {
     return children;
@@ -34,7 +40,7 @@ const TooltipIconButton = ({ props, children, asChild = false, sx = {} }) => {
       {asChild ? (
         children
       ) : (
-        <IconButton onClick={onClick} sx={sx}>
+        <IconButton onClick={onClick} sx={sx} disabled={disabled}>
           {children}
         </IconButton>
       )}
