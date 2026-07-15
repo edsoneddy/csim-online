@@ -15,3 +15,7 @@
 
 # deployment
 /dist
+
+# environment variables
+.env.local
+.env
