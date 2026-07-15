@@ -12,3 +12,6 @@
 
 # vite
 .vite
+
+# deployment
+/dist

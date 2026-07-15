@@ -21,7 +21,8 @@
     "globals": "^17.6.0",
     "knip": "^6.16.1",
     "prettier": "^3.8.3",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "gh-pages": "^6.0.0"
   },
   "scripts": {
     "dev": "vite",
@@ -30,7 +31,9 @@
     "format": "prettier --write \"src/**/*.{js,jsx,json,css}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx,json,css}\"",
     "lint": "eslint .",
-    "clean": "knip"
+    "clean": "knip",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "browserslist": {
     "production": [

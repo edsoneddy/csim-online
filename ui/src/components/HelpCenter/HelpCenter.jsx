@@ -19,15 +19,27 @@ const HelpCenter = () => {
       questions: [
         {
           q: 'How do I use CSIM Online?',
-          a: 'Simply upload or paste two code files, select the programming language, and click "Analyze". The tool will compare the files and show you the similarity score along with detailed statistics.',
+          a: 'To use CSIM Online, simply upload two code files or paste code into the provided editors. Select the programming language, and click "Analyze" to see the similarity results.',
         },
         {
           q: 'What programming languages are supported?',
-          a: 'Currently, we support Python. We are actively working on adding more languages like Java, C++, and JavaScript in the near future.',
+          a: 'Currently, we support Python, Java, and C++. We are actively working on adding more languages in the near future.',
         },
         {
           q: 'Can I paste code directly instead of uploading files?',
-          a: 'Yes! You can paste code directly into the left and right editors. No files needed. Just paste, select the language, and click Analyze.',
+          a: 'Yes! You can paste code directly into the provided text editors for both files in the "Dual Editor" section. Just make sure to select the correct programming language before analyzing.',
+        },
+        {
+          q: 'Can I analyze more than two files at once?',
+          a: 'Yes! You can analyze multiple files by uploading them in the "Bulk Editor" section. Just select the files you want to analyze, select the programming language, select a threshold, and the tool will compare them for similarities.',
+        },
+        {
+          q: 'What is the threshold for similarity detection?',
+          a: 'The threshold is a percentage value that determines how similar two code files must be to be considered a match. You can adjust the threshold in the "Bulk Editor" section before running the analysis. A lower threshold will result in more matches, while a higher threshold will yield fewer matches.',
+        },
+        {
+          q: 'Is there a limit to the number files for the "Bulk Editor"?',
+          a: 'Yes, there is a limit of 50 files per bulk analysis. If you need to analyze more files, please consider splitting them into smaller batches.',
         },
       ],
     },
@@ -37,15 +49,7 @@ const HelpCenter = () => {
       questions: [
         {
           q: 'What does the similarity percentage mean?',
-          a: 'The similarity percentage shows how much of the code matches between the two files. Higher percentage = more similar code. Green is low, Yellow is medium, Orange is high, and Red is critical similarity.',
-        },
-        {
-          q: 'What are "Matching Lines"?',
-          a: 'Matching Lines shows the total number of lines that are identical or very similar between both files. This helps identify duplicated code sections.',
-        },
-        {
-          q: 'What do "Matched Blocks" mean?',
-          a: 'Matched Blocks are segments of code that are identified as duplicates or similar. Each block represents a section of comparable code between the two files.',
+          a: 'The similarity percentage indicates how much of the code in both files is identical or very similar. A higher percentage suggests a greater degree of similarity, which may indicate potential plagiarism or code reuse.',
         },
       ],
     },
@@ -54,16 +58,8 @@ const HelpCenter = () => {
       icon: <BugReportIcon />,
       questions: [
         {
-          q: 'Can I navigate through detected matches?',
-          a: 'Yes! Use the "Previous" and "Next" buttons in the match navigation panel to jump between detected code similarities.',
-        },
-        {
-          q: 'Does CSIM save my analysis history?',
-          a: 'Yes! All analyses from your current session are saved in the "Session History" at the bottom. You can expand each item to see detailed statistics.',
-        },
-        {
           q: 'Can I download my results?',
-          a: 'The download and export features are available in the results panel. Click "Download Report" to get a detailed analysis report.',
+          a: 'The download and export features are available in the results panel. For now only available in the "Bulk Editor" section.',
         },
       ],
     },
@@ -77,7 +73,7 @@ const HelpCenter = () => {
         },
         {
           q: 'Should I analyze compiled or source code?',
-          a: 'Always use source code files (.py). Compiled code or executables cannot be properly analyzed for plagiarism detection.',
+          a: 'Always use source code files (.py, .cpp, .java). Compiled code or executables cannot be properly analyzed for plagiarism detection.',
         },
         {
           q: 'Can the tool detect obfuscated code?',
@@ -92,11 +88,17 @@ const HelpCenter = () => {
       title: 'How It Works',
       description: 'Learn how our comparison algorithm works',
       icon: <LocalLibraryIcon sx={{ fontSize: 40 }} />,
+      onClick: () => {
+        window.open('https://github.com/edsoneddy/csim/blob/main/docs/CodeSimilarity.md', '_blank');
+      },
     },
     {
       title: 'Supported Languages',
-      description: '14+ programming languages supported',
+      description: '3 programming languages supported',
       icon: <CodeIcon sx={{ fontSize: 40 }} />,
+      onClick: () => {
+        window.open('https://github.com/edsoneddy/csim/blob/main/GETTING_STARTED.md', '_blank');
+      },
     },
     {
       title: 'Understanding Results',
@@ -107,6 +109,9 @@ const HelpCenter = () => {
       title: 'Contact Support',
       description: 'Get help from our development team',
       icon: <VideoLibraryIcon sx={{ fontSize: 40 }} />,
+      onClick: () => {
+        window.open('https://github.com/edsoneddy/csim', '_blank');
+      },
     },
   ];
 
