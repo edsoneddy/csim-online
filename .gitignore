@@ -1,0 +1,9 @@
+# vs code settings
+.vscode
+
+# idea settings
+.idea
+
+# OS generated files
+.DS_Store
+Thumbs.db

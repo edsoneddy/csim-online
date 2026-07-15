@@ -1,0 +1,17 @@
+# dependencies
+/node_modules
+
+# production
+/build
+
+# vs code settings
+.vscode
+
+# idea settings
+.idea
+
+# vite
+.vite
+
+# deployment
+/dist
