@@ -1,6 +1,5 @@
 // Menu actions
 export const OPEN_SIDEBAR_MENU = 'OPEN_SIDEBAR_MENU';
-export const OPEN_LANGUAGE_MENU = 'OPEN_LANGUAGE_MENU';
 export const CHANGE_ACTUAL_CONTENT = 'CHANGE_ACTUAL_CONTENT';
 export const OPEN_HISTORY_MENU = 'OPEN_HISTORY_MENU';
 // History actions

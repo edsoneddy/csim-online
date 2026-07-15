@@ -1,7 +1,6 @@
 import { CODE_SECTION, FILE_1_KEY, FILE_2_KEY } from '../../constants/ui';
 import {
   OPEN_SIDEBAR_MENU,
-  OPEN_LANGUAGE_MENU,
   CHANGE_ACTUAL_CONTENT,
   OPEN_HISTORY_MENU,
   UPDATE_HISTORY,
@@ -49,14 +48,6 @@ const appReducer = (state = initialState, action) => {
         menu: {
           ...state.menu,
           isOpenSidebarMenu: !state.menu.isOpenSidebarMenu,
-        },
-      };
-    case OPEN_LANGUAGE_MENU:
-      return {
-        ...state,
-        menu: {
-          ...state.menu,
-          isOpenLanguageMenu: !state.menu.isOpenLanguageMenu,
         },
       };
     case CHANGE_ACTUAL_CONTENT:

@@ -4,6 +4,7 @@ import { useRef, forwardRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MAX_FILES_IN_BULK_EDITOR } from '../../utils/table';
 import { updateErrorDialog } from '../../hooks/redux/appActions';
+import { SUPPORTED_EXTENSIONS } from '../../constants/ui';
 
 const FileUploadButton = forwardRef(
   ({ onFilesSelected, disabled = false, multiple = false, ...props }, ref) => {
@@ -64,7 +65,7 @@ const FileUploadButton = forwardRef(
           type="file"
           onChange={handleFileChange}
           style={{ display: 'none' }}
-          accept=".py"
+          accept={SUPPORTED_EXTENSIONS.join(',')}
           disabled={disabled}
           multiple={multiple}
         />
