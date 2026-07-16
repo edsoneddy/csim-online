@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from csim import Compare
 from csim.utils import group_by_exhaustive_search
-
+import os
+import uvicorn
 
 class FileItem(BaseModel):
     name: str = Field(..., min_length=1, description="The name of the file")
@@ -30,7 +31,7 @@ app = FastAPI(title="CSIM Online API")
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "http://localhost",
+    "https://edsoneddy.github.io"
 ]
 
 app.add_middleware(
@@ -41,6 +42,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
 
 @app.get("/")
 def read_root():
