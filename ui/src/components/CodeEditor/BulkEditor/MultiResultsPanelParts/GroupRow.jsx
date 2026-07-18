@@ -9,7 +9,7 @@ const getRiskMeta = (avg, isUnique) => {
   if (isUnique) {
     return {
       riskLabel: 'Clean',
-      borderColor: '#4caf50',
+      borderColor: '#ffffff',
       percentageText: 'N/A',
     };
   }
