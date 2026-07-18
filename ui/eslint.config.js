@@ -2,6 +2,9 @@ import globals from "globals";
 
 export default [
   {
+    ignores: ["dist/", "node_modules/", "vite.config.js"]
+  },
+  {
     files: ["**/*.{js,jsx}"],
     
     languageOptions: {
