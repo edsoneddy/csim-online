@@ -9,7 +9,7 @@ import ErrorDialog from '../Common/ErrorDialog';
 
 const AppContainer = () => {
   const open = useSelector((state) => state.menu.isOpenHistoryMenu);
-  const errorDialogState = useSelector((state) => state.errorDialog);
+  const errorDialog = useSelector((state) => state.errorDialog);
 
   const dispatch = useDispatch();
 
@@ -59,8 +59,8 @@ const AppContainer = () => {
       >
         <SessionHistory />
       </Drawer>
-      {errorDialogState.open && (
-        <ErrorDialog open={errorDialogState.open} errorMessage={errorDialogState.message} />
+      {errorDialog.open && (
+        <ErrorDialog open={errorDialog.open} errorMessage={errorDialog.message} />
       )}
     </>
   );

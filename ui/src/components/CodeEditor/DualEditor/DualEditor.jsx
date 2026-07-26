@@ -193,7 +193,7 @@ const DualEditor = () => {
         />
       </Box>
 
-      <SingleResultsPanel isAnalyzing={isAnalyzing} />
+      <SingleResultsPanel isAnalyzing={isAnalyzing} files={[file1, file2]} />
     </Box>
   );
 };

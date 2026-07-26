@@ -35,7 +35,7 @@ const initialState = {
     },
   },
   errorDialog: {
-    isOpen: false,
+    open: false,
     message: '',
   },
 };

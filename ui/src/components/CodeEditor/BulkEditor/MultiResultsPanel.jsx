@@ -6,7 +6,7 @@ import AnalysisResultsState from './MultiResultsPanelParts/AnalysisResultsState'
 import { useSelector } from 'react-redux';
 import { RESULTS_STATUS } from '../../../utils/results';
 
-const MultiResultsPanel = ({ isAnalyzing, onViewSelected }) => {
+const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = () => {} }) => {
   const results = useSelector((state) => state.fileManager.bulkEditorFiles.results);
 
   if (!results?.success || !results) {
@@ -63,6 +63,7 @@ const MultiResultsPanel = ({ isAnalyzing, onViewSelected }) => {
               isUnique={false}
               allFiles={results.files}
               onViewSelected={onViewSelected}
+              onViewDiffSelected={onViewDiffSelected}
             />
           ))}
 

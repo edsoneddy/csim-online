@@ -20,42 +20,12 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Editor from '@monaco-editor/react';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../../styles/monacoTheme';
-
-const getLanguageFromFileName = (fileName = '') => {
-  const extension = fileName.split('.').pop()?.toLowerCase();
-
-  switch (extension) {
-    case 'py':
-      return 'python';
-    default:
-      return 'plaintext';
-  }
-};
-
-const formatFileSize = (bytes) => {
-  if (typeof bytes !== 'number' || Number.isNaN(bytes)) return 'Unknown size';
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(2)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-};
-
-const getLineCount = (content) => {
-  if (!content) return 0;
-  return content.split('\n').length;
-};
-
-const normalizeContent = (content) => {
-  if (typeof content === 'string') return content;
-  if (content == null) return '';
-  if (typeof content === 'object') {
-    try {
-      return JSON.stringify(content, null, 2);
-    } catch {
-      return String(content);
-    }
-  }
-  return String(content);
-};
+import {
+  getLanguageFromFileName,
+  formatFileSize,
+  getLineCount,
+  normalizeContent,
+} from '../../../utils/editor';
 
 const FileViewerDialog = ({ open, onClose, files = [] }) => {
   const [currentFileIndex, setCurrentFileIndex] = useState(0);

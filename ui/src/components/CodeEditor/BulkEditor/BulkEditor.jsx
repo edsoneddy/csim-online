@@ -14,12 +14,15 @@ import { useState } from 'react';
 import { defaultLanguage, defaultThreshold } from '../../../constants/ui';
 import { sendPostRequest } from '../../../utils/requestHandler';
 import FileViewerDialog from './FileViewerDialog';
+import FileDiffViewerDialog from '../FileDiffViewerDialog';
 
 const BulkEditor = () => {
   const [language, setLanguage] = useState(defaultLanguage);
   const [threshold, setThreshold] = useState(defaultThreshold);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [viewerFiles, setViewerFiles] = useState([]);
+  const [isDiffViewerOpen, setIsDiffViewerOpen] = useState(false);
+  const [diffViewerFiles, setDiffViewerFiles] = useState([]);
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const dispatch = useDispatch();
@@ -139,6 +142,12 @@ const BulkEditor = () => {
     setIsViewerOpen(true);
   };
 
+  const handleViewDiffSelected = (filesToView) => {
+    if (!filesToView || filesToView.length === 0) return;
+    setDiffViewerFiles(filesToView);
+    setIsDiffViewerOpen(true);
+  };
+
   const handleCloseViewer = () => {
     setIsViewerOpen(false);
   };
@@ -187,9 +196,18 @@ const BulkEditor = () => {
           onThresholdChange={setThreshold}
           canAnalyze={canAnalyze}
         />
-        <MultiResultsPanel isAnalyzing={isAnalyzing} onViewSelected={handleViewSelected} />
+        <MultiResultsPanel
+          isAnalyzing={isAnalyzing}
+          onViewSelected={handleViewSelected}
+          onViewDiffSelected={handleViewDiffSelected}
+        />
       </Box>
       <FileViewerDialog open={isViewerOpen} onClose={handleCloseViewer} files={viewerFiles} />
+      <FileDiffViewerDialog
+        open={isDiffViewerOpen}
+        onClose={() => setIsDiffViewerOpen(false)}
+        files={diffViewerFiles}
+      />
     </Box>
   );
 };

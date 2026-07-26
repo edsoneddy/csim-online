@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
-import { Box, Paper, Typography, Chip, Button, Collapse, IconButton } from '@mui/material';
+import { Box, Paper, Typography, Chip, Collapse, IconButton, Stack } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import GroupFilesTable from './GroupFilesTable';
+import TooltipIconButton from '../../../Common/TooltipIconButton';
+import DifferenceIcon from '@mui/icons-material/Difference';
 
 const getRiskMeta = (avg, isUnique) => {
   if (isUnique) {
@@ -38,7 +40,7 @@ const getRiskMeta = (avg, isUnique) => {
   };
 };
 
-const GroupRow = ({ fileNames, avg, isUnique, allFiles, onViewSelected }) => {
+const GroupRow = ({ fileNames, avg, isUnique, allFiles, onViewSelected, onViewDiffSelected }) => {
   const [open, setOpen] = useState(false);
   const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique);
 
@@ -92,18 +94,32 @@ const GroupRow = ({ fileNames, avg, isUnique, allFiles, onViewSelected }) => {
           {fileNames.length} {fileNames.length === 1 ? 'file' : 'files'}
         </Typography>
 
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<VisibilityIcon />}
-          sx={{ ml: 2, mr: 2, textTransform: 'none', borderColor: '#2D3748' }}
-          onClick={(event) => {
-            event.stopPropagation();
-            onViewSelected(groupFilesData);
-          }}
-        >
-          View
-        </Button>
+        <Stack direction="row">
+          {!isUnique && (
+            <TooltipIconButton
+              props={{
+                title: 'View Differences',
+                onClick: (event) => {
+                  event.stopPropagation();
+                  onViewDiffSelected(groupFilesData);
+                },
+              }}
+            >
+              <DifferenceIcon />
+            </TooltipIconButton>
+          )}
+          <TooltipIconButton
+            props={{
+              title: 'View Files',
+              onClick: (event) => {
+                event.stopPropagation();
+                onViewSelected(groupFilesData);
+              },
+            }}
+          >
+            <VisibilityIcon />
+          </TooltipIconButton>
+        </Stack>
 
         <IconButton size="small" sx={{ color: '#8892B0' }}>
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}

@@ -10,9 +10,18 @@ import {
 import { colorPalette } from '../../../styles/colorPalette';
 import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../../utils/results';
 import { useSelector } from 'react-redux';
+import TooltipIconButton from '../../Common/TooltipIconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import FileDiffViewerDialog from '../FileDiffViewerDialog';
+import { useState } from 'react';
 
-const SingleResultsPanel = ({ isAnalyzing = false }) => {
+const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
+  const [isDiffViewerOpen, setIsDiffViewerOpen] = useState(false);
   const results = useSelector((state) => state.fileManager.dualEditorFiles.results);
+
+  const handleOpenDiffViewer = () => {
+    setIsDiffViewerOpen(true);
+  };
 
   if (!results && !isAnalyzing) {
     return (
@@ -85,6 +94,9 @@ const SingleResultsPanel = ({ isAnalyzing = false }) => {
               {results.similarity !== null ? `${results.similarity.toFixed(1)}%` : 'N/A'}
             </Typography>
           </Box>
+          <TooltipIconButton props={{ title: 'View Differences', onClick: handleOpenDiffViewer }}>
+            <VisibilityIcon />
+          </TooltipIconButton>
           <Chip
             label={getSimilarityLabel(results.similarity)}
             sx={{
@@ -114,6 +126,11 @@ const SingleResultsPanel = ({ isAnalyzing = false }) => {
           {results.details}
         </Typography>
       </Box>
+      <FileDiffViewerDialog
+        open={isDiffViewerOpen}
+        onClose={() => setIsDiffViewerOpen(false)}
+        files={files}
+      />
     </Paper>
   );
 };

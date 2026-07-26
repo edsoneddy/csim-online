@@ -22,6 +22,11 @@ export const languageOptions = ['python', 'java', 'cpp'];
 // Supported File Extensions
 export const SUPPORTED_EXTENSIONS = ['.py', '.java', '.cpp'];
 export const defaultThreshold = 0.75;
+export const languageByExtension = {
+  py: 'python',
+  java: 'java',
+  cpp: 'cpp',
+};
 
 // File Manager
 export const FILE_1_KEY = 'file1';
