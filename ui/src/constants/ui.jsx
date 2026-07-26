@@ -28,6 +28,8 @@ export const languageByExtension = {
   cpp: 'cpp',
 };
 
+export const SUPPORTED_COMPRESSED_EXTENSIONS = ['.zip'];
+
 // File Manager
 export const FILE_1_KEY = 'file1';
 export const FILE_2_KEY = 'file2';

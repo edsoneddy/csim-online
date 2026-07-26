@@ -204,30 +204,25 @@ const SessionHistory = () => {
 
               <Collapse in={isExpanded} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
                 <Stack sx={{ p: 2, pt: 0, gap: 1, backgroundColor: colorPalette.darkMode.hover }}>
-                  {(isBulk
-                    ? bulkSummary
-                    : [
-                        { label: 'Matching Lines', value: item.matchingLines },
-                        { label: 'Total Lines', value: item.totalLines },
-                        { label: 'Matched Blocks', value: item.matchedBlocks },
-                      ]
-                  ).map((detail, idx) => (
-                    <Stack key={idx} direction="row" justifyContent="space-between">
-                      <Typography
-                        variant="caption"
-                        sx={{ color: colorPalette.darkMode.textSecondary }}
-                      >
-                        {detail.label}:
-                      </Typography>
-                      <Typography
-                        variant="caption"
-                        fontWeight={600}
-                        sx={{ color: colorPalette.darkMode.textPrimary }}
-                      >
-                        {detail.value || 0}
-                      </Typography>
-                    </Stack>
-                  ))}
+                  {(isBulk ? bulkSummary : [{ label: 'Total Lines', value: item.totalLines }]).map(
+                    (detail, idx) => (
+                      <Stack key={idx} direction="row" justifyContent="space-between">
+                        <Typography
+                          variant="caption"
+                          sx={{ color: colorPalette.darkMode.textSecondary }}
+                        >
+                          {detail.label}:
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          fontWeight={600}
+                          sx={{ color: colorPalette.darkMode.textPrimary }}
+                        >
+                          {detail.value || 0}
+                        </Typography>
+                      </Stack>
+                    )
+                  )}
                 </Stack>
               </Collapse>
             </ListItem>

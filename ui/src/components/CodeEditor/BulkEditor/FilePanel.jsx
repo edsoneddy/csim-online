@@ -10,6 +10,8 @@ import {
   addFilesToBulkEditor,
   updateBulkEditorSelectedFiles,
 } from '../../../hooks/redux/appActions';
+import FolderZipIcon from '@mui/icons-material/FolderZip';
+import { SUPPORTED_COMPRESSED_EXTENSIONS } from '../../../constants/ui';
 
 const FilePanel = ({ onViewSelected }) => {
   const totalFiles = useSelector((state) => state.fileManager.bulkEditorFiles.files);
@@ -115,8 +117,15 @@ const FilePanel = ({ onViewSelected }) => {
           variant="outlined"
           sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
         />
-        <TooltipIconButton props={{ title: 'Upload' }} asChild>
+        <TooltipIconButton props={{ title: 'Upload Files' }} asChild>
           <FileUploadButton onFilesSelected={handleFileUploaded} multiple />
+        </TooltipIconButton>
+        <TooltipIconButton props={{ title: 'Upload Zip File' }} asChild>
+          <FileUploadButton
+            onFilesSelected={handleFileUploaded}
+            icon={<FolderZipIcon />}
+            extensions={SUPPORTED_COMPRESSED_EXTENSIONS.join(',')}
+          />
         </TooltipIconButton>
       </Box>
 
