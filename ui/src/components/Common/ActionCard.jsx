@@ -1,6 +1,6 @@
-import { Paper, Typography, Link } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 
-const ActionCard = ({ title, description, actionText, actionHref, variant = 'primary' }) => {
+const ActionCard = ({ title, description, variant = 'primary' }) => {
   const bgColor = variant === 'primary' ? 'primary.main' : 'secondary.light';
   const textColor = variant === 'primary' ? 'primary.contrastText' : 'inherit';
 
@@ -21,22 +21,6 @@ const ActionCard = ({ title, description, actionText, actionHref, variant = 'pri
       <Typography variant="body2" sx={{ mb: 2 }}>
         {description}
       </Typography>
-      {actionText && (
-        <Link
-          href={actionHref || '#'}
-          sx={{
-            color: 'inherit',
-            textDecoration: 'underline',
-            fontWeight: 600,
-            cursor: 'pointer',
-            '&:hover': {
-              opacity: 0.8,
-            },
-          }}
-        >
-          {actionText}
-        </Link>
-      )}
     </Paper>
   );
 };

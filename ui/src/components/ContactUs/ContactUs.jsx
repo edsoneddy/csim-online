@@ -214,13 +214,6 @@ const ContactUs = () => {
           </Paper>
         </Grid>
       </Grid>
-
-      <ActionCard
-        title="Quick Question?"
-        description="Check our Help Center for immediate answers"
-        actionText="View FAQ"
-        variant="primary"
-      />
     </Container>
   );
 };
