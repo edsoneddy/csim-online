@@ -148,16 +148,35 @@ const DualEditor = () => {
     >
       <Box
         sx={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          width: '100%',
+          gap: 2,
+        }}
+      >
+        <EditorToolbar
+          onAnalyze={handleAnalyze}
+          onClear={handleClearAll}
+          canAnalyze={canAnalyze}
+          isAnalyzing={isAnalyzing}
+          language={language}
+          onLanguageChange={setLanguage}
+          editorType={EDITOR_TYPES.DUAL_EDITOR}
+        />
+      </Box>
+
+      <Box
+        sx={{
           display: 'grid',
           gridTemplateColumns: {
             xs: '1fr',
-            md: '1fr min-content 1fr',
+            md: '1fr 1fr',
           },
           gap: 2,
           flex: 1,
           minHeight: 0,
           width: '100%',
-          alignItems: 'center',
         }}
       >
         <EditorPanel
@@ -169,16 +188,6 @@ const DualEditor = () => {
           editorOptions={editorOptions}
           onClear={handleClearEditor1}
           onFileUploaded={handleFile1Upload}
-        />
-
-        <EditorToolbar
-          onAnalyze={handleAnalyze}
-          onClear={handleClearAll}
-          canAnalyze={canAnalyze}
-          isAnalyzing={isAnalyzing}
-          language={language}
-          onLanguageChange={setLanguage}
-          editorType={EDITOR_TYPES.DUAL_EDITOR}
         />
 
         <EditorPanel

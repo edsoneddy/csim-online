@@ -21,7 +21,7 @@ export const languageField = 'Language';
 export const languageOptions = ['python', 'java', 'cpp'];
 // Supported File Extensions
 export const SUPPORTED_EXTENSIONS = ['.py', '.java', '.cpp'];
-export const defaultThreshold = 0.75;
+export const defaultThreshold = 75;
 export const languageByExtension = {
   py: 'python',
   java: 'java',

@@ -11,7 +11,7 @@ import { colorPalette } from '../../../styles/colorPalette';
 import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../../utils/results';
 import { useSelector } from 'react-redux';
 import TooltipIconButton from '../../Common/TooltipIconButton';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import DifferenceIcon from '@mui/icons-material/Difference';
 import FileDiffViewerDialog from '../FileDiffViewerDialog';
 import { useState } from 'react';
 
@@ -23,18 +23,33 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
     setIsDiffViewerOpen(true);
   };
 
+  const basePaperStyles = {
+    p: 2,
+    backgroundColor: colorPalette.alpha.light,
+    width: '100%',
+    minWidth: 'fit-content',
+    minHeight: '90px',
+    height: 'auto',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  };
+
   if (!results && !isAnalyzing) {
     return (
       <Paper
         sx={{
-          p: 3,
-          textAlign: 'center',
-          backgroundColor: colorPalette.alpha.light,
+          ...basePaperStyles,
           border: `1px dashed ${colorPalette.darkMode.border}`,
-          minWidth: 'fit-content',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
+        <Typography
+          variant="body2"
+          sx={{ color: colorPalette.darkMode.textSecondary, textAlign: 'center' }}
+        >
           Load two files and click "Analyze" to see results
         </Typography>
       </Paper>
@@ -45,20 +60,14 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
     return (
       <Paper
         sx={{
-          p: 3,
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          gap: 2,
-          backgroundColor: colorPalette.alpha.light,
-          minWidth: 'fit-content',
-          height: { xs: '190px', md: '110px' },
-          boxSizing: 'border-box',
+          ...basePaperStyles,
           justifyContent: 'center',
           alignItems: 'center',
+          gap: 2,
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
-          <CircularProgress size={32} sx={{ color: colorPalette.primary.main }} />
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+          <CircularProgress size={28} sx={{ color: colorPalette.primary.main }} />
           <Typography
             variant="body2"
             sx={{ color: colorPalette.darkMode.textSecondary, fontWeight: 500 }}
@@ -73,36 +82,36 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
   return (
     <Paper
       sx={{
-        p: 3,
-        display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' },
-        gap: 2,
-        backgroundColor: colorPalette.alpha.light,
-        minWidth: 'fit-content',
-        height: { xs: '190px', md: '110px' },
-        boxSizing: 'border-box',
+        ...basePaperStyles,
+        gap: 3,
+        justifyContent: 'space-between',
       }}
     >
-      <Box sx={{ width: { xs: '100%', md: '50%' } }}>
-        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+      <Box sx={{ width: { xs: '100%', md: '50%' }, flex: 1 }}>
+        <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 1.5 }}>
           {getSimilarityIcon(results.similarity)}
           <Box sx={{ flex: 1 }}>
-            <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
+            <Typography
+              variant="caption"
+              sx={{ color: colorPalette.darkMode.textSecondary, display: 'block', lineHeight: 1.2 }}
+            >
               Overall Similarity
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2, mt: 0.5 }}>
               {results.similarity !== null ? `${results.similarity.toFixed(1)}%` : 'N/A'}
             </Typography>
           </Box>
           <TooltipIconButton props={{ title: 'View Differences', onClick: handleOpenDiffViewer }}>
-            <VisibilityIcon />
+            <DifferenceIcon fontSize="small" />
           </TooltipIconButton>
           <Chip
+            size="small"
             label={getSimilarityLabel(results.similarity)}
             sx={{
               backgroundColor: getSimilarityColor(results.similarity),
               color: colorPalette.neutral.white,
               fontWeight: 600,
+              fontSize: '0.75rem',
             }}
           />
         </Stack>
@@ -110,22 +119,44 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
           variant="determinate"
           value={results.similarity ?? 0}
           sx={{
-            backgroundColor: colorPalette.alpha.light,
+            height: 6,
+            borderRadius: 1,
+            backgroundColor: 'rgba(255, 255, 255, 0.05)',
             '& .MuiLinearProgress-bar': {
               backgroundColor: getSimilarityColor(results.similarity),
+              borderRadius: 1,
             },
           }}
         />
       </Box>
 
-      <Box sx={{ width: { xs: '100%', md: '50%' } }}>
-        <Typography variant="body2" sx={{ color: colorPalette.darkMode.textSecondary }}>
+      <Box
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          width: '50%',
+          flex: 1,
+          borderLeft: `1px solid ${colorPalette.darkMode.border}`,
+          pl: 3,
+        }}
+      >
+        <Typography
+          variant="caption"
+          sx={{ color: colorPalette.darkMode.textSecondary, display: 'block', mb: 0.5 }}
+        >
           Details
         </Typography>
-        <Typography variant="body2" sx={{ mt: 1, color: colorPalette.darkMode.textPrimary }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: colorPalette.darkMode.textPrimary,
+            fontWeight: 500,
+            wordBreak: 'break-word',
+          }}
+        >
           {results.details}
         </Typography>
       </Box>
+
       <FileDiffViewerDialog
         open={isDiffViewerOpen}
         onClose={() => setIsDiffViewerOpen(false)}

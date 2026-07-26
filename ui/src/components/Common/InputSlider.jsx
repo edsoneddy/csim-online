@@ -4,12 +4,13 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
 
-const InputSlider = ({ label, value, onChange, min, max, step }) => {
+const InputSlider = ({ label, value, onChange, min, max, step, fixed, suffix }) => {
   const handleChange = (event, newValue) => {
     onChange(newValue);
   };
 
-  const labelFixed = `${label} ${value.toFixed(2)}`;
+  const val = fixed ? value.toFixed(fixed) : value;
+  const labelFixed = `${label} ${val}${suffix ? `${suffix}` : ''}`;
 
   return (
     <FormControl variant="outlined" size="small" sx={{ minWidth: 120, width: '100%' }}>

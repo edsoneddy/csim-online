@@ -1,4 +1,4 @@
-import { Stack, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Stack, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { languageField, languageOptions } from '../../constants/ui';
@@ -84,9 +84,10 @@ const EditorToolbar = ({
             label="Threshold"
             value={threshold}
             onChange={onThresholdChange}
+            suffix="%"
             min={0}
-            max={1}
-            step={0.05}
+            max={100}
+            step={5}
           />
         );
       default:
@@ -96,20 +97,19 @@ const EditorToolbar = ({
 
   return (
     <Stack
-      spacing={1.5}
-      direction={{ xs: 'row', md: 'column' }}
+      spacing={2}
+      direction="row"
+      useFlexGap
+      flexWrap="wrap"
       sx={{
-        marginBottom: 'auto',
-        width: '100%',
+        width: 'auto',
         justifyContent: 'center',
         alignItems: 'center',
         '& .MuiButton-root': { whiteSpace: 'nowrap' },
       }}
     >
       {TOOLBAR_BUTTONS[editorType].map((option, index) => (
-        <Stack key={index} sx={{ width: '100%' }}>
-          {getToolbarOption(option)}
-        </Stack>
+        <Box key={index}>{getToolbarOption(option)}</Box>
       ))}
     </Stack>
   );

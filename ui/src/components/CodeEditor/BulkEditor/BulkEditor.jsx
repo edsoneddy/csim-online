@@ -59,7 +59,8 @@ const BulkEditor = () => {
 
   const handleAnalyze = async () => {
     setIsAnalyzing(true);
-    const payload = createAnalyzeAllPayload(language, selected, threshold);
+    const similarityThreshold = threshold / 100;
+    const payload = createAnalyzeAllPayload(language, selected, similarityThreshold);
     let apiResults = null;
     let historyItem = null;
     try {
@@ -166,28 +167,16 @@ const BulkEditor = () => {
     >
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            md: '1fr auto 1fr',
-          },
-          gridTemplateRows: {
-            xs: '1fr auto 1fr',
-            md: '1fr',
-          },
-          gap: 2,
-          flex: 1,
-          minHeight: 0,
-          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-start',
           alignItems: 'center',
-          justifyItems: 'center',
+          width: '100%',
+          gap: 2,
         }}
       >
-        <FilePanel onViewSelected={handleViewSelected} />
         <EditorToolbar
           onClear={handleClearAll}
           isAnalyzing={isAnalyzing}
-          orientation={{ xs: 'row', md: 'column' }}
           editorType={EDITOR_TYPES.BULK_EDITOR}
           onAnalyze={handleAnalyze}
           language={language}
@@ -196,12 +185,29 @@ const BulkEditor = () => {
           onThresholdChange={setThreshold}
           canAnalyze={canAnalyze}
         />
+      </Box>
+
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            md: '1fr 1fr',
+          },
+          gap: 2,
+          flex: 1,
+          minHeight: 0,
+          width: '100%',
+        }}
+      >
+        <FilePanel onViewSelected={handleViewSelected} />
         <MultiResultsPanel
           isAnalyzing={isAnalyzing}
           onViewSelected={handleViewSelected}
           onViewDiffSelected={handleViewDiffSelected}
         />
       </Box>
+
       <FileViewerDialog open={isViewerOpen} onClose={handleCloseViewer} files={viewerFiles} />
       <FileDiffViewerDialog
         open={isDiffViewerOpen}

@@ -108,7 +108,7 @@ const FilePanel = ({ onViewSelected }) => {
         <Stack direction="row" spacing={1} alignItems="center" sx={{ flex: 1 }}>
           <FolderOpenIcon />
           <Typography variant="caption" sx={{ fontWeight: 600, color: '#F0F4F8' }}>
-            {'Files Manager'}
+            {'File Manager'}
           </Typography>
         </Stack>
         <Chip
