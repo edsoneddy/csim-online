@@ -7,12 +7,12 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { updateErrorDialog } from '../../hooks/redux/appActions';
+import { updateInfoDialog } from '../../hooks/redux/appActions';
 
-const ErrorDialog = ({ open, errorMessage }) => {
+const InfoDialog = ({ open, errorMessage, header }) => {
   const dispatch = useDispatch();
   const handleClose = () => {
-    dispatch(updateErrorDialog(false, ''));
+    dispatch(updateInfoDialog(false, '', ''));
   };
   return (
     <Dialog
@@ -21,7 +21,7 @@ const ErrorDialog = ({ open, errorMessage }) => {
       aria-labelledby="error-dialog-title"
       aria-describedby="error-dialog-description"
     >
-      <DialogTitle>Error</DialogTitle>
+      <DialogTitle>{header || 'Information'}</DialogTitle>
       <DialogContent>
         <DialogContentText>{errorMessage}</DialogContentText>
       </DialogContent>
@@ -34,4 +34,4 @@ const ErrorDialog = ({ open, errorMessage }) => {
   );
 };
 
-export default ErrorDialog;
+export default InfoDialog;

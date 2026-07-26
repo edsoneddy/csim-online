@@ -5,11 +5,11 @@ import ContentBox from './ContentBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { openHistoryMenu } from '../../hooks/redux/appActions';
 import SessionHistory from '../CodeEditor/SessionHistory';
-import ErrorDialog from '../Common/ErrorDialog';
+import InfoDialog from '../Common/InfoDialog';
 
 const AppContainer = () => {
   const open = useSelector((state) => state.menu.isOpenHistoryMenu);
-  const errorDialog = useSelector((state) => state.errorDialog);
+  const infoDialog = useSelector((state) => state.infoDialog);
 
   const dispatch = useDispatch();
 
@@ -59,8 +59,12 @@ const AppContainer = () => {
       >
         <SessionHistory />
       </Drawer>
-      {errorDialog.open && (
-        <ErrorDialog open={errorDialog.open} errorMessage={errorDialog.message} />
+      {infoDialog.open && (
+        <InfoDialog
+          open={infoDialog.open}
+          errorMessage={infoDialog.message}
+          header={infoDialog.header}
+        />
       )}
     </>
   );

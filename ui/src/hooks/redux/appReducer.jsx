@@ -11,7 +11,7 @@ import {
   UPDATE_BULK_EDITOR_SELECTED_FILES,
   REMOVE_ALL_FILES_FROM_BULK_EDITOR,
   UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
-  UPDATE_ERROR_DIALOG,
+  UPDATE_INFO_DIALOG,
 } from './appActionTypes';
 
 const initialState = {
@@ -34,9 +34,10 @@ const initialState = {
       results: null,
     },
   },
-  errorDialog: {
+  infoDialog: {
     open: false,
     message: '',
+    header: '',
   },
 };
 
@@ -156,12 +157,13 @@ const appReducer = (state = initialState, action) => {
           },
         },
       };
-    case UPDATE_ERROR_DIALOG:
+    case UPDATE_INFO_DIALOG:
       return {
         ...state,
-        errorDialog: {
+        infoDialog: {
           open: action.open,
           message: action.message || '',
+          header: action.header || '',
         },
       };
     default:

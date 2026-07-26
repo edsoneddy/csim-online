@@ -14,11 +14,12 @@ import {
   Phone as PhoneIcon,
   LocationOn as LocationOnIcon,
   Send as SendIcon,
-  CheckCircle as CheckCircleIcon,
   X as XIcon,
 } from '@mui/icons-material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { PageHeader, ContactInfoCard, FormField } from '../Common';
+import { useDispatch } from 'react-redux';
+import { updateInfoDialog } from '../../hooks/redux/appActions';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -28,9 +29,9 @@ const ContactUs = () => {
     message: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
 
   const contactInfo = [
     {
@@ -136,20 +137,30 @@ const ContactUs = () => {
         body: submitData,
       });
 
-      setSubmitted(true);
       setFormData({
         name: '',
         email: '',
         subject: '',
         message: '',
       });
+      dispatch(
+        updateInfoDialog(
+          true,
+          'Your message has been submitted successfully.',
+          'Submission Successful'
+        )
+      );
     } catch (error) {
       console.error('Error submitting form:', error);
+      dispatch(
+        updateInfoDialog(
+          true,
+          'There was an error submitting your message. Please try again later.',
+          'Submission Error'
+        )
+      );
     } finally {
       setLoading(false);
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 5000);
     }
   };
 
@@ -192,12 +203,6 @@ const ContactUs = () => {
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
               Send us a Message
             </Typography>
-
-            {submitted && (
-              <Alert severity="success" icon={<CheckCircleIcon />} sx={{ mb: 3, borderRadius: 2 }}>
-                Thank you for your feedback! Your message has been sent successfully.
-              </Alert>
-            )}
 
             <Box
               component="form"

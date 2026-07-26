@@ -4,7 +4,7 @@ import { useRef, forwardRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import JSZip from 'jszip';
 import { MAX_FILES_IN_BULK_EDITOR } from '../../utils/table';
-import { updateErrorDialog } from '../../hooks/redux/appActions';
+import { updateInfoDialog } from '../../hooks/redux/appActions';
 import { SUPPORTED_EXTENSIONS } from '../../constants/ui';
 
 const FileUploadButton = forwardRef(
@@ -83,9 +83,10 @@ const FileUploadButton = forwardRef(
 
         if (filesLength + rawProcessedFiles.length > MAX_FILES_IN_BULK_EDITOR) {
           dispatch(
-            updateErrorDialog(
+            updateInfoDialog(
               true,
-              `You can only upload a maximum of ${MAX_FILES_IN_BULK_EDITOR} files in the bulk editor.`
+              `You can only upload a maximum of ${MAX_FILES_IN_BULK_EDITOR} files in the bulk editor.`,
+              'File Upload Limit Exceeded'
             )
           );
           return;
@@ -101,7 +102,14 @@ const FileUploadButton = forwardRef(
         onFilesSelected(finalFiles);
       } catch (error) {
         console.error('Error processing files:', error);
-        dispatch(updateErrorDialog(true, 'An error occurred while processing the selected files.'));
+        dispatch(
+          updateInfoDialog(
+            true,
+            'An error occurred while processing the selected files.',
+            'File Upload Error',
+            'An error occurred while processing the selected files.'
+          )
+        );
       } finally {
         if (fileInputRef.current) {
           fileInputRef.current.value = '';

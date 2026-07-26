@@ -10,7 +10,7 @@ import {
   UPDATE_BULK_EDITOR_SELECTED_FILES,
   REMOVE_ALL_FILES_FROM_BULK_EDITOR,
   UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
-  UPDATE_ERROR_DIALOG,
+  UPDATE_INFO_DIALOG,
 } from './appActionTypes';
 
 export const openSidebarMenu = () => ({
@@ -68,8 +68,9 @@ export const updateFileManagerResultsByEditorKey = (editorKey, results) => ({
   results,
 });
 
-export const updateErrorDialog = (open, message) => ({
-  type: UPDATE_ERROR_DIALOG,
+export const updateInfoDialog = (open, message, header) => ({
+  type: UPDATE_INFO_DIALOG,
   open,
   message,
+  header,
 });
