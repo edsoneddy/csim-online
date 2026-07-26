@@ -66,15 +66,16 @@ const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = (
               onViewDiffSelected={onViewDiffSelected}
             />
           ))}
-
-          <GroupRow
-            key={`unique-group`}
-            fileNames={results.unique_groups}
-            avg={0}
-            isUnique={true}
-            allFiles={results.files}
-            onViewSelected={onViewSelected}
-          />
+          {results.unique_groups?.length > 0 && (
+            <GroupRow
+              key={`unique-group`}
+              fileNames={results.unique_groups}
+              avg={0}
+              isUnique={true}
+              allFiles={results.files}
+              onViewSelected={onViewSelected}
+            />
+          )}
         </Box>
       </Box>
     </Paper>

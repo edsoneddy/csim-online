@@ -40,7 +40,14 @@ const getRiskMeta = (avg, isUnique) => {
   };
 };
 
-const GroupRow = ({ fileNames, avg, isUnique, allFiles, onViewSelected, onViewDiffSelected }) => {
+const GroupRow = ({
+  fileNames,
+  avg,
+  isUnique,
+  allFiles,
+  onViewSelected,
+  onViewDiffSelected = () => {},
+}) => {
   const [open, setOpen] = useState(false);
   const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique);
 
