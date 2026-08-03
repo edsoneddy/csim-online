@@ -19,6 +19,12 @@ import {
   VideoLibrary as VideoLibraryIcon,
   Code as CodeIcon,
   BugReport as BugReportIcon,
+  Memory as MemoryIcon,
+  AccessTime as AccessTimeIcon,
+  Storage as StorageIcon,
+  DataUsage as DataUsageIcon,
+  Shield as ShieldIcon,
+  Speed as SpeedIcon,
   LooksOne as LooksOneIcon,
   LooksTwo as LooksTwoIcon,
   Looks3 as Looks3Icon,
@@ -258,6 +264,88 @@ const HelpCenter = () => {
             </Card>
           </Grid>
         </Grid>
+      </Box>
+
+      <Box sx={{ mb: 6, mt: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>
+          CSIM Hosting
+        </Typography>
+        <Card sx={{ backgroundColor: 'background.paper', backgroundImage: 'none' }}>
+          <CardContent>
+            <Typography variant="h6" color="primary" gutterBottom>
+              Render Free Plan
+            </Typography>
+            <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+              CSIM is hosted on Render under the free plan.
+            </Typography>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
+                  Technical specifications
+                </Typography>
+                <List dense disablePadding>
+                  <ListItem disableGutters>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <MemoryIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="RAM: 512 MB" />
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <SpeedIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="CPU: 0.1 shared vCPU" />
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <StorageIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="Storage: Ephemeral and cleared on restart" />
+                  </ListItem>
+                </List>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
+                  Features and limits
+                </Typography>
+                <List dense disablePadding>
+                  <ListItem disableGutters>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <AccessTimeIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="Spin-down: Suspends after 15 minutes of inactivity, with a 30-50 second cold start" />
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <DataUsageIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="Monthly compute: 750 free hours" />
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <ShieldIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="SSL/TLS: Automatic, free certificates for custom domains and .onrender.com subdomains" />
+                  </ListItem>
+                </List>
+              </Grid>
+            </Grid>
+
+            <Paper
+              variant="outlined"
+              sx={{ mt: 2, p: 2, backgroundColor: 'action.hover', borderColor: 'divider' }}
+            >
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Note
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                512 MB of RAM are a good fit for FastAPI-based services.
+              </Typography>
+            </Paper>
+          </CardContent>
+        </Card>
       </Box>
 
       <Divider sx={{ mb: 5 }} />
