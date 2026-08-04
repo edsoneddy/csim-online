@@ -8,10 +8,12 @@ import {
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { updateInfoDialog } from '../../hooks/redux/appActions';
+import { blurActiveElement } from '../../utils/editor';
 
 const InfoDialog = ({ open, errorMessage, header }) => {
   const dispatch = useDispatch();
   const handleClose = () => {
+    blurActiveElement();
     dispatch(updateInfoDialog(false, '', ''));
   };
   return (

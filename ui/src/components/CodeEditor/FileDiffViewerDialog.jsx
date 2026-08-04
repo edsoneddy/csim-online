@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { DiffEditor } from '@monaco-editor/react';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../styles/monacoTheme';
 import {
+  blurActiveElement,
   getLanguageFromFileName,
   formatFileSize,
   getLineCount,
@@ -69,6 +70,11 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
     editor.updateOptions({ readOnly: true });
   };
 
+  const handleClose = () => {
+    blurActiveElement();
+    onClose();
+  };
+
   // Funciones simplificadas: simplemente actualizan el índice seleccionado
   const handleOriginalTabChange = (_event, newValue) => {
     setOriginalFileIndex(newValue);
@@ -81,7 +87,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       fullScreen={fullScreen}
       fullWidth
       maxWidth="xl"
@@ -114,7 +120,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
             </Typography>
           </Box>
 
-          <IconButton onClick={onClose} size="small" aria-label="close diff viewer">
+          <IconButton onClick={handleClose} size="small" aria-label="close diff viewer">
             <CloseIcon />
           </IconButton>
         </Stack>

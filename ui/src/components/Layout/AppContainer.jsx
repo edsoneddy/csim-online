@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openHistoryMenu } from '../../hooks/redux/appActions';
 import SessionHistory from '../CodeEditor/SessionHistory';
 import InfoDialog from '../Common/InfoDialog';
+import { blurActiveElement } from '../../utils/editor';
 
 const AppContainer = () => {
   const open = useSelector((state) => state.menu.isOpenHistoryMenu);
@@ -14,11 +15,7 @@ const AppContainer = () => {
   const dispatch = useDispatch();
 
   const handleCloseHistoryMenu = () => {
-    // Blur the active element to remove focus from any input fields or buttons
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-
+    blurActiveElement();
     dispatch(openHistoryMenu());
   };
 

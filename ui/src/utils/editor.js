@@ -31,3 +31,10 @@ export const normalizeContent = (content) => {
 };
 
 export const getFileLabel = (file, index) => file?.name || `File ${index + 1}`;
+
+// Blur the currently focused element
+export const blurActiveElement = () => {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+};

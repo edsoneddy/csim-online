@@ -21,6 +21,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Editor from '@monaco-editor/react';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../../styles/monacoTheme';
 import {
+  blurActiveElement,
   getLanguageFromFileName,
   formatFileSize,
   getLineCount,
@@ -56,6 +57,11 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
     editor.updateOptions({ readOnly: true });
   };
 
+  const handleClose = () => {
+    blurActiveElement();
+    onClose();
+  };
+
   const handleTabChange = (_event, newValue) => {
     setCurrentFileIndex(newValue);
   };
@@ -71,7 +77,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       fullScreen={fullScreen}
       fullWidth
       maxWidth="xl"
@@ -127,7 +133,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
             </Stack>
           )}
 
-          <IconButton onClick={onClose} size="small" aria-label="close viewer">
+          <IconButton onClick={handleClose} size="small" aria-label="close viewer">
             <CloseIcon />
           </IconButton>
         </Stack>

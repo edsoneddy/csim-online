@@ -4,6 +4,7 @@ import { AppBar as CustomAppBar } from '../../utils/menu';
 import { Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { openHistoryMenu, openSidebarMenu } from '../../hooks/redux/appActions';
+import { blurActiveElement } from '../../utils/editor';
 
 const MenuAppBar = () => {
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
@@ -24,6 +25,7 @@ const MenuAppBar = () => {
           color="inherit"
           aria-label="toggle drawer"
           onClick={() => {
+            blurActiveElement();
             dispatch(openSidebarMenu());
           }}
           size="small"
@@ -52,6 +54,7 @@ const MenuAppBar = () => {
           aria-label="language selector"
           size="small"
           onClick={() => {
+            blurActiveElement();
             dispatch(openHistoryMenu());
           }}
         >

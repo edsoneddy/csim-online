@@ -6,6 +6,7 @@ import JSZip from 'jszip';
 import { MAX_FILES_IN_BULK_EDITOR } from '../../utils/table';
 import { updateInfoDialog } from '../../hooks/redux/appActions';
 import { SUPPORTED_EXTENSIONS } from '../../constants/ui';
+import { blurActiveElement } from '../../utils/editor';
 
 const FileUploadButton = forwardRef(
   ({ onFilesSelected, disabled = false, multiple = false, icon, extensions, ...props }, ref) => {
@@ -82,6 +83,7 @@ const FileUploadButton = forwardRef(
         }
 
         if (filesLength + rawProcessedFiles.length > MAX_FILES_IN_BULK_EDITOR) {
+          blurActiveElement();
           dispatch(
             updateInfoDialog(
               true,
@@ -102,6 +104,7 @@ const FileUploadButton = forwardRef(
         onFilesSelected(finalFiles);
       } catch (error) {
         console.error('Error processing files:', error);
+        blurActiveElement();
         dispatch(
           updateInfoDialog(
             true,

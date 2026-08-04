@@ -19,6 +19,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { PageHeader, ContactInfoCard, FormField } from '../Common';
 import { useDispatch } from 'react-redux';
 import { updateInfoDialog } from '../../hooks/redux/appActions';
+import { blurActiveElement } from '../../utils/editor';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -142,6 +143,7 @@ const ContactUs = () => {
         subject: '',
         message: '',
       });
+      blurActiveElement();
       dispatch(
         updateInfoDialog(
           true,
@@ -151,6 +153,7 @@ const ContactUs = () => {
       );
     } catch (error) {
       console.error('Error submitting form:', error);
+      blurActiveElement();
       dispatch(
         updateInfoDialog(
           true,

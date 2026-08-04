@@ -15,6 +15,7 @@ import { defaultLanguage, defaultThreshold } from '../../../constants/ui';
 import { sendPostRequest } from '../../../utils/requestHandler';
 import FileViewerDialog from './FileViewerDialog';
 import FileDiffViewerDialog from '../FileDiffViewerDialog';
+import { blurActiveElement } from '../../../utils/editor';
 
 const BulkEditor = () => {
   const [language, setLanguage] = useState(defaultLanguage);
@@ -139,17 +140,20 @@ const BulkEditor = () => {
 
   const handleViewSelected = (filesToView) => {
     if (!filesToView || filesToView.length === 0) return;
+    blurActiveElement();
     setViewerFiles(filesToView);
     setIsViewerOpen(true);
   };
 
   const handleViewDiffSelected = (filesToView) => {
     if (!filesToView || filesToView.length === 0) return;
+    blurActiveElement();
     setDiffViewerFiles(filesToView);
     setIsDiffViewerOpen(true);
   };
 
   const handleCloseViewer = () => {
+    blurActiveElement();
     setIsViewerOpen(false);
   };
 
@@ -211,7 +215,10 @@ const BulkEditor = () => {
       <FileViewerDialog open={isViewerOpen} onClose={handleCloseViewer} files={viewerFiles} />
       <FileDiffViewerDialog
         open={isDiffViewerOpen}
-        onClose={() => setIsDiffViewerOpen(false)}
+        onClose={() => {
+          blurActiveElement();
+          setIsDiffViewerOpen(false);
+        }}
         files={diffViewerFiles}
       />
     </Box>

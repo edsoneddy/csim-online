@@ -14,12 +14,14 @@ import TooltipIconButton from '../../Common/TooltipIconButton';
 import DifferenceIcon from '@mui/icons-material/Difference';
 import FileDiffViewerDialog from '../FileDiffViewerDialog';
 import { useState } from 'react';
+import { blurActiveElement } from '../../../utils/editor';
 
 const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
   const [isDiffViewerOpen, setIsDiffViewerOpen] = useState(false);
   const results = useSelector((state) => state.fileManager.dualEditorFiles.results);
 
   const handleOpenDiffViewer = () => {
+    blurActiveElement();
     setIsDiffViewerOpen(true);
   };
 
@@ -159,7 +161,10 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
 
       <FileDiffViewerDialog
         open={isDiffViewerOpen}
-        onClose={() => setIsDiffViewerOpen(false)}
+        onClose={() => {
+          blurActiveElement();
+          setIsDiffViewerOpen(false);
+        }}
         files={files}
       />
     </Paper>

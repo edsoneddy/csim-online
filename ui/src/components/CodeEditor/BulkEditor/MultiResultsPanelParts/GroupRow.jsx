@@ -6,6 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import GroupFilesTable from './GroupFilesTable';
 import TooltipIconButton from '../../../Common/TooltipIconButton';
 import DifferenceIcon from '@mui/icons-material/Difference';
+import { blurActiveElement } from '../../../../utils/editor';
 
 const getRiskMeta = (avg, isUnique) => {
   if (isUnique) {
@@ -108,6 +109,7 @@ const GroupRow = ({
                 title: 'View Differences',
                 onClick: (event) => {
                   event.stopPropagation();
+                  blurActiveElement();
                   onViewDiffSelected(groupFilesData);
                 },
               }}
@@ -120,6 +122,7 @@ const GroupRow = ({
               title: 'View Files',
               onClick: (event) => {
                 event.stopPropagation();
+                blurActiveElement();
                 onViewSelected(groupFilesData);
               },
             }}
