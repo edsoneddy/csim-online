@@ -1,5 +1,4 @@
 import { Box, Typography, TablePagination, Paper, List } from '@mui/material';
-import { colorPalette } from '../../../styles/colorPalette';
 import FileTableToolbar from './FileTableToolbar';
 import FileTableHeader from './FileTableHeader';
 import FileTableRow from './FileTableRow';
@@ -98,7 +97,8 @@ const FileTable = ({
             setPage(0);
           }}
           sx={{
-            borderTop: `1px solid ${colorPalette?.table?.divider || '#2D3748'}`,
+            borderTop: '1px solid',
+            borderColor: 'divider',
             minHeight: '52px',
             boxSizing: 'border-box',
             '& .MuiTablePagination-toolbar': {

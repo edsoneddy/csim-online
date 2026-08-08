@@ -7,14 +7,14 @@ import GroupFilesTable from './GroupFilesTable';
 import TooltipIconButton from '../../../Common/TooltipIconButton';
 import DifferenceIcon from '@mui/icons-material/Difference';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/material/styles';
 import { blurActiveElement } from '../../../../utils/editor';
-import { colorPalette } from '../../../../styles/colorPalette';
 
-const getRiskMeta = (avg, isUnique, t) => {
+const getRiskMeta = (avg, isUnique, t, theme) => {
   if (isUnique) {
     return {
       riskLabel: t('bulkEditor.groupRow.riskClean'),
-      borderColor: colorPalette.status.success,
+      borderColor: theme.palette.success.main,
       percentageText: t('dualResults.notAvailable'),
     };
   }
@@ -23,7 +23,7 @@ const getRiskMeta = (avg, isUnique, t) => {
   if (avgPercentage >= 90) {
     return {
       riskLabel: t('bulkEditor.groupRow.riskHigh'),
-      borderColor: colorPalette.status.error,
+      borderColor: theme.palette.error.main,
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
   }
@@ -31,14 +31,14 @@ const getRiskMeta = (avg, isUnique, t) => {
   if (avgPercentage >= 70) {
     return {
       riskLabel: t('bulkEditor.groupRow.riskMedium'),
-      borderColor: colorPalette.status.alert,
+      borderColor: theme.palette.status.alert,
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
   }
 
   return {
     riskLabel: t('bulkEditor.groupRow.riskLow'),
-    borderColor: colorPalette.status.success,
+    borderColor: theme.palette.success.main,
     percentageText: `${avgPercentage.toFixed(1)}%`,
   };
 };
@@ -52,8 +52,9 @@ const GroupRow = ({
   onViewDiffSelected = () => {},
 }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique, t);
+  const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique, t, theme);
 
   const groupFilesData = useMemo(() => {
     return fileNames.map((name) => {
@@ -65,7 +66,7 @@ const GroupRow = ({
   return (
     <Paper
       sx={{
-        bgcolor: '#151A25',
+        bgcolor: 'background.default',
         border: '1px solid',
         borderColor: 'divider',
         borderLeft: `4px solid ${borderColor}`,

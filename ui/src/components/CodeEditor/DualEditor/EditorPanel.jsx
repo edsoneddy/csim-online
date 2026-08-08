@@ -2,7 +2,8 @@ import { Box, Paper, Chip, Typography, Stack } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useTranslation } from 'react-i18next';
-import { defineCSIMTheme, CSIM_THEME_NAME } from '../../../styles/monacoTheme';
+import { handleMonacoMount, monacoThemeNameFor } from '../../../styles/monacoTheme';
+import { useThemeMode } from '../../../theme/ThemeModeContext';
 import TooltipIconButton from '../../Common/TooltipIconButton';
 import FileUploadButton from '../../Common/FileUploadButton';
 
@@ -18,6 +19,7 @@ const EditorPanel = ({
   onFileUploaded,
 }) => {
   const { t } = useTranslation();
+  const { resolvedMode } = useThemeMode();
 
   const formatFileSize = (bytes) => {
     if (!bytes) return '';
@@ -27,8 +29,7 @@ const EditorPanel = ({
   };
 
   const handleEditorDidMount = (editor, monaco) => {
-    defineCSIMTheme(monaco);
-    monaco.editor.setTheme(CSIM_THEME_NAME);
+    handleMonacoMount(editor, monaco);
 
     if (editorOptions?.onMount) {
       editorOptions.onMount(editor, monaco);
@@ -135,7 +136,7 @@ const EditorPanel = ({
         <Editor
           height="100%"
           language={language}
-          theme={CSIM_THEME_NAME}
+          theme={monacoThemeNameFor(resolvedMode)}
           value={value}
           options={editorOptions}
           onMount={handleEditorDidMount}

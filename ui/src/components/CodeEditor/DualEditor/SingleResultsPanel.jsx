@@ -7,7 +7,7 @@ import {
   Chip,
   CircularProgress,
 } from '@mui/material';
-import { colorPalette } from '../../../styles/colorPalette';
+import { alpha, useTheme } from '@mui/material/styles';
 import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../../utils/results';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ import { blurActiveElement } from '../../../utils/editor';
 
 const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [isDiffViewerOpen, setIsDiffViewerOpen] = useState(false);
   const results = useSelector((state) => state.fileManager.dualEditorFiles.results);
 
@@ -29,7 +30,7 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
 
   const basePaperStyles = {
     p: 2,
-    backgroundColor: colorPalette.alpha.light,
+    backgroundColor: alpha(theme.palette.primary.main, 0.1),
     width: '100%',
     minWidth: 'fit-content',
     minHeight: '90px',
@@ -45,15 +46,13 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
       <Paper
         sx={{
           ...basePaperStyles,
-          border: `1px dashed ${colorPalette.darkMode.border}`,
+          border: '1px dashed',
+          borderColor: 'divider',
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
-        <Typography
-          variant="body2"
-          sx={{ color: colorPalette.darkMode.textSecondary, textAlign: 'center' }}
-        >
+        <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'center' }}>
           {t('dualResults.empty')}
         </Typography>
       </Paper>
@@ -71,11 +70,8 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-          <CircularProgress size={28} sx={{ color: colorPalette.primary.main }} />
-          <Typography
-            variant="body2"
-            sx={{ color: colorPalette.darkMode.textSecondary, fontWeight: 500 }}
-          >
+          <CircularProgress size={28} sx={{ color: 'primary.main' }} />
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
             {t('dualResults.loading')}
           </Typography>
         </Box>
@@ -97,7 +93,7 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
           <Box sx={{ flex: 1 }}>
             <Typography
               variant="caption"
-              sx={{ color: colorPalette.darkMode.textSecondary, display: 'block', lineHeight: 1.2 }}
+              sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.2 }}
             >
               {t('dualResults.overallSimilarity')}
             </Typography>
@@ -117,7 +113,7 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
             label={getSimilarityLabel(results.similarity)}
             sx={{
               backgroundColor: getSimilarityColor(results.similarity),
-              color: colorPalette.neutral.white,
+              color: theme.palette.common.white,
               fontWeight: 600,
               fontSize: '0.75rem',
             }}
@@ -129,7 +125,7 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
           sx={{
             height: 6,
             borderRadius: 1,
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            backgroundColor: alpha(theme.palette.text.primary, 0.08),
             '& .MuiLinearProgress-bar': {
               backgroundColor: getSimilarityColor(results.similarity),
               borderRadius: 1,
@@ -143,20 +139,18 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
           display: { xs: 'none', md: 'block' },
           width: '50%',
           flex: 1,
-          borderLeft: `1px solid ${colorPalette.darkMode.border}`,
+          borderLeft: '1px solid',
+          borderColor: 'divider',
           pl: 3,
         }}
       >
-        <Typography
-          variant="caption"
-          sx={{ color: colorPalette.darkMode.textSecondary, display: 'block', mb: 0.5 }}
-        >
+        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5 }}>
           {t('dualResults.details')}
         </Typography>
         <Typography
           variant="body2"
           sx={{
-            color: colorPalette.darkMode.textPrimary,
+            color: 'text.primary',
             fontWeight: 500,
             wordBreak: 'break-word',
           }}

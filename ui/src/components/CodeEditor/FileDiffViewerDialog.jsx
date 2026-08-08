@@ -17,7 +17,8 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { DiffEditor } from '@monaco-editor/react';
 import { useTranslation } from 'react-i18next';
-import { defineCSIMTheme, CSIM_THEME_NAME } from '../../styles/monacoTheme';
+import { handleMonacoMount, monacoThemeNameFor } from '../../styles/monacoTheme';
+import { useThemeMode } from '../../theme/ThemeModeContext';
 import {
   blurActiveElement,
   getLanguageFromFileName,
@@ -29,6 +30,7 @@ import {
 
 const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
   const { t } = useTranslation();
+  const { resolvedMode } = useThemeMode();
   const [originalFileIndex, setOriginalFileIndex] = useState(0);
   const [modifiedFileIndex, setModifiedFileIndex] = useState(1);
   const theme = useTheme();
@@ -67,8 +69,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
   );
 
   const handleEditorDidMount = (editor, monaco) => {
-    defineCSIMTheme(monaco);
-    monaco.editor.setTheme(CSIM_THEME_NAME);
+    handleMonacoMount(editor, monaco);
     editor.updateOptions({ readOnly: true });
   };
 
@@ -244,7 +245,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
                 language={originalLanguage}
                 originalLanguage={originalLanguage}
                 modifiedLanguage={modifiedLanguage}
-                theme={CSIM_THEME_NAME}
+                theme={monacoThemeNameFor(resolvedMode)}
                 original={originalContent}
                 modified={modifiedContent}
                 options={{

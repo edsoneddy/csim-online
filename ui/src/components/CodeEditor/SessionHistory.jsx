@@ -10,11 +10,12 @@ import {
   ListItemText,
   ListItemIcon,
   Stack,
+  useTheme,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
-import { colorPalette } from '../../styles/colorPalette';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { updateHistory } from '../../hooks/redux/appActions';
@@ -27,6 +28,7 @@ import { TYPE_OF_ANALYSIS } from '../../utils/toolbar';
 
 const SessionHistory = () => {
   const { t, i18n } = useTranslation();
+  const theme = useTheme();
   const [expandedId, setExpandedId] = useState(null);
   const dispatch = useDispatch();
   const history = useSelector((state) => state.history);
@@ -75,7 +77,7 @@ const SessionHistory = () => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: colorPalette.alpha.light,
+        backgroundColor: alpha(theme.palette.primary.main, 0.1),
       }}
       role="presentation"
     >
@@ -85,7 +87,8 @@ const SessionHistory = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: `1px solid ${colorPalette.darkMode.border}`,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
         }}
       >
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -101,8 +104,8 @@ const SessionHistory = () => {
             textTransform: 'none',
             fontSize: '0.75rem',
             fontWeight: 400,
-            color: colorPalette.darkMode.textSecondary,
-            '&:hover': { color: colorPalette.status.error, backgroundColor: 'transparent' },
+            color: 'text.secondary',
+            '&:hover': { color: 'error.main', backgroundColor: 'transparent' },
           }}
         >
           {t('sessionHistory.clearAll')}
@@ -122,7 +125,7 @@ const SessionHistory = () => {
               sx={{
                 flexDirection: 'column',
                 alignItems: 'stretch',
-                backgroundColor: isExpanded ? colorPalette.darkMode.hover : 'transparent',
+                backgroundColor: isExpanded ? 'action.selected' : 'transparent',
               }}
             >
               <Stack
@@ -159,7 +162,7 @@ const SessionHistory = () => {
                   }}
                   secondaryTypographyProps={{
                     variant: 'caption',
-                    sx: { color: colorPalette.darkMode.textSecondary },
+                    sx: { color: 'text.secondary' },
                   }}
                 />
 
@@ -168,10 +171,8 @@ const SessionHistory = () => {
                     label={item.success ? t('sessionHistory.success') : t('sessionHistory.failed')}
                     size="small"
                     sx={{
-                      backgroundColor: item.success
-                        ? colorPalette.status.success
-                        : colorPalette.status.error,
-                      color: colorPalette.neutral.white,
+                      backgroundColor: item.success ? 'success.main' : 'error.main',
+                      color: theme.palette.common.white,
                       fontWeight: 600,
                       height: 20,
                       fontSize: '0.70rem',
@@ -188,7 +189,7 @@ const SessionHistory = () => {
                     size="small"
                     sx={{
                       backgroundColor: getSimilarityColor(item.similarity),
-                      color: colorPalette.neutral.white,
+                      color: theme.palette.common.white,
                       fontWeight: 600,
                       height: 20,
                       fontSize: '0.70rem',
@@ -203,8 +204,8 @@ const SessionHistory = () => {
                     onClick={() => handleDelete(index)}
                     aria-label={t('sessionHistory.deleteItem')}
                     sx={{
-                      color: colorPalette.status.error,
-                      '&:hover': { backgroundColor: colorPalette.alpha.light },
+                      color: 'error.main',
+                      '&:hover': { backgroundColor: alpha(theme.palette.primary.main, 0.1) },
                     }}
                   >
                     <DeleteIcon fontSize="small" />
@@ -225,7 +226,7 @@ const SessionHistory = () => {
                       sx={{
                         transition: 'transform 0.2s',
                         transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                        color: colorPalette.darkMode.textSecondary,
+                        color: 'text.secondary',
                       }}
                     />
                   </IconButton>
@@ -233,23 +234,16 @@ const SessionHistory = () => {
               </Stack>
 
               <Collapse in={isExpanded} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
-                <Stack sx={{ p: 2, pt: 0, gap: 1, backgroundColor: colorPalette.darkMode.hover }}>
+                <Stack sx={{ p: 2, pt: 0, gap: 1, backgroundColor: 'action.selected' }}>
                   {(isBulk
                     ? bulkSummary
                     : [{ label: t('sessionHistory.totalLines'), value: item.totalLines }]
                   ).map((detail, idx) => (
                     <Stack key={idx} direction="row" justifyContent="space-between">
-                      <Typography
-                        variant="caption"
-                        sx={{ color: colorPalette.darkMode.textSecondary }}
-                      >
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                         {detail.label}:
                       </Typography>
-                      <Typography
-                        variant="caption"
-                        fontWeight={600}
-                        sx={{ color: colorPalette.darkMode.textPrimary }}
-                      >
+                      <Typography variant="caption" fontWeight={600} sx={{ color: 'text.primary' }}>
                         {detail.value || 0}
                       </Typography>
                     </Stack>

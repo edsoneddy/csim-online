@@ -1,7 +1,6 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
-import { colorPalette } from '../../../../styles/colorPalette';
 
 const ResultsStats = ({ totalGroups, totalSuspicious, totalUnique }) => {
   const { t } = useTranslation();
@@ -18,13 +17,13 @@ const ResultsStats = ({ totalGroups, totalSuspicious, totalUnique }) => {
       label: t('bulkEditor.resultsStats.suspiciousClusters'),
       value: totalSuspicious,
       caption: t('bulkEditor.resultsStats.highSimilarityGroups'),
-      color: colorPalette.status.warning,
+      color: theme.palette.warning.main,
     },
     {
       label: t('bulkEditor.resultsStats.uniqueFiles'),
       value: totalUnique,
       caption: t('bulkEditor.resultsStats.filesWithNoMatches'),
-      color: colorPalette.status.success,
+      color: theme.palette.success.main,
     },
   ];
 

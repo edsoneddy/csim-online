@@ -23,6 +23,14 @@
       "es": "Español"
     }
   },
+  "theme": {
+    "switcherLabel": "Cambiar tema",
+    "modes": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    }
+  },
   "editor": {
     "tabs": {
       "dual": "Editor Dual",

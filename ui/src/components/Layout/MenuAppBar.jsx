@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { openHistoryMenu, openSidebarMenu } from '../../hooks/redux/appActions';
 import { blurActiveElement } from '../../utils/editor';
 import LanguageSwitcher from './LanguageSwitcher';
+import ThemeToggle from './ThemeToggle';
 
 const MenuAppBar = () => {
   const { t } = useTranslation();
@@ -55,6 +56,7 @@ const MenuAppBar = () => {
           {t('app.title')}
         </Typography>
         <LanguageSwitcher />
+        <ThemeToggle />
         <IconButton
           color="inherit"
           aria-label={t('layout.appBar.openSessionHistory')}

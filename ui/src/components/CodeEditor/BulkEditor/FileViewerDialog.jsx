@@ -20,7 +20,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Editor from '@monaco-editor/react';
 import { useTranslation } from 'react-i18next';
-import { defineCSIMTheme, CSIM_THEME_NAME } from '../../../styles/monacoTheme';
+import { handleMonacoMount, monacoThemeNameFor } from '../../../styles/monacoTheme';
+import { useThemeMode } from '../../../theme/ThemeModeContext';
 import {
   blurActiveElement,
   getLanguageFromFileName,
@@ -31,6 +32,7 @@ import {
 
 const FileViewerDialog = ({ open, onClose, files = [] }) => {
   const { t } = useTranslation();
+  const { resolvedMode } = useThemeMode();
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -54,8 +56,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
   }, [currentFileIndex, files.length, open]);
 
   const handleEditorDidMount = (editor, monaco) => {
-    defineCSIMTheme(monaco);
-    monaco.editor.setTheme(CSIM_THEME_NAME);
+    handleMonacoMount(editor, monaco);
     editor.updateOptions({ readOnly: true });
   };
 
@@ -209,7 +210,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
               <Editor
                 height="100%"
                 language={currentLanguage}
-                theme={CSIM_THEME_NAME}
+                theme={monacoThemeNameFor(resolvedMode)}
                 value={currentContent}
                 options={{
                   readOnly: true,

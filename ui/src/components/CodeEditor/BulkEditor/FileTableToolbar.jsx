@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TooltipIconButton from '../../Common/TooltipIconButton';
 import { useState } from 'react';
-import { colorPalette } from '../../../styles/colorPalette';
+import { alpha, useTheme } from '@mui/material/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +21,7 @@ const FileTableToolbar = ({
   onViewSelected,
 }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
@@ -55,7 +56,7 @@ const FileTableToolbar = ({
   return (
     <Toolbar
       sx={{
-        bgcolor: numSelected > 0 ? colorPalette.table.toolbarActive : colorPalette.table.toolbar,
+        bgcolor: alpha(theme.palette.primary.main, numSelected > 0 ? 0.6 : 0.4),
         '&.MuiToolbar-root': {
           paddingLeft: '16px',
           paddingRight: '16px',
@@ -151,7 +152,8 @@ const FileTableToolbar = ({
               display: 'flex',
               flexDirection: 'column',
               gap: 1,
-              borderTop: `1px solid ${colorPalette?.table?.divider || '#2D3748'}`,
+              borderTop: '1px solid',
+              borderColor: 'divider',
               pt: 1.5,
             }}
           >

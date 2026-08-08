@@ -3,7 +3,7 @@ import { Box, ListItemIcon, Checkbox, Typography, IconButton, Menu, MenuItem } f
 import TableSortLabel from '@mui/material/TableSortLabel';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTranslation } from 'react-i18next';
-import { colorPalette } from '../../../styles/colorPalette';
+import { alpha, useTheme } from '@mui/material/styles';
 
 const FileTableHeader = ({
   order,
@@ -16,6 +16,7 @@ const FileTableHeader = ({
   totalCount,
 }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -45,9 +46,10 @@ const FileTableHeader = ({
         justifyContent: 'space-between',
         height: '46px',
         px: 2,
-        borderBottom: `2px solid ${colorPalette?.table?.divider || '#2D3748'}`,
+        borderBottom: '2px solid',
+        borderColor: 'divider',
         boxSizing: 'border-box',
-        bgcolor: colorPalette?.table?.header || '#1A1F2E',
+        bgcolor: alpha(theme.palette.primary.main, 0.2),
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
