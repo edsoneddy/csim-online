@@ -94,8 +94,14 @@ export const darkTheme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
+        root: {
+          minHeight: 44,
+        },
         contained: {
           background: colorPalette.gradients.primary,
+          // White text on the cyan gradient only reaches ~2.7-3.5:1 contrast (fails WCAG AA 4.5:1);
+          // the dark background tone clears 4.5:1 at both ends of the gradient.
+          color: colorPalette.darkMode.background,
           '&:hover': {
             background: colorPalette.gradients.primary,
             opacity: 0.9,
@@ -148,6 +154,14 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderColor: colorPalette.darkMode.border,
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          minWidth: 44,
+          minHeight: 44,
         },
       },
     },
