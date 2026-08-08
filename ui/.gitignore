@@ -19,3 +19,6 @@
 # environment variables
 .env.local
 .env
+
+# Temp files
+/tmp

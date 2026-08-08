@@ -6,7 +6,9 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
+  useMediaQuery,
   ListItem,
+  Drawer as MuiDrawer,
 } from '@mui/material';
 
 import {
@@ -25,22 +27,29 @@ import {
   CODE_SECTION,
   CONTACT_US_SECTION,
   HELP_CENTER_SECTION,
+  drawerWidth,
   sections,
 } from '../../constants/ui';
 
 const MenuDrawer = () => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
   const dispatch = useDispatch();
 
-  return (
-    <CustomDrawer variant="permanent" open={open}>
+  const handleToggle = () => {
+    dispatch(openSidebarMenu());
+  };
+
+  const handleNavigate = (section) => {
+    dispatch(changeActualContent(section));
+    if (isMobile) handleToggle();
+  };
+
+  const drawerContent = (
+    <>
       <CustomDrawerHeader>
-        <IconButton
-          onClick={() => {
-            dispatch(openSidebarMenu());
-          }}
-        >
+        <IconButton onClick={handleToggle}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </CustomDrawerHeader>
@@ -48,9 +57,7 @@ const MenuDrawer = () => {
       <List>
         <ListItem key={sections.code} disablePadding sx={{ display: 'block' }}>
           <ListItemButton
-            onClick={() => {
-              dispatch(changeActualContent(CODE_SECTION));
-            }}
+            onClick={() => handleNavigate(CODE_SECTION)}
             sx={{
               minHeight: 48,
               justifyContent: open ? 'initial' : 'center',
@@ -74,9 +81,7 @@ const MenuDrawer = () => {
       <List>
         <ListItem key={sections.helpCenter} disablePadding sx={{ display: 'block' }}>
           <ListItemButton
-            onClick={() => {
-              dispatch(changeActualContent(HELP_CENTER_SECTION));
-            }}
+            onClick={() => handleNavigate(HELP_CENTER_SECTION)}
             sx={{
               minHeight: 48,
               justifyContent: open ? 'initial' : 'center',
@@ -97,9 +102,7 @@ const MenuDrawer = () => {
         </ListItem>
         <ListItem key={sections.contactUs} disablePadding sx={{ display: 'block' }}>
           <ListItemButton
-            onClick={() => {
-              dispatch(changeActualContent(CONTACT_US_SECTION));
-            }}
+            onClick={() => handleNavigate(CONTACT_US_SECTION)}
             sx={{
               minHeight: 48,
               justifyContent: open ? 'initial' : 'center',
@@ -119,6 +122,31 @@ const MenuDrawer = () => {
           </ListItemButton>
         </ListItem>
       </List>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <MuiDrawer
+        variant="temporary"
+        open={open}
+        onClose={handleToggle}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+      >
+        {drawerContent}
+      </MuiDrawer>
+    );
+  }
+
+  return (
+    <CustomDrawer variant="permanent" open={open}>
+      {drawerContent}
     </CustomDrawer>
   );
 };

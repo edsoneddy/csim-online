@@ -56,7 +56,7 @@ const EditorToolbar = ({
             sx={{
               textTransform: 'none',
               fontWeight: 600,
-              width: { xs: 'auto', md: '100%' },
+              minWidth: { xs: 'auto', sm: 120 },
             }}
           >
             {'Analyze'}
@@ -72,7 +72,7 @@ const EditorToolbar = ({
             sx={{
               textTransform: 'none',
               fontWeight: 600,
-              width: { xs: 'auto', md: '100%' },
+              minWidth: { xs: 'auto', sm: 120 },
             }}
           >
             Clear All

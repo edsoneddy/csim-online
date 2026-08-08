@@ -74,13 +74,18 @@ const GroupRow = ({
         sx={{
           display: 'flex',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          rowGap: 1,
           p: 2,
           cursor: 'pointer',
           '&:hover': { bgcolor: '#1A1F2E' },
         }}
         onClick={() => setOpen(!open)}
       >
-        <Typography variant="h6" sx={{ color: borderColor, fontWeight: 600, minWidth: 80 }}>
+        <Typography
+          variant="h6"
+          sx={{ color: borderColor, fontWeight: 600, minWidth: { xs: 60, sm: 80 } }}
+        >
           {percentageText}
         </Typography>
 
@@ -93,16 +98,20 @@ const GroupRow = ({
             border: `1px solid ${borderColor}`,
             height: 22,
             fontSize: '0.7rem',
-            mr: 3,
-            minWidth: '62px',
+            mr: { xs: 1.5, sm: 3 },
+            minWidth: { xs: 'auto', sm: '62px' },
           }}
         />
 
-        <Typography variant="body2" sx={{ color: '#8892B0', flex: 1 }}>
+        <Typography
+          variant="body2"
+          sx={{ color: '#8892B0', flex: '1 1 100px', minWidth: 0 }}
+          noWrap
+        >
           {fileNames.length} {fileNames.length === 1 ? 'file' : 'files'}
         </Typography>
 
-        <Stack direction="row">
+        <Stack direction="row" sx={{ flexShrink: 0 }}>
           {!isUnique && (
             <TooltipIconButton
               props={{

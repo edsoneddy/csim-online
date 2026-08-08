@@ -101,13 +101,20 @@ const FilePanel = ({ onViewSelected }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          rowGap: 1,
           gap: 1,
-          height: '4em',
+          minHeight: '4em',
         }}
       >
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ flex: 1 }}>
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          sx={{ flex: '1 1 auto', minWidth: 0 }}
+        >
           <FolderOpenIcon />
-          <Typography variant="caption" sx={{ fontWeight: 600, color: '#F0F4F8' }}>
+          <Typography variant="caption" noWrap sx={{ fontWeight: 600, color: '#F0F4F8' }}>
             {'File Manager'}
           </Typography>
         </Stack>
@@ -115,18 +122,20 @@ const FilePanel = ({ onViewSelected }) => {
           label={`${totalFiles.length} Total Files`}
           size="small"
           variant="outlined"
-          sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+          sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0', flexShrink: 0 }}
         />
-        <TooltipIconButton props={{ title: 'Upload Files' }} asChild>
-          <FileUploadButton onFilesSelected={handleFileUploaded} multiple />
-        </TooltipIconButton>
-        <TooltipIconButton props={{ title: 'Upload Zip File' }} asChild>
-          <FileUploadButton
-            onFilesSelected={handleFileUploaded}
-            icon={<FolderZipIcon />}
-            extensions={SUPPORTED_COMPRESSED_EXTENSIONS.join(',')}
-          />
-        </TooltipIconButton>
+        <Stack direction="row" sx={{ flexShrink: 0 }}>
+          <TooltipIconButton props={{ title: 'Upload Files' }} asChild>
+            <FileUploadButton onFilesSelected={handleFileUploaded} multiple />
+          </TooltipIconButton>
+          <TooltipIconButton props={{ title: 'Upload Zip File' }} asChild>
+            <FileUploadButton
+              onFilesSelected={handleFileUploaded}
+              icon={<FolderZipIcon />}
+              extensions={SUPPORTED_COMPRESSED_EXTENSIONS.join(',')}
+            />
+          </TooltipIconButton>
+        </Stack>
       </Box>
 
       <Box sx={{ flex: 1, overflow: 'hidden' }}>

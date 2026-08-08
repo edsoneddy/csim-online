@@ -99,6 +99,17 @@ const FileTable = ({
             borderTop: `1px solid ${colorPalette?.table?.divider || '#2D3748'}`,
             minHeight: '52px',
             boxSizing: 'border-box',
+            '& .MuiTablePagination-toolbar': {
+              flexWrap: 'wrap',
+              rowGap: 0.5,
+              px: { xs: 1, sm: 2 },
+            },
+            '& .MuiTablePagination-spacer': {
+              display: { xs: 'none', sm: 'block' },
+            },
+            '& .MuiTablePagination-selectLabel': {
+              display: { xs: 'none', sm: 'block' },
+            },
           }}
         />
       </Paper>

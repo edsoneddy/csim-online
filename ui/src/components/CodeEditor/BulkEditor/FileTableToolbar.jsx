@@ -105,7 +105,8 @@ const FileTableToolbar = ({
         PaperProps={{
           sx: {
             p: 2,
-            width: '280px',
+            width: { xs: 'calc(100vw - 32px)', sm: '280px' },
+            maxWidth: 320,
             display: 'flex',
             flexDirection: 'column',
             gap: 1.5,

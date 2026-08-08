@@ -22,18 +22,26 @@ const CodeTabsHeader = ({ value, onChange }) => {
         }}
       >
         <Tab
-          icon={<CodeIcon />}
+          icon={<CodeIcon fontSize="small" />}
           iconPosition="end"
           label={DUAL_EDITOR}
           id="tab-0"
-          sx={{ minHeight: '38px', padding: '0px 12px' }}
+          sx={{
+            minHeight: '38px',
+            padding: { xs: '0px 6px', sm: '0px 12px' },
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+          }}
         />
         <Tab
-          icon={<ListNumberedIcon />}
+          icon={<ListNumberedIcon fontSize="small" />}
           iconPosition="end"
           label={BULK_EDITOR}
           id="tab-1"
-          sx={{ minHeight: '38px', padding: '0px 12px' }}
+          sx={{
+            minHeight: '38px',
+            padding: { xs: '0px 6px', sm: '0px 12px' },
+            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+          }}
         />
       </Tabs>
     </AppBar>

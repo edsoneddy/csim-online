@@ -16,7 +16,7 @@ const CodeTabPanel = ({ children, value, index }) => {
       {value === index && (
         <Box
           sx={{
-            p: 3,
+            p: { xs: 1.5, sm: 3 },
             height: '100%',
             boxSizing: 'border-box',
           }}

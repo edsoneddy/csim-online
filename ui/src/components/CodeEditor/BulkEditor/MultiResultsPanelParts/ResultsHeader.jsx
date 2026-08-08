@@ -64,13 +64,24 @@ const ResultsHeader = ({ threshold }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        rowGap: 1,
         gap: 1,
         minHeight: '4em',
       }}
     >
-      <Stack direction="row" spacing={1} alignItems="center" sx={{ flex: 1 }}>
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        sx={{ flex: '1 1 auto', minWidth: 0 }}
+      >
         <DescriptionIcon />
-        <Typography variant="caption" sx={{ fontWeight: 600, color: '#F0F4F8', lineHeight: 1.2 }}>
+        <Typography
+          variant="caption"
+          noWrap
+          sx={{ fontWeight: 600, color: '#F0F4F8', lineHeight: 1.2 }}
+        >
           Analysis Results
         </Typography>
       </Stack>
@@ -78,14 +89,14 @@ const ResultsHeader = ({ threshold }) => {
         label={`Threshold ${threshold}`}
         size="small"
         variant="outlined"
-        sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+        sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0', flexShrink: 0 }}
       />
       <Button
         variant="outlined"
         size="small"
         onClick={handleExportResults}
         startIcon={<DownloadIcon />}
-        sx={{ textTransform: 'none', borderColor: '#2D3748', color: '#FFF' }}
+        sx={{ textTransform: 'none', borderColor: '#2D3748', color: '#FFF', flexShrink: 0 }}
       >
         Export
       </Button>

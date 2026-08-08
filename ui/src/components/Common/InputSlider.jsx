@@ -44,7 +44,7 @@ const InputSlider = ({ label, value, onChange, min, max, step, fixed, suffix }) 
           sx: { display: 'none' },
         }}
         sx={{
-          height: '40px',
+          minHeight: '40px',
           paddingRight: 1,
         }}
       />

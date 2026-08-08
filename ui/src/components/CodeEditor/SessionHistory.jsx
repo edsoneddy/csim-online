@@ -67,7 +67,8 @@ const SessionHistory = () => {
   return (
     <Box
       sx={{
-        width: 350,
+        width: { xs: '85vw', sm: 350 },
+        maxWidth: 350,
         height: '100%',
         display: 'flex',
         flexDirection: 'column',

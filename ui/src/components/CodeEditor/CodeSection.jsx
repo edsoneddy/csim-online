@@ -17,7 +17,7 @@ const CodeSection = () => {
       sx={{
         bgcolor: 'background.paper',
         width: '100%',
-        height: 'calc(100vh - 64px)',
+        height: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 64px)' },
         borderRadius: 1,
         overflow: 'hidden',
         display: 'flex',

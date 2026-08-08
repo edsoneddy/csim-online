@@ -55,12 +55,31 @@ const EditorPanel = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          rowGap: 1,
           gap: 1,
         }}
       >
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ flex: 1 }}>
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          useFlexGap
+          flexWrap="wrap"
+          sx={{ flex: '1 1 auto', minWidth: 0 }}
+        >
           {fileName && (
-            <Typography variant="caption" sx={{ fontWeight: 600, color: '#F0F4F8' }}>
+            <Typography
+              variant="caption"
+              sx={{
+                fontWeight: 600,
+                color: '#F0F4F8',
+                maxWidth: { xs: 140, sm: 220 },
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               {fileName}
             </Typography>
           )}
@@ -97,12 +116,14 @@ const EditorPanel = ({
             sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
           />
         </Stack>
-        <TooltipIconButton props={{ title: 'Upload' }} asChild>
-          <FileUploadButton onFilesSelected={onFileUploaded} />
-        </TooltipIconButton>
-        <TooltipIconButton props={{ title: 'Clear', onClick: onClear }}>
-          <ClearIcon />
-        </TooltipIconButton>
+        <Stack direction="row" sx={{ flexShrink: 0 }}>
+          <TooltipIconButton props={{ title: 'Upload' }} asChild>
+            <FileUploadButton onFilesSelected={onFileUploaded} />
+          </TooltipIconButton>
+          <TooltipIconButton props={{ title: 'Clear', onClick: onClear }}>
+            <ClearIcon />
+          </TooltipIconButton>
+        </Stack>
       </Box>
 
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
