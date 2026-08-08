@@ -37,6 +37,7 @@ const DualEditor = () => {
     formatOnType: true,
     scrollBeyondLastLine: false,
     contextmenu: true,
+    automaticLayout: true,
   };
 
   const debouncedUpdateFileContent = useMemo(
@@ -172,6 +173,10 @@ const DualEditor = () => {
           gridTemplateColumns: {
             xs: '1fr',
             md: '1fr 1fr',
+          },
+          gridAutoRows: {
+            xs: 'minmax(320px, 1fr)',
+            md: '1fr',
           },
           gap: 2,
           flex: 1,
