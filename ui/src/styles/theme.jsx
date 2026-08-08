@@ -109,7 +109,7 @@ export const darkTheme = createTheme({
             borderColor: colorPalette.primary.light,
           },
         },
-        secondary: {
+        containedSecondary: {
           backgroundColor: colorPalette.alpha.light,
           color: colorPalette.darkMode.textSecondary,
           '&:hover': {

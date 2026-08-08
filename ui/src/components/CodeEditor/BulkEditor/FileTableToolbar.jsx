@@ -175,7 +175,8 @@ const FileTableToolbar = ({
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            borderTop: '1px solid rgba(0, 0, 0, 0.08)',
+            borderTop: '1px solid',
+            borderColor: 'divider',
             pt: 1,
             mt: 0.5,
             gap: 1,
@@ -193,7 +194,7 @@ const FileTableToolbar = ({
           <Button
             size="small"
             color="inherit"
-            variant="secondary"
+            variant="text"
             onClick={handleClosePopover}
             sx={{ fontSize: '0.75rem' }}
           >

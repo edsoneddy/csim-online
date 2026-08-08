@@ -2,6 +2,7 @@ import {
   Box,
   Typography,
   IconButton,
+  Button,
   Collapse,
   Chip,
   List,
@@ -88,17 +89,22 @@ const SessionHistory = () => {
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
           Session History ({history.length})
         </Typography>
-        <Typography
-          variant="caption"
-          sx={{
-            color: colorPalette.darkMode.textSecondary,
-            cursor: 'pointer',
-            '&:hover': { color: colorPalette.status.error },
-          }}
+        <Button
+          variant="text"
+          size="small"
           onClick={() => onClearHistory?.([])}
+          sx={{
+            minWidth: 0,
+            p: 0,
+            textTransform: 'none',
+            fontSize: '0.75rem',
+            fontWeight: 400,
+            color: colorPalette.darkMode.textSecondary,
+            '&:hover': { color: colorPalette.status.error, backgroundColor: 'transparent' },
+          }}
         >
           Clear all
-        </Typography>
+        </Button>
       </Box>
 
       <List disablePadding sx={{ overflowY: 'auto', flexGrow: 1 }}>
@@ -182,6 +188,7 @@ const SessionHistory = () => {
                   <IconButton
                     size="small"
                     onClick={() => handleDelete(index)}
+                    aria-label="delete history item"
                     sx={{
                       color: colorPalette.status.error,
                       '&:hover': { backgroundColor: colorPalette.alpha.light },
@@ -190,7 +197,12 @@ const SessionHistory = () => {
                     <DeleteIcon fontSize="small" />
                   </IconButton>
 
-                  <IconButton size="small" onClick={() => toggleExpand(item.id)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => toggleExpand(item.id)}
+                    aria-label={isExpanded ? 'collapse details' : 'expand details'}
+                    aria-expanded={isExpanded}
+                  >
                     <ExpandMoreIcon
                       fontSize="small"
                       sx={{

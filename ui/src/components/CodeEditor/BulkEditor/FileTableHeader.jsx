@@ -61,6 +61,9 @@ const FileTableHeader = ({
           <IconButton
             size="small"
             onClick={handleMenuOpen}
+            aria-label="selection options"
+            aria-haspopup="true"
+            aria-expanded={open}
             sx={{
               padding: 0,
               marginLeft: '-3px',

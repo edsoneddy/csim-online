@@ -49,7 +49,7 @@ const MenuDrawer = () => {
   const drawerContent = (
     <>
       <CustomDrawerHeader>
-        <IconButton onClick={handleToggle}>
+        <IconButton onClick={handleToggle} aria-label="collapse menu">
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </CustomDrawerHeader>

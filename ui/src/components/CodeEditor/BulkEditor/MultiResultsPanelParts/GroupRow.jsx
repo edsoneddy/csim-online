@@ -7,12 +7,13 @@ import GroupFilesTable from './GroupFilesTable';
 import TooltipIconButton from '../../../Common/TooltipIconButton';
 import DifferenceIcon from '@mui/icons-material/Difference';
 import { blurActiveElement } from '../../../../utils/editor';
+import { colorPalette } from '../../../../styles/colorPalette';
 
 const getRiskMeta = (avg, isUnique) => {
   if (isUnique) {
     return {
       riskLabel: 'Clean',
-      borderColor: '#ffffff',
+      borderColor: colorPalette.status.success,
       percentageText: 'N/A',
     };
   }
@@ -21,7 +22,7 @@ const getRiskMeta = (avg, isUnique) => {
   if (avgPercentage >= 90) {
     return {
       riskLabel: 'High',
-      borderColor: '#f44336',
+      borderColor: colorPalette.status.error,
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
   }
@@ -29,14 +30,14 @@ const getRiskMeta = (avg, isUnique) => {
   if (avgPercentage >= 70) {
     return {
       riskLabel: 'Medium',
-      borderColor: '#ff9800',
+      borderColor: colorPalette.status.alert,
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
   }
 
   return {
     riskLabel: 'Low',
-    borderColor: '#4caf50',
+    borderColor: colorPalette.status.success,
     percentageText: `${avgPercentage.toFixed(1)}%`,
   };
 };
@@ -63,7 +64,8 @@ const GroupRow = ({
     <Paper
       sx={{
         bgcolor: '#151A25',
-        border: '1px solid #2D3748',
+        border: '1px solid',
+        borderColor: 'divider',
         borderLeft: `4px solid ${borderColor}`,
         borderRadius: 1,
         overflow: 'hidden',
@@ -71,6 +73,9 @@ const GroupRow = ({
       }}
     >
       <Box
+        role="button"
+        tabIndex={0}
+        aria-expanded={open}
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -78,9 +83,19 @@ const GroupRow = ({
           rowGap: 1,
           p: 2,
           cursor: 'pointer',
-          '&:hover': { bgcolor: '#1A1F2E' },
+          '&:hover': { bgcolor: 'background.paper' },
+          '&:focus-visible': {
+            outline: (theme) => `2px solid ${theme.palette.primary.main}`,
+            outlineOffset: -2,
+          },
         }}
         onClick={() => setOpen(!open)}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setOpen(!open);
+          }
+        }}
       >
         <Typography
           variant="h6"
@@ -105,7 +120,7 @@ const GroupRow = ({
 
         <Typography
           variant="body2"
-          sx={{ color: '#8892B0', flex: '1 1 100px', minWidth: 0 }}
+          sx={{ color: 'text.secondary', flex: '1 1 100px', minWidth: 0 }}
           noWrap
         >
           {fileNames.length} {fileNames.length === 1 ? 'file' : 'files'}
@@ -140,7 +155,11 @@ const GroupRow = ({
           </TooltipIconButton>
         </Stack>
 
-        <IconButton size="small" sx={{ color: '#8892B0' }}>
+        <IconButton
+          size="small"
+          aria-label={open ? 'collapse group' : 'expand group'}
+          sx={{ color: 'text.secondary' }}
+        >
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
       </Box>

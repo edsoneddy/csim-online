@@ -40,7 +40,7 @@ const TooltipIconButton = ({ props, children, asChild = false, sx = {} }) => {
       {asChild ? (
         children
       ) : (
-        <IconButton onClick={onClick} sx={sx} disabled={disabled}>
+        <IconButton onClick={onClick} sx={sx} disabled={disabled} aria-label={title}>
           {children}
         </IconButton>
       )}

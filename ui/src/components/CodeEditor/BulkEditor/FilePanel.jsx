@@ -89,15 +89,17 @@ const FilePanel = ({ onViewSelected }) => {
         display: 'flex',
         flexDirection: 'column',
         boxShadow: 3,
-        backgroundColor: '#0F1419',
-        border: '1px solid #2D3748',
+        backgroundColor: 'background.default',
+        border: '1px solid',
+        borderColor: 'divider',
       }}
     >
       <Box
         sx={{
           p: 1.5,
-          backgroundColor: '#1A1F2E',
-          borderBottom: '1px solid #2D3748',
+          backgroundColor: 'background.paper',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -114,7 +116,7 @@ const FilePanel = ({ onViewSelected }) => {
           sx={{ flex: '1 1 auto', minWidth: 0 }}
         >
           <FolderOpenIcon />
-          <Typography variant="caption" noWrap sx={{ fontWeight: 600, color: '#F0F4F8' }}>
+          <Typography variant="caption" noWrap sx={{ fontWeight: 600, color: 'text.primary' }}>
             {'File Manager'}
           </Typography>
         </Stack>
@@ -122,7 +124,7 @@ const FilePanel = ({ onViewSelected }) => {
           label={`${totalFiles.length} Total Files`}
           size="small"
           variant="outlined"
-          sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0', flexShrink: 0 }}
+          sx={{ height: 24, borderColor: 'divider', color: 'text.secondary', flexShrink: 0 }}
         />
         <Stack direction="row" sx={{ flexShrink: 0 }}>
           <TooltipIconButton props={{ title: 'Upload Files' }} asChild>

@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, Typography, Box } from '@mui/material';
+import { Card, CardActionArea, CardContent, Grid, Typography, Box } from '@mui/material';
 
 const QuickLinksGrid = ({ title, links }) => {
   return (
@@ -12,28 +12,33 @@ const QuickLinksGrid = ({ title, links }) => {
             <Card
               sx={{
                 height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                p: 2,
-                cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   transform: 'translateY(-4px)',
                   boxShadow: 3,
                 },
               }}
-              onClick={link.onClick}
             >
-              <Box sx={{ color: 'primary.main', mb: 1 }}>{link.icon}</Box>
-              <CardContent sx={{ textAlign: 'center', p: 0 }}>
-                <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
-                  {link.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {link.description}
-                </Typography>
-              </CardContent>
+              <CardActionArea
+                onClick={link.onClick}
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  p: 2,
+                }}
+              >
+                <Box sx={{ color: 'primary.main', mb: 1 }}>{link.icon}</Box>
+                <CardContent sx={{ textAlign: 'center', p: 0 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
+                    {link.title}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {link.description}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
             </Card>
           </Grid>
         ))}

@@ -53,7 +53,7 @@ const MenuAppBar = () => {
         </Typography>
         <IconButton
           color="inherit"
-          aria-label="language selector"
+          aria-label="open session history"
           size="small"
           onClick={() => {
             blurActiveElement();

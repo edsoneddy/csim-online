@@ -43,15 +43,17 @@ const EditorPanel = ({
         display: 'flex',
         flexDirection: 'column',
         boxShadow: 3,
-        backgroundColor: '#0F1419',
-        border: '1px solid #2D3748',
+        backgroundColor: 'background.default',
+        border: '1px solid',
+        borderColor: 'divider',
       }}
     >
       <Box
         sx={{
           p: 1.5,
-          backgroundColor: '#1A1F2E', // Paper surface
-          borderBottom: '1px solid #2D3748', // Border divider
+          backgroundColor: 'background.paper',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -73,7 +75,7 @@ const EditorPanel = ({
               variant="caption"
               sx={{
                 fontWeight: 600,
-                color: '#F0F4F8',
+                color: 'text.primary',
                 maxWidth: { xs: 140, sm: 220 },
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -89,7 +91,7 @@ const EditorPanel = ({
               label={'Modified'}
               size="small"
               variant="outlined"
-              sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+              sx={{ height: 24, borderColor: 'divider', color: 'text.secondary' }}
             />
           )}
 
@@ -98,7 +100,7 @@ const EditorPanel = ({
               label={formatFileSize(fileSize)}
               size="small"
               variant="outlined"
-              sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+              sx={{ height: 24, borderColor: 'divider', color: 'text.secondary' }}
             />
           )}
 
@@ -106,14 +108,14 @@ const EditorPanel = ({
             label={`${lineCount} lines`}
             size="small"
             variant="outlined"
-            sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+            sx={{ height: 24, borderColor: 'divider', color: 'text.secondary' }}
           />
 
           <Chip
             label={`${charCount} chars`}
             size="small"
             variant="outlined"
-            sx={{ height: 24, borderColor: '#2D3748', color: '#A0AEC0' }}
+            sx={{ height: 24, borderColor: 'divider', color: 'text.secondary' }}
           />
         </Stack>
         <Stack direction="row" sx={{ flexShrink: 0 }}>

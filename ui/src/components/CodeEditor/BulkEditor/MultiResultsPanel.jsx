@@ -31,8 +31,9 @@ const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = (
         display: 'flex',
         flexDirection: 'column',
         boxShadow: 3,
-        backgroundColor: '#0F1419',
-        border: '1px solid #2D3748',
+        backgroundColor: 'background.default',
+        border: '1px solid',
+        borderColor: 'divider',
       }}
     >
       <ResultsHeader threshold={results.threshold} />
@@ -49,7 +50,7 @@ const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
             <Box>
-              <Typography variant="subtitle1" sx={{ color: '#F0F4F8', fontWeight: 600 }}>
+              <Typography variant="subtitle1" sx={{ color: 'text.primary', fontWeight: 600 }}>
                 Similarity Groups
               </Typography>
             </Box>
