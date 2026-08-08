@@ -1,3 +1,5 @@
+import i18n from '../i18n';
+
 /**
  * Prepares the payload for the csim analysis API.
  */
@@ -7,11 +9,11 @@ export const createAnalyzePayload = (language, file1, file2) => {
     threshold: 0.0,
     files: [
       {
-        name: file1?.name || 'Editor 1',
+        name: file1?.name || i18n.t('common.editorLabel', { number: 1 }),
         content: file1?.content,
       },
       {
-        name: file2?.name || 'Editor 2',
+        name: file2?.name || i18n.t('common.editorLabel', { number: 2 }),
         content: file2?.content,
       },
     ],
@@ -23,7 +25,7 @@ export const createAnalyzeAllPayload = (language, files, threshold = 0.0) => {
     lang: language,
     threshold: threshold,
     files: files.map((file) => ({
-      name: file.name || 'Untitled',
+      name: file.name || i18n.t('common.untitledFile'),
       content: file.content,
     })),
   };

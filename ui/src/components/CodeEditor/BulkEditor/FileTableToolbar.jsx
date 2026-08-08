@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { colorPalette } from '../../../styles/colorPalette';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   removeFilesFromBulkEditor,
   updateBulkEditorSelectedFiles,
@@ -19,6 +20,7 @@ const FileTableToolbar = ({
   onClearAllFilters,
   onViewSelected,
 }) => {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
@@ -62,12 +64,17 @@ const FileTableToolbar = ({
       variant="dense"
     >
       <Typography sx={{ flex: '1 1 100%' }} variant={numSelected > 0 ? 'subtitle1' : 'subtitle1'}>
-        {numSelected > 0 ? `${numSelected} selected` : '0 selected'}
+        {numSelected > 0
+          ? t('bulkEditor.fileTableToolbar.selected', { count: numSelected })
+          : t('bulkEditor.fileTableToolbar.noneSelected')}
       </Typography>
       {numSelected > 0 ? (
         <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <TooltipIconButton
-            props={{ title: 'View', onClick: () => onViewSelected?.(selected) }}
+            props={{
+              title: t('bulkEditor.fileTableToolbar.view'),
+              onClick: () => onViewSelected?.(selected),
+            }}
             sx={{
               p: 0,
             }}
@@ -75,7 +82,10 @@ const FileTableToolbar = ({
             <VisibilityIcon />
           </TooltipIconButton>
           <TooltipIconButton
-            props={{ title: 'Delete', onClick: handleClearSelectedFiles }}
+            props={{
+              title: t('bulkEditor.fileTableToolbar.delete'),
+              onClick: handleClearSelectedFiles,
+            }}
             sx={{
               p: 0,
             }}
@@ -85,7 +95,7 @@ const FileTableToolbar = ({
         </Box>
       ) : (
         <TooltipIconButton
-          props={{ title: 'Filter', onClick: handleOpenPopover }}
+          props={{ title: t('bulkEditor.fileTableToolbar.filter'), onClick: handleOpenPopover }}
           sx={{
             p: 0,
             color: isPopoverOpen || activeFilters.length > 0 ? 'primary.main' : 'text.primary',
@@ -117,7 +127,7 @@ const FileTableToolbar = ({
         <Box sx={{ display: 'flex', gap: 1 }}>
           <TextField
             size="small"
-            label="Filter by name"
+            label={t('bulkEditor.fileTableToolbar.filterByName')}
             variant="outlined"
             fullWidth
             autoFocus
@@ -131,7 +141,7 @@ const FileTableToolbar = ({
             variant="contained"
             onClick={handleAddClick}
           >
-            Add
+            {t('bulkEditor.fileTableToolbar.add')}
           </Button>
         </Box>
 
@@ -146,7 +156,7 @@ const FileTableToolbar = ({
             }}
           >
             <Typography variant="caption" color="text.secondary" sx={{ fontWeight: '600' }}>
-              Active Filters ({activeFilters.length}):
+              {t('bulkEditor.fileTableToolbar.activeFilters', { count: activeFilters.length })}
             </Typography>
             <Box
               sx={{
@@ -189,7 +199,7 @@ const FileTableToolbar = ({
             onClick={onClearAllFilters}
             sx={{ fontSize: '0.75rem' }}
           >
-            Clear All
+            {t('bulkEditor.fileTableToolbar.clearAll')}
           </Button>
           <Button
             size="small"
@@ -198,7 +208,7 @@ const FileTableToolbar = ({
             onClick={handleClosePopover}
             sx={{ fontSize: '0.75rem' }}
           >
-            Close
+            {t('bulkEditor.fileTableToolbar.close')}
           </Button>
         </Box>
       </Popover>

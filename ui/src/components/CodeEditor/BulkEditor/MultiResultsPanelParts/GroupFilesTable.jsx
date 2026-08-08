@@ -10,9 +10,11 @@ import {
   Typography,
 } from '@mui/material';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import { useTranslation } from 'react-i18next';
 import { formatBytes, formatDate } from './formatters';
 
 const GroupFilesTable = ({ files }) => {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{ p: 0, borderTop: '1px solid', borderColor: 'divider', bgcolor: 'background.default' }}
@@ -29,7 +31,7 @@ const GroupFilesTable = ({ files }) => {
                   py: 1.5,
                 }}
               >
-                Name
+                {t('bulkEditor.groupFilesTable.name')}
               </TableCell>
               <TableCell
                 sx={{
@@ -39,7 +41,7 @@ const GroupFilesTable = ({ files }) => {
                   py: 1.5,
                 }}
               >
-                Size
+                {t('bulkEditor.groupFilesTable.size')}
               </TableCell>
               <TableCell
                 sx={{
@@ -49,7 +51,7 @@ const GroupFilesTable = ({ files }) => {
                   py: 1.5,
                 }}
               >
-                Last Modified
+                {t('bulkEditor.groupFilesTable.lastModified')}
               </TableCell>
             </TableRow>
           </TableHead>

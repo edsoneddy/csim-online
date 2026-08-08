@@ -4,9 +4,11 @@ import ResultsHeader from './MultiResultsPanelParts/ResultsHeader';
 import ResultsStats from './MultiResultsPanelParts/ResultsStats';
 import AnalysisResultsState from './MultiResultsPanelParts/AnalysisResultsState';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { RESULTS_STATUS } from '../../../utils/results';
 
 const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = () => {} }) => {
+  const { t } = useTranslation();
   const results = useSelector((state) => state.fileManager.bulkEditorFiles.results);
 
   if (!results?.success || !results) {
@@ -51,7 +53,7 @@ const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = (
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
             <Box>
               <Typography variant="subtitle1" sx={{ color: 'text.primary', fontWeight: 600 }}>
-                Similarity Groups
+                {t('bulkEditor.multiResults.similarityGroups')}
               </Typography>
             </Box>
           </Stack>

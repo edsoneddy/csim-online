@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, ListItemIcon, Checkbox, Typography, IconButton, Menu, MenuItem } from '@mui/material';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useTranslation } from 'react-i18next';
 import { colorPalette } from '../../../styles/colorPalette';
 
 const FileTableHeader = ({
@@ -14,6 +15,7 @@ const FileTableHeader = ({
   numSelected,
   totalCount,
 }) => {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -56,12 +58,12 @@ const FileTableHeader = ({
             onChange={onSelectPageClick}
             indeterminate={numSelected > 0 && numSelected < totalCount}
             checked={totalCount > 0 && numSelected === totalCount}
-            inputProps={{ 'aria-label': 'select files' }}
+            inputProps={{ 'aria-label': t('bulkEditor.fileTableHeader.selectFiles') }}
           />
           <IconButton
             size="small"
             onClick={handleMenuOpen}
-            aria-label="selection options"
+            aria-label={t('bulkEditor.fileTableHeader.selectionOptions')}
             aria-haspopup="true"
             aria-expanded={open}
             sx={{
@@ -83,9 +85,11 @@ const FileTableHeader = ({
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleSelectAllGlobal}>Select all files ({totalCount})</MenuItem>
+          <MenuItem onClick={handleSelectAllGlobal}>
+            {t('bulkEditor.fileTableHeader.selectAllFiles', { count: totalCount })}
+          </MenuItem>
           <MenuItem onClick={handleClear} disabled={numSelected === 0}>
-            None
+            {t('bulkEditor.fileTableHeader.none')}
           </MenuItem>
         </Menu>
 
@@ -96,13 +100,13 @@ const FileTableHeader = ({
           sx={{ fontWeight: '600', '& .MuiTableSortLabel-icon': { color: 'text.secondary' } }}
         >
           <Typography variant="body2" sx={{ fontWeight: '600', color: 'text.primary' }}>
-            Name
+            {t('bulkEditor.fileTableHeader.name')}
           </Typography>
         </TableSortLabel>
       </Box>
 
       <Typography variant="body2" sx={{ fontWeight: '600', color: 'text.primary', pr: 1 }}>
-        Size
+        {t('bulkEditor.fileTableHeader.size')}
       </Typography>
     </Box>
   );

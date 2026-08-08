@@ -3,10 +3,13 @@ import { Menu as MenuIcon, ViewSidebar as ViewSidebarIcon } from '@mui/icons-mat
 import { AppBar as CustomAppBar } from '../../utils/menu';
 import { Toolbar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { openHistoryMenu, openSidebarMenu } from '../../hooks/redux/appActions';
 import { blurActiveElement } from '../../utils/editor';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const MenuAppBar = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
@@ -25,7 +28,7 @@ const MenuAppBar = () => {
       >
         <IconButton
           color="inherit"
-          aria-label="toggle drawer"
+          aria-label={t('layout.appBar.toggleDrawer')}
           onClick={() => {
             blurActiveElement();
             dispatch(openSidebarMenu());
@@ -49,11 +52,12 @@ const MenuAppBar = () => {
             fontWeight: 500,
           }}
         >
-          CSIM Online
+          {t('app.title')}
         </Typography>
+        <LanguageSwitcher />
         <IconButton
           color="inherit"
-          aria-label="open session history"
+          aria-label={t('layout.appBar.openSessionHistory')}
           size="small"
           onClick={() => {
             blurActiveElement();

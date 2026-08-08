@@ -2,6 +2,7 @@ import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { updateFileManagerResultsByEditorKey } from '../../../../hooks/redux/appActions';
 import TooltipIconButton from '../../../Common/TooltipIconButton';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -16,6 +17,7 @@ const getLocalTimestampForFilename = () => {
 };
 
 const ResultsHeader = ({ threshold }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const printable_output = useSelector(
     (state) => state.fileManager.bulkEditorFiles.results.printable_output
@@ -32,7 +34,7 @@ const ResultsHeader = ({ threshold }) => {
           suggestedName: `results_${getLocalTimestampForFilename()}.txt`,
           types: [
             {
-              description: 'Text File',
+              description: t('bulkEditor.resultsHeader.exportFileType'),
               accept: { 'text/plain': ['.txt'] },
             },
           ],
@@ -78,11 +80,11 @@ const ResultsHeader = ({ threshold }) => {
           noWrap
           sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.2 }}
         >
-          Analysis Results
+          {t('bulkEditor.resultsHeader.title')}
         </Typography>
       </Stack>
       <Chip
-        label={`Threshold ${threshold}`}
+        label={t('bulkEditor.resultsHeader.threshold', { value: threshold })}
         size="small"
         variant="outlined"
         sx={{ height: 24, borderColor: 'divider', color: 'text.secondary', flexShrink: 0 }}
@@ -94,9 +96,11 @@ const ResultsHeader = ({ threshold }) => {
         startIcon={<DownloadIcon />}
         sx={{ textTransform: 'none', borderColor: 'divider', color: 'text.primary', flexShrink: 0 }}
       >
-        Export
+        {t('bulkEditor.resultsHeader.export')}
       </Button>
-      <TooltipIconButton props={{ title: 'Clear', onClick: handleClearResults }}>
+      <TooltipIconButton
+        props={{ title: t('bulkEditor.resultsHeader.clear'), onClick: handleClearResults }}
+      >
         <ClearIcon />
       </TooltipIconButton>
     </Box>

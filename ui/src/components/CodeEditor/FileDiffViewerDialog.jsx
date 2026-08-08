@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { DiffEditor } from '@monaco-editor/react';
+import { useTranslation } from 'react-i18next';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../styles/monacoTheme';
 import {
   blurActiveElement,
@@ -27,6 +28,7 @@ import {
 } from '../../utils/editor';
 
 const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
+  const { t } = useTranslation();
   const [originalFileIndex, setOriginalFileIndex] = useState(0);
   const [modifiedFileIndex, setModifiedFileIndex] = useState(1);
   const theme = useTheme();
@@ -111,16 +113,16 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
         <Stack direction="row" alignItems="center" spacing={1.5}>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }} noWrap>
-              File Diff Viewer
+              {t('diffViewer.title')}
             </Typography>
             <Typography variant="body2" color="text.secondary" noWrap>
               {files.length > 0
-                ? `${files.length} file${files.length === 1 ? '' : 's'} loaded`
-                : 'No files available to compare'}
+                ? t('diffViewer.filesLoaded', { count: files.length })
+                : t('diffViewer.noFilesAvailable')}
             </Typography>
           </Box>
 
-          <IconButton onClick={handleClose} size="small" aria-label="close diff viewer">
+          <IconButton onClick={handleClose} size="small" aria-label={t('diffViewer.closeViewer')}>
             <CloseIcon />
           </IconButton>
         </Stack>
@@ -143,7 +145,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
               <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5} sx={{ minWidth: 0 }}>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography variant="caption" color="text.secondary" sx={{ px: 0.5 }}>
-                    Original
+                    {t('diffViewer.original')}
                   </Typography>
                   <Tabs
                     value={originalFileIndex}
@@ -166,7 +168,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
 
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography variant="caption" color="text.secondary" sx={{ px: 0.5 }}>
-                    Modified
+                    {t('diffViewer.modified')}
                   </Typography>
                   <Tabs
                     value={modifiedFileIndex}
@@ -196,21 +198,31 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
               >
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                   <Chip
-                    label={`Original: ${originalFile.name || 'Untitled file'}`}
+                    label={t('diffViewer.originalFile', {
+                      name: originalFile.name || t('common.untitledFile'),
+                    })}
                     variant="outlined"
                   />
                   <Chip label={originalLanguage} variant="outlined" />
-                  <Chip label={`${getLineCount(originalContent)} lines`} variant="outlined" />
+                  <Chip
+                    label={t('editor.panel.lines', { count: getLineCount(originalContent) })}
+                    variant="outlined"
+                  />
                   <Chip label={formatFileSize(originalFile.size)} variant="outlined" />
                 </Stack>
 
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                   <Chip
-                    label={`Modified: ${modifiedFile.name || 'Untitled file'}`}
+                    label={t('diffViewer.modifiedFile', {
+                      name: modifiedFile.name || t('common.untitledFile'),
+                    })}
                     variant="outlined"
                   />
                   <Chip label={modifiedLanguage} variant="outlined" />
-                  <Chip label={`${getLineCount(modifiedContent)} lines`} variant="outlined" />
+                  <Chip
+                    label={t('editor.panel.lines', { count: getLineCount(modifiedContent) })}
+                    variant="outlined"
+                  />
                   <Chip label={formatFileSize(modifiedFile.size)} variant="outlined" />
                 </Stack>
               </Stack>
@@ -265,10 +277,10 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
           >
             <Stack spacing={1} alignItems="center">
               <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                No files selected
+                {t('diffViewer.noFilesSelected')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Add two files to bulk editor to compare them here.
+                {t('diffViewer.addTwoFiles')}
               </Typography>
             </Stack>
           </Box>

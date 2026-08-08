@@ -1,3 +1,4 @@
+import i18n from '../i18n';
 import { languageByExtension } from '../constants/ui';
 
 export const getLanguageFromFileName = (fileName = '') => {
@@ -6,7 +7,7 @@ export const getLanguageFromFileName = (fileName = '') => {
 };
 
 export const formatFileSize = (bytes) => {
-  if (typeof bytes !== 'number' || Number.isNaN(bytes)) return 'Unknown size';
+  if (typeof bytes !== 'number' || Number.isNaN(bytes)) return i18n.t('common.unknownSize');
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(2)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
@@ -30,7 +31,8 @@ export const normalizeContent = (content) => {
   return String(content);
 };
 
-export const getFileLabel = (file, index) => file?.name || `File ${index + 1}`;
+export const getFileLabel = (file, index) =>
+  file?.name || i18n.t('common.fileLabel', { number: index + 1 });
 
 // Blur the currently focused element
 export const blurActiveElement = () => {

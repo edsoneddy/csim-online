@@ -6,22 +6,23 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import GroupFilesTable from './GroupFilesTable';
 import TooltipIconButton from '../../../Common/TooltipIconButton';
 import DifferenceIcon from '@mui/icons-material/Difference';
+import { useTranslation } from 'react-i18next';
 import { blurActiveElement } from '../../../../utils/editor';
 import { colorPalette } from '../../../../styles/colorPalette';
 
-const getRiskMeta = (avg, isUnique) => {
+const getRiskMeta = (avg, isUnique, t) => {
   if (isUnique) {
     return {
-      riskLabel: 'Clean',
+      riskLabel: t('bulkEditor.groupRow.riskClean'),
       borderColor: colorPalette.status.success,
-      percentageText: 'N/A',
+      percentageText: t('dualResults.notAvailable'),
     };
   }
 
   const avgPercentage = avg * 100;
   if (avgPercentage >= 90) {
     return {
-      riskLabel: 'High',
+      riskLabel: t('bulkEditor.groupRow.riskHigh'),
       borderColor: colorPalette.status.error,
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
@@ -29,14 +30,14 @@ const getRiskMeta = (avg, isUnique) => {
 
   if (avgPercentage >= 70) {
     return {
-      riskLabel: 'Medium',
+      riskLabel: t('bulkEditor.groupRow.riskMedium'),
       borderColor: colorPalette.status.alert,
       percentageText: `${avgPercentage.toFixed(1)}%`,
     };
   }
 
   return {
-    riskLabel: 'Low',
+    riskLabel: t('bulkEditor.groupRow.riskLow'),
     borderColor: colorPalette.status.success,
     percentageText: `${avgPercentage.toFixed(1)}%`,
   };
@@ -50,8 +51,9 @@ const GroupRow = ({
   onViewSelected,
   onViewDiffSelected = () => {},
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique);
+  const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique, t);
 
   const groupFilesData = useMemo(() => {
     return fileNames.map((name) => {
@@ -123,14 +125,14 @@ const GroupRow = ({
           sx={{ color: 'text.secondary', flex: '1 1 100px', minWidth: 0 }}
           noWrap
         >
-          {fileNames.length} {fileNames.length === 1 ? 'file' : 'files'}
+          {t('bulkEditor.groupRow.files', { count: fileNames.length })}
         </Typography>
 
         <Stack direction="row" sx={{ flexShrink: 0 }}>
           {!isUnique && (
             <TooltipIconButton
               props={{
-                title: 'View Differences',
+                title: t('bulkEditor.groupRow.viewDifferences'),
                 onClick: (event) => {
                   event.stopPropagation();
                   blurActiveElement();
@@ -143,7 +145,7 @@ const GroupRow = ({
           )}
           <TooltipIconButton
             props={{
-              title: 'View Files',
+              title: t('bulkEditor.groupRow.viewFiles'),
               onClick: (event) => {
                 event.stopPropagation();
                 blurActiveElement();
@@ -157,7 +159,9 @@ const GroupRow = ({
 
         <IconButton
           size="small"
-          aria-label={open ? 'collapse group' : 'expand group'}
+          aria-label={
+            open ? t('bulkEditor.groupRow.collapseGroup') : t('bulkEditor.groupRow.expandGroup')
+          }
           sx={{ color: 'text.secondary' }}
         >
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}

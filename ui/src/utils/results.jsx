@@ -3,6 +3,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
 import ReportOffIcon from '@mui/icons-material/ReportOff';
 import { colorPalette } from '../styles/colorPalette';
+import i18n from '../i18n';
 
 /**
  * Utility functions for interpreting and displaying analysis results.
@@ -30,11 +31,11 @@ export const getSimilarityIconForBulk = (success) => {
 };
 
 export const getSimilarityLabel = (similarity) => {
-  if (similarity === null) return 'Analysis Failed';
-  if (similarity >= 75) return 'Critical Match';
-  if (similarity >= 50) return 'High Match';
-  if (similarity >= 25) return 'Medium Match';
-  return 'Low Match';
+  if (similarity === null) return i18n.t('results.label.failed');
+  if (similarity >= 75) return i18n.t('results.label.critical');
+  if (similarity >= 50) return i18n.t('results.label.high');
+  if (similarity >= 25) return i18n.t('results.label.medium');
+  return i18n.t('results.label.low');
 };
 
 export const RESULTS_STATUS = {

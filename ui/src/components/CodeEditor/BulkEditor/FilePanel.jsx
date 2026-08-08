@@ -6,6 +6,7 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import FileTable from './FileTable';
 import { getComparator } from '../../../utils/table';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   addFilesToBulkEditor,
   updateBulkEditorSelectedFiles,
@@ -14,6 +15,7 @@ import FolderZipIcon from '@mui/icons-material/FolderZip';
 import { SUPPORTED_COMPRESSED_EXTENSIONS } from '../../../constants/ui';
 
 const FilePanel = ({ onViewSelected }) => {
+  const { t } = useTranslation();
   const totalFiles = useSelector((state) => state.fileManager.bulkEditorFiles.files);
   const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
   const [page, setPage] = useState(0);
@@ -117,20 +119,20 @@ const FilePanel = ({ onViewSelected }) => {
         >
           <FolderOpenIcon />
           <Typography variant="caption" noWrap sx={{ fontWeight: 600, color: 'text.primary' }}>
-            {'File Manager'}
+            {t('bulkEditor.filePanel.title')}
           </Typography>
         </Stack>
         <Chip
-          label={`${totalFiles.length} Total Files`}
+          label={t('bulkEditor.filePanel.totalFiles', { count: totalFiles.length })}
           size="small"
           variant="outlined"
           sx={{ height: 24, borderColor: 'divider', color: 'text.secondary', flexShrink: 0 }}
         />
         <Stack direction="row" sx={{ flexShrink: 0 }}>
-          <TooltipIconButton props={{ title: 'Upload Files' }} asChild>
+          <TooltipIconButton props={{ title: t('bulkEditor.filePanel.uploadFiles') }} asChild>
             <FileUploadButton onFilesSelected={handleFileUploaded} multiple />
           </TooltipIconButton>
-          <TooltipIconButton props={{ title: 'Upload Zip File' }} asChild>
+          <TooltipIconButton props={{ title: t('bulkEditor.filePanel.uploadZip') }} asChild>
             <FileUploadButton
               onFilesSelected={handleFileUploaded}
               icon={<FolderZipIcon />}

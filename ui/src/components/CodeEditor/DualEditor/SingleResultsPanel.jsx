@@ -10,6 +10,7 @@ import {
 import { colorPalette } from '../../../styles/colorPalette';
 import { getSimilarityIcon, getSimilarityColor, getSimilarityLabel } from '../../../utils/results';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import TooltipIconButton from '../../Common/TooltipIconButton';
 import DifferenceIcon from '@mui/icons-material/Difference';
 import FileDiffViewerDialog from '../FileDiffViewerDialog';
@@ -17,6 +18,7 @@ import { useState } from 'react';
 import { blurActiveElement } from '../../../utils/editor';
 
 const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
+  const { t } = useTranslation();
   const [isDiffViewerOpen, setIsDiffViewerOpen] = useState(false);
   const results = useSelector((state) => state.fileManager.dualEditorFiles.results);
 
@@ -52,7 +54,7 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
           variant="body2"
           sx={{ color: colorPalette.darkMode.textSecondary, textAlign: 'center' }}
         >
-          Load two files and click "Analyze" to see results
+          {t('dualResults.empty')}
         </Typography>
       </Paper>
     );
@@ -74,7 +76,7 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
             variant="body2"
             sx={{ color: colorPalette.darkMode.textSecondary, fontWeight: 500 }}
           >
-            Loading results...
+            {t('dualResults.loading')}
           </Typography>
         </Box>
       </Paper>
@@ -97,13 +99,17 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
               variant="caption"
               sx={{ color: colorPalette.darkMode.textSecondary, display: 'block', lineHeight: 1.2 }}
             >
-              Overall Similarity
+              {t('dualResults.overallSimilarity')}
             </Typography>
             <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2, mt: 0.5 }}>
-              {results.similarity !== null ? `${results.similarity.toFixed(1)}%` : 'N/A'}
+              {results.similarity !== null
+                ? `${results.similarity.toFixed(1)}%`
+                : t('dualResults.notAvailable')}
             </Typography>
           </Box>
-          <TooltipIconButton props={{ title: 'View Differences', onClick: handleOpenDiffViewer }}>
+          <TooltipIconButton
+            props={{ title: t('dualResults.viewDifferences'), onClick: handleOpenDiffViewer }}
+          >
             <DifferenceIcon fontSize="small" />
           </TooltipIconButton>
           <Chip
@@ -145,7 +151,7 @@ const SingleResultsPanel = ({ isAnalyzing = false, files = [] }) => {
           variant="caption"
           sx={{ color: colorPalette.darkMode.textSecondary, display: 'block', mb: 0.5 }}
         >
-          Details
+          {t('dualResults.details')}
         </Typography>
         <Typography
           variant="body2"

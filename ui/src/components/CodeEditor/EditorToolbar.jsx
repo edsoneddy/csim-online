@@ -1,7 +1,8 @@
 import { Stack, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
-import { languageField, languageOptions } from '../../constants/ui';
+import { useTranslation } from 'react-i18next';
+import { languageOptions } from '../../constants/ui';
 import {
   ANALYZE_BUTTON,
   CLEAR_BUTTON,
@@ -22,17 +23,20 @@ const EditorToolbar = ({
   threshold,
   onThresholdChange,
 }) => {
+  const { t } = useTranslation();
+  const languageLabel = t('editor.toolbar.languageLabel');
+
   const getToolbarOption = (option) => {
     switch (option) {
       case LANGUAGE_SELECT:
         return (
           <FormControl size={'small'} sx={{ minWidth: 120 }}>
-            <InputLabel id="language-select-label">{languageField}</InputLabel>
+            <InputLabel id="language-select-label">{languageLabel}</InputLabel>
             <Select
               labelId="language-select-label"
               id={LANGUAGE_SELECT}
               value={language}
-              label={languageField}
+              label={languageLabel}
               onChange={(event) => {
                 onLanguageChange(event.target.value);
               }}
@@ -59,7 +63,7 @@ const EditorToolbar = ({
               minWidth: { xs: 'auto', sm: 120 },
             }}
           >
-            {'Analyze'}
+            {t('editor.toolbar.analyze')}
           </Button>
         );
       case CLEAR_BUTTON:
@@ -75,13 +79,13 @@ const EditorToolbar = ({
               minWidth: { xs: 'auto', sm: 120 },
             }}
           >
-            Clear All
+            {t('editor.toolbar.clearAll')}
           </Button>
         );
       case THRESHOLD_SLIDER:
         return (
           <InputSlider
-            label="Threshold"
+            label={t('editor.toolbar.threshold')}
             value={threshold}
             onChange={onThresholdChange}
             suffix="%"

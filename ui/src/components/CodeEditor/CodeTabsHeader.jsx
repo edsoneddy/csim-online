@@ -1,8 +1,9 @@
 import { AppBar, Tabs, Tab } from '@mui/material';
 import { Code as CodeIcon, FormatListNumbered as ListNumberedIcon } from '@mui/icons-material';
-import { BULK_EDITOR, DUAL_EDITOR } from '../../constants/ui';
+import { useTranslation } from 'react-i18next';
 
 const CodeTabsHeader = ({ value, onChange }) => {
+  const { t } = useTranslation();
   return (
     <AppBar
       position="static"
@@ -24,7 +25,7 @@ const CodeTabsHeader = ({ value, onChange }) => {
         <Tab
           icon={<CodeIcon fontSize="small" />}
           iconPosition="end"
-          label={DUAL_EDITOR}
+          label={t('editor.tabs.dual')}
           id="tab-0"
           sx={{
             minHeight: '38px',
@@ -35,7 +36,7 @@ const CodeTabsHeader = ({ value, onChange }) => {
         <Tab
           icon={<ListNumberedIcon fontSize="small" />}
           iconPosition="end"
-          label={BULK_EDITOR}
+          label={t('editor.tabs.bulk')}
           id="tab-1"
           sx={{
             minHeight: '38px',

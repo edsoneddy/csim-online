@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import EditorToolbar from '../EditorToolbar';
 import FilePanel from './FilePanel';
 import MultiResultsPanel from './MultiResultsPanel';
@@ -18,6 +19,7 @@ import FileDiffViewerDialog from '../FileDiffViewerDialog';
 import { blurActiveElement } from '../../../utils/editor';
 
 const BulkEditor = () => {
+  const { t } = useTranslation();
   const [language, setLanguage] = useState(defaultLanguage);
   const [threshold, setThreshold] = useState(defaultThreshold);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
@@ -82,7 +84,7 @@ const BulkEditor = () => {
         similarity_groups: similarity_groups,
         similarity_groups_avg: similarity_groups_avg,
         unique_groups: unique_groups,
-        details: `Analysis successfully completed`,
+        details: t('dualResults.analysisComplete'),
         threshold: threshold,
         files: selected,
         success: true,
@@ -106,10 +108,10 @@ const BulkEditor = () => {
         similarity_groups: [],
         similarity_groups_avg: [],
         unique_groups: [],
-        details: 'An error occurred during analysis. Please try again.',
+        details: t('dualResults.analysisError'),
         threshold: threshold,
         files: selected.map((file) => ({
-          name: file.name || 'Untitled',
+          name: file.name || t('common.untitledFile'),
           content: file.content,
         })),
         success: false,

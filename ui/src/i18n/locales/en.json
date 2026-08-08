@@ -1,0 +1,350 @@
+{
+  "app": {
+    "title": "CSIM Online"
+  },
+  "layout": {
+    "appBar": {
+      "toggleDrawer": "Toggle drawer",
+      "openSessionHistory": "Open session history"
+    },
+    "drawer": {
+      "collapseMenu": "Collapse menu",
+      "sections": {
+        "code": "Code",
+        "helpCenter": "Help Center",
+        "contactUs": "Contact us"
+      }
+    }
+  },
+  "language": {
+    "switcherLabel": "Change language",
+    "names": {
+      "en": "English",
+      "es": "Spanish"
+    }
+  },
+  "editor": {
+    "tabs": {
+      "dual": "Dual Editor",
+      "bulk": "Bulk Editor"
+    },
+    "toolbar": {
+      "languageLabel": "Language",
+      "analyze": "Analyze",
+      "clearAll": "Clear All",
+      "threshold": "Threshold"
+    },
+    "panel": {
+      "upload": "Upload",
+      "clear": "Clear",
+      "modified": "Modified",
+      "lines_one": "{{count}} line",
+      "lines_other": "{{count}} lines",
+      "chars_one": "{{count}} char",
+      "chars_other": "{{count}} chars"
+    }
+  },
+  "dualResults": {
+    "empty": "Load two files and click \"Analyze\" to see results",
+    "loading": "Loading results...",
+    "overallSimilarity": "Overall Similarity",
+    "notAvailable": "N/A",
+    "viewDifferences": "View Differences",
+    "details": "Details",
+    "analysisComplete": "Analysis successfully completed",
+    "analysisError": "An error occurred during analysis. Please try again."
+  },
+  "diffViewer": {
+    "title": "File Diff Viewer",
+    "filesLoaded_one": "{{count}} file loaded",
+    "filesLoaded_other": "{{count}} files loaded",
+    "noFilesAvailable": "No files available to compare",
+    "closeViewer": "Close diff viewer",
+    "original": "Original",
+    "modified": "Modified",
+    "originalFile": "Original: {{name}}",
+    "modifiedFile": "Modified: {{name}}",
+    "noFilesSelected": "No files selected",
+    "addTwoFiles": "Add two files to bulk editor to compare them here."
+  },
+  "fileViewer": {
+    "title": "File Viewer",
+    "filesLoaded_one": "{{count}} file loaded",
+    "filesLoaded_other": "{{count}} files loaded",
+    "noFilesAvailable": "No files available to preview",
+    "prev": "Prev",
+    "next": "Next",
+    "closeViewer": "Close viewer",
+    "noFileSelected": "No file selected",
+    "addFilesToPreview": "Add files to bulk editor to preview them here."
+  },
+  "bulkEditor": {
+    "filePanel": {
+      "title": "File Manager",
+      "totalFiles_one": "{{count}} Total File",
+      "totalFiles_other": "{{count}} Total Files",
+      "uploadFiles": "Upload Files",
+      "uploadZip": "Upload Zip File",
+      "noFilesFound": "No files found matching the selected filters."
+    },
+    "fileTableHeader": {
+      "selectFiles": "Select files",
+      "selectionOptions": "Selection options",
+      "selectAllFiles": "Select all files ({{count}})",
+      "none": "None",
+      "name": "Name",
+      "size": "Size"
+    },
+    "fileTableToolbar": {
+      "selected_one": "{{count}} selected",
+      "selected_other": "{{count}} selected",
+      "noneSelected": "0 selected",
+      "view": "View",
+      "delete": "Delete",
+      "filter": "Filter",
+      "filterByName": "Filter by name",
+      "add": "Add",
+      "activeFilters": "Active Filters ({{count}}):",
+      "clearAll": "Clear All",
+      "close": "Close"
+    },
+    "multiResults": {
+      "similarityGroups": "Similarity Groups",
+      "analyzing": "Analyzing...",
+      "noResults": "No Results",
+      "analysisFailed": "Analysis Failed",
+      "selectFilesPrompt": "Select files and click \"Analyze\" to see results",
+      "errorProcessing": "Error processing files."
+    },
+    "resultsHeader": {
+      "title": "Analysis Results",
+      "threshold": "Threshold {{value}}",
+      "export": "Export",
+      "clear": "Clear",
+      "exportFileType": "Text File"
+    },
+    "resultsStats": {
+      "totalGroups": "Total Groups",
+      "groupsIdentified": "Groups identified",
+      "suspiciousClusters": "Suspicious Clusters",
+      "highSimilarityGroups": "High similarity groups",
+      "uniqueFiles": "Unique Files",
+      "filesWithNoMatches": "Files with no matches"
+    },
+    "groupRow": {
+      "riskClean": "Clean",
+      "riskHigh": "High",
+      "riskMedium": "Medium",
+      "riskLow": "Low",
+      "viewDifferences": "View Differences",
+      "viewFiles": "View Files",
+      "files_one": "{{count}} file",
+      "files_other": "{{count}} files",
+      "collapseGroup": "Collapse group",
+      "expandGroup": "Expand group"
+    },
+    "groupFilesTable": {
+      "name": "Name",
+      "size": "Size",
+      "lastModified": "Last Modified"
+    }
+  },
+  "sessionHistory": {
+    "title": "Session History ({{count}})",
+    "clearAll": "Clear all",
+    "bulkAnalysis_one": "Bulk Analysis ({{count}} file)",
+    "bulkAnalysis_other": "Bulk Analysis ({{count}} files)",
+    "comparison": "{{file1}} vs {{file2}}",
+    "success": "Success",
+    "failed": "Failed",
+    "deleteItem": "Delete history item",
+    "collapseDetails": "Collapse details",
+    "expandDetails": "Expand details",
+    "uniqueFiles": "Unique Files",
+    "copiedFiles": "Copied Files",
+    "threshold": "Threshold",
+    "totalLines": "Total Lines"
+  },
+  "results": {
+    "label": {
+      "failed": "Analysis Failed",
+      "critical": "Critical Match",
+      "high": "High Match",
+      "medium": "Medium Match",
+      "low": "Low Match"
+    }
+  },
+  "fileUpload": {
+    "limitExceededTitle": "File Upload Limit Exceeded",
+    "limitExceeded": "You can only upload a maximum of {{max}} files in the bulk editor.",
+    "processingErrorTitle": "File Upload Error",
+    "processingError": "An error occurred while processing the selected files."
+  },
+  "infoDialog": {
+    "defaultTitle": "Information",
+    "close": "Close"
+  },
+  "common": {
+    "unknownSize": "Unknown size",
+    "unknownDate": "Unknown",
+    "fileLabel": "File {{number}}",
+    "editorLabel": "Editor {{number}}",
+    "untitledFile": "Untitled file"
+  },
+  "contactUs": {
+    "pageTitle": "Contact & Feedback",
+    "pageSubtitle": "Have questions, found a bug, or want to suggest a new feature? We'd love to hear from you.",
+    "methods": {
+      "email": "Email",
+      "phone": "Phone",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter"
+    },
+    "formTitle": "Send us a Message",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "John Doe",
+    "emailAddress": "Email Address",
+    "emailPlaceholder": "your.email@example.com",
+    "subject": "Subject / Category",
+    "subjectPlaceholder": "e.g., Bug Report, Feature Suggestion, Support",
+    "message": "Message",
+    "messagePlaceholder": "Tell us more about your inquiry or feedback...",
+    "sending": "Sending...",
+    "sendMessage": "Send Message",
+    "validation": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "subjectRequired": "Subject is required",
+      "messageRequired": "Message is required",
+      "messageTooShort": "Message must be at least 10 characters"
+    },
+    "submitSuccessTitle": "Submission Successful",
+    "submitSuccess": "Your message has been submitted successfully.",
+    "submitErrorTitle": "Submission Error",
+    "submitError": "There was an error submitting your message. Please try again later."
+  },
+  "helpCenter": {
+    "pageTitle": "Help Center",
+    "pageSubtitle": "Learn how to use CSIM Online to detect code similarity and plagiarism",
+    "quickLinksTitle": "Quick Links",
+    "quickLinks": {
+      "howItWorks": {
+        "title": "How It Works",
+        "description": "Learn how our comparison algorithm works"
+      },
+      "supportedLanguages": {
+        "title": "Supported Languages",
+        "description": "3 programming languages supported"
+      },
+      "understandingResults": {
+        "title": "Understanding Results",
+        "description": "How to interpret similarity scores"
+      },
+      "contactSupport": {
+        "title": "Contact Support",
+        "description": "Get help from our development team"
+      }
+    },
+    "howToUseTitle": "How to Use CSIM Online",
+    "dualGuide": {
+      "title": "Dual Editor (1-to-1 Comparison)",
+      "subtitle": "Ideal for checking two specific files side-by-side.",
+      "step1": "Select the programming language from the top toolbar.",
+      "step2": "Upload a file or paste your code directly into the left and right editors.",
+      "step3": "Click the \"Analyze\" button to run the comparison.",
+      "step4": "Check the \"Overall Similarity\" score at the bottom. Click the \"View Differences\" icon to see highlighted matches."
+    },
+    "bulkGuide": {
+      "title": "Bulk Editor (Multiple Files)",
+      "subtitle": "Analyze entire classrooms or project folders at once.",
+      "step1": "Select the programming language from the top toolbar.",
+      "step2": "Set your desired Similarity Threshold percentage. Only files matching above this limit will be grouped.",
+      "step3": "Upload multiple source files or a single ZIP archive containing your code.",
+      "step4": "Select files in the file manager to include in the analysis.",
+      "step5": "Click \"Analyze\" to process all selected files simultaneously.",
+      "step6": "Review the generated Similarity Groups. Expand a group to view diffs or inspect individual files."
+    },
+    "hostingTitle": "CSIM Hosting",
+    "hostingCard": {
+      "title": "Render Free Plan",
+      "subtitle": "CSIM is hosted on Render under the free plan."
+    },
+    "techSpecsTitle": "Technical specifications",
+    "techSpecs": {
+      "ram": "RAM: 512 MB",
+      "cpu": "CPU: 0.1 shared vCPU",
+      "storage": "Storage: Ephemeral and cleared on restart"
+    },
+    "featuresTitle": "Features and limits",
+    "features": {
+      "spinDown": "Spin-down: Suspends after 15 minutes of inactivity, with a 30-50 second cold start",
+      "monthlyCompute": "Monthly compute: 750 free hours",
+      "ssl": "SSL/TLS: Automatic, free certificates for custom domains and .onrender.com subdomains"
+    },
+    "noteTitle": "Note",
+    "noteBody": "512 MB of RAM are a good fit for FastAPI-based services.",
+    "searchPlaceholder": "Search for a question...",
+    "faqTitle": "Frequently Asked Questions",
+    "faqNoResults": "We could not find answers for your search. Try using different keywords.",
+    "faq": {
+      "gettingStarted": {
+        "category": "Getting Started",
+        "q1": {
+          "q": "What programming languages are supported?",
+          "a": "Currently, we support Python, Java, and C++. We are actively working on adding more languages in the near future."
+        },
+        "q2": {
+          "q": "Can I paste code directly instead of uploading files?",
+          "a": "Yes! You can paste code directly into the provided text editors for both files in the \"Dual Editor\" section. Just make sure to select the correct programming language before analyzing."
+        },
+        "q3": {
+          "q": "How does the Similarity Threshold work?",
+          "a": "The threshold is a percentage value (0% to 100%) that determines how strict the grouping algorithm should be. For example, setting it to 50% means the tool will flag and group files that share at least half of their logical structure. You can adjust this slider in the Bulk Editor before running the analysis."
+        },
+        "q4": {
+          "q": "Is there a limit to the number of files for the \"Bulk Editor\"?",
+          "a": "You can upload individual files or compress them into a ZIP archive for easier uploading. Currently, there is a limit of 50 files per bulk analysis to ensure optimal performance."
+        }
+      },
+      "understandingResults": {
+        "category": "Understanding Results",
+        "q1": {
+          "q": "What does the overall similarity percentage mean?",
+          "a": "The similarity percentage indicates how much of the logical code structure in the files is identical. A 100% match means the logic is identical, while lower percentages indicate partial reuse. Use the \"View Differences\" (diff) button in the results to see the exact matching lines highlighted."
+        }
+      },
+      "features": {
+        "category": "Features",
+        "q1": {
+          "q": "How do I use the Action Buttons in the results?",
+          "a": "Hover over any button in the app to see a descriptive tooltip. In the results panel, you will find buttons to expand file groups, view side-by-side differences (Diff Viewer), or inspect the raw file content."
+        },
+        "q2": {
+          "q": "Can I download my results?",
+          "a": "Yes, the download and export features are available in the top right corner of the results panel. Currently, this is only available in the \"Bulk Editor\" section."
+        }
+      },
+      "bestPractices": {
+        "category": "Best Practices",
+        "q1": {
+          "q": "How accurate is the plagiarism detection?",
+          "a": "Our algorithm compares deep code structure and logic, not just plain text. For best results, analyze complete files rather than short snippets. The accuracy improves with larger code samples."
+        },
+        "q2": {
+          "q": "Should I analyze compiled or source code?",
+          "a": "Always use raw source code files (.py, .cpp, .java). Compiled code or executables cannot be analyzed."
+        },
+        "q3": {
+          "q": "Can the tool detect obfuscated code?",
+          "a": "Because our tool analyzes logical structure and variable usage patterns rather than just text matching, it can bypass basic obfuscation like renaming variables or changing indentation."
+        }
+      }
+    },
+    "stillHaveQuestions": {
+      "title": "Still have questions?",
+      "description": "Go to the Contact Us section to reach out to our support team for further assistance."
+    }
+  }
+}

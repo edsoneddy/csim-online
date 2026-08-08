@@ -4,6 +4,7 @@ import FileTableToolbar from './FileTableToolbar';
 import FileTableHeader from './FileTableHeader';
 import FileTableRow from './FileTableRow';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { PAGE_SIZE_OPTIONS } from '../../../utils/table';
 
 const FileTable = ({
@@ -26,6 +27,7 @@ const FileTable = ({
   filteredFiles,
   onViewSelected,
 }) => {
+  const { t } = useTranslation();
   const selected = useSelector((state) => state.fileManager.bulkEditorFiles.selected);
   return (
     <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -77,7 +79,7 @@ const FileTable = ({
             {visibleFiles.length === 0 && (
               <Box sx={{ p: 3, textAlign: 'center' }}>
                 <Typography variant="body2" color="text.secondary">
-                  No files found matching the selected filters.
+                  {t('bulkEditor.filePanel.noFilesFound')}
                 </Typography>
               </Box>
             )}

@@ -2,6 +2,7 @@ import { IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useRef, forwardRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { MAX_FILES_IN_BULK_EDITOR } from '../../utils/table';
 import { updateInfoDialog } from '../../hooks/redux/appActions';
@@ -10,6 +11,7 @@ import { blurActiveElement } from '../../utils/editor';
 
 const FileUploadButton = forwardRef(
   ({ onFilesSelected, disabled = false, multiple = false, icon, extensions, ...props }, ref) => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const fileInputRef = useRef(null);
     const filesLength = (useSelector((state) => state.fileManager.bulkEditorFiles.files) || [])
@@ -87,8 +89,8 @@ const FileUploadButton = forwardRef(
           dispatch(
             updateInfoDialog(
               true,
-              `You can only upload a maximum of ${MAX_FILES_IN_BULK_EDITOR} files in the bulk editor.`,
-              'File Upload Limit Exceeded'
+              t('fileUpload.limitExceeded', { max: MAX_FILES_IN_BULK_EDITOR }),
+              t('fileUpload.limitExceededTitle')
             )
           );
           return;
@@ -108,9 +110,8 @@ const FileUploadButton = forwardRef(
         dispatch(
           updateInfoDialog(
             true,
-            'An error occurred while processing the selected files.',
-            'File Upload Error',
-            'An error occurred while processing the selected files.'
+            t('fileUpload.processingError'),
+            t('fileUpload.processingErrorTitle')
           )
         );
       } finally {

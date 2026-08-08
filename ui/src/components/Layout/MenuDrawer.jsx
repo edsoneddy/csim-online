@@ -21,6 +21,7 @@ import {
 
 import { Drawer as CustomDrawer, DrawerHeader as CustomDrawerHeader } from '../../utils/menu';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { changeActualContent, openSidebarMenu } from '../../hooks/redux/appActions';
 
 import {
@@ -28,10 +29,10 @@ import {
   CONTACT_US_SECTION,
   HELP_CENTER_SECTION,
   drawerWidth,
-  sections,
 } from '../../constants/ui';
 
 const MenuDrawer = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
@@ -49,13 +50,13 @@ const MenuDrawer = () => {
   const drawerContent = (
     <>
       <CustomDrawerHeader>
-        <IconButton onClick={handleToggle} aria-label="collapse menu">
+        <IconButton onClick={handleToggle} aria-label={t('layout.drawer.collapseMenu')}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </CustomDrawerHeader>
       <Divider />
       <List>
-        <ListItem key={sections.code} disablePadding sx={{ display: 'block' }}>
+        <ListItem key={CODE_SECTION} disablePadding sx={{ display: 'block' }}>
           <ListItemButton
             onClick={() => handleNavigate(CODE_SECTION)}
             sx={{
@@ -73,13 +74,16 @@ const MenuDrawer = () => {
             >
               <CodeIcon />
             </ListItemIcon>
-            <ListItemText primary={sections.code} sx={{ opacity: open ? 1 : 0 }} />
+            <ListItemText
+              primary={t('layout.drawer.sections.code')}
+              sx={{ opacity: open ? 1 : 0 }}
+            />
           </ListItemButton>
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem key={sections.helpCenter} disablePadding sx={{ display: 'block' }}>
+        <ListItem key={HELP_CENTER_SECTION} disablePadding sx={{ display: 'block' }}>
           <ListItemButton
             onClick={() => handleNavigate(HELP_CENTER_SECTION)}
             sx={{
@@ -97,10 +101,13 @@ const MenuDrawer = () => {
             >
               <HelpIcon />
             </ListItemIcon>
-            <ListItemText primary={sections.helpCenter} sx={{ opacity: open ? 1 : 0 }} />
+            <ListItemText
+              primary={t('layout.drawer.sections.helpCenter')}
+              sx={{ opacity: open ? 1 : 0 }}
+            />
           </ListItemButton>
         </ListItem>
-        <ListItem key={sections.contactUs} disablePadding sx={{ display: 'block' }}>
+        <ListItem key={CONTACT_US_SECTION} disablePadding sx={{ display: 'block' }}>
           <ListItemButton
             onClick={() => handleNavigate(CONTACT_US_SECTION)}
             sx={{
@@ -118,7 +125,10 @@ const MenuDrawer = () => {
             >
               <MailIcon />
             </ListItemIcon>
-            <ListItemText primary={sections.contactUs} sx={{ opacity: open ? 1 : 0 }} />
+            <ListItemText
+              primary={t('layout.drawer.sections.contactUs')}
+              sx={{ opacity: open ? 1 : 0 }}
+            />
           </ListItemButton>
         </ListItem>
       </List>

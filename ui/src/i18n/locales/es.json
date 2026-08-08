@@ -1,0 +1,350 @@
+{
+  "app": {
+    "title": "CSIM Online"
+  },
+  "layout": {
+    "appBar": {
+      "toggleDrawer": "Alternar menú",
+      "openSessionHistory": "Abrir historial de sesión"
+    },
+    "drawer": {
+      "collapseMenu": "Contraer menú",
+      "sections": {
+        "code": "Código",
+        "helpCenter": "Centro de ayuda",
+        "contactUs": "Contáctenos"
+      }
+    }
+  },
+  "language": {
+    "switcherLabel": "Cambiar idioma",
+    "names": {
+      "en": "Inglés",
+      "es": "Español"
+    }
+  },
+  "editor": {
+    "tabs": {
+      "dual": "Editor Dual",
+      "bulk": "Editor Masivo"
+    },
+    "toolbar": {
+      "languageLabel": "Lenguaje",
+      "analyze": "Analizar",
+      "clearAll": "Borrar Todo",
+      "threshold": "Umbral"
+    },
+    "panel": {
+      "upload": "Subir",
+      "clear": "Borrar",
+      "modified": "Modificado",
+      "lines_one": "{{count}} línea",
+      "lines_other": "{{count}} líneas",
+      "chars_one": "{{count}} carácter",
+      "chars_other": "{{count}} caracteres"
+    }
+  },
+  "dualResults": {
+    "empty": "Carga dos archivos y haz clic en \"Analizar\" para ver los resultados",
+    "loading": "Cargando resultados...",
+    "overallSimilarity": "Similitud General",
+    "notAvailable": "N/D",
+    "viewDifferences": "Ver Diferencias",
+    "details": "Detalles",
+    "analysisComplete": "Análisis completado con éxito",
+    "analysisError": "Ocurrió un error durante el análisis. Inténtalo de nuevo."
+  },
+  "diffViewer": {
+    "title": "Comparador de Diferencias",
+    "filesLoaded_one": "{{count}} archivo cargado",
+    "filesLoaded_other": "{{count}} archivos cargados",
+    "noFilesAvailable": "No hay archivos disponibles para comparar",
+    "closeViewer": "Cerrar comparador de diferencias",
+    "original": "Original",
+    "modified": "Modificado",
+    "originalFile": "Original: {{name}}",
+    "modifiedFile": "Modificado: {{name}}",
+    "noFilesSelected": "No hay archivos seleccionados",
+    "addTwoFiles": "Agrega dos archivos al editor masivo para compararlos aquí."
+  },
+  "fileViewer": {
+    "title": "Visor de Archivos",
+    "filesLoaded_one": "{{count}} archivo cargado",
+    "filesLoaded_other": "{{count}} archivos cargados",
+    "noFilesAvailable": "No hay archivos disponibles para previsualizar",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "closeViewer": "Cerrar visor",
+    "noFileSelected": "Ningún archivo seleccionado",
+    "addFilesToPreview": "Agrega archivos al editor masivo para previsualizarlos aquí."
+  },
+  "bulkEditor": {
+    "filePanel": {
+      "title": "Administrador de Archivos",
+      "totalFiles_one": "{{count}} Archivo Total",
+      "totalFiles_other": "{{count}} Archivos Totales",
+      "uploadFiles": "Subir Archivos",
+      "uploadZip": "Subir Archivo Zip",
+      "noFilesFound": "No se encontraron archivos que coincidan con los filtros seleccionados."
+    },
+    "fileTableHeader": {
+      "selectFiles": "Seleccionar archivos",
+      "selectionOptions": "Opciones de selección",
+      "selectAllFiles": "Seleccionar todos los archivos ({{count}})",
+      "none": "Ninguno",
+      "name": "Nombre",
+      "size": "Tamaño"
+    },
+    "fileTableToolbar": {
+      "selected_one": "{{count}} seleccionado",
+      "selected_other": "{{count}} seleccionados",
+      "noneSelected": "0 seleccionados",
+      "view": "Ver",
+      "delete": "Eliminar",
+      "filter": "Filtrar",
+      "filterByName": "Filtrar por nombre",
+      "add": "Agregar",
+      "activeFilters": "Filtros Activos ({{count}}):",
+      "clearAll": "Borrar Todo",
+      "close": "Cerrar"
+    },
+    "multiResults": {
+      "similarityGroups": "Grupos de Similitud",
+      "analyzing": "Analizando...",
+      "noResults": "Sin Resultados",
+      "analysisFailed": "Análisis Fallido",
+      "selectFilesPrompt": "Selecciona archivos y haz clic en \"Analizar\" para ver los resultados",
+      "errorProcessing": "Error al procesar los archivos."
+    },
+    "resultsHeader": {
+      "title": "Resultados del Análisis",
+      "threshold": "Umbral {{value}}",
+      "export": "Exportar",
+      "clear": "Borrar",
+      "exportFileType": "Archivo de Texto"
+    },
+    "resultsStats": {
+      "totalGroups": "Grupos Totales",
+      "groupsIdentified": "Grupos identificados",
+      "suspiciousClusters": "Clústeres Sospechosos",
+      "highSimilarityGroups": "Grupos de alta similitud",
+      "uniqueFiles": "Archivos Únicos",
+      "filesWithNoMatches": "Archivos sin coincidencias"
+    },
+    "groupRow": {
+      "riskClean": "Limpio",
+      "riskHigh": "Alto",
+      "riskMedium": "Medio",
+      "riskLow": "Bajo",
+      "viewDifferences": "Ver Diferencias",
+      "viewFiles": "Ver Archivos",
+      "files_one": "{{count}} archivo",
+      "files_other": "{{count}} archivos",
+      "collapseGroup": "Contraer grupo",
+      "expandGroup": "Expandir grupo"
+    },
+    "groupFilesTable": {
+      "name": "Nombre",
+      "size": "Tamaño",
+      "lastModified": "Última Modificación"
+    }
+  },
+  "sessionHistory": {
+    "title": "Historial de Sesión ({{count}})",
+    "clearAll": "Borrar todo",
+    "bulkAnalysis_one": "Análisis Masivo ({{count}} archivo)",
+    "bulkAnalysis_other": "Análisis Masivo ({{count}} archivos)",
+    "comparison": "{{file1}} vs {{file2}}",
+    "success": "Éxito",
+    "failed": "Fallido",
+    "deleteItem": "Eliminar elemento del historial",
+    "collapseDetails": "Contraer detalles",
+    "expandDetails": "Expandir detalles",
+    "uniqueFiles": "Archivos Únicos",
+    "copiedFiles": "Archivos Copiados",
+    "threshold": "Umbral",
+    "totalLines": "Líneas Totales"
+  },
+  "results": {
+    "label": {
+      "failed": "Análisis Fallido",
+      "critical": "Coincidencia Crítica",
+      "high": "Coincidencia Alta",
+      "medium": "Coincidencia Media",
+      "low": "Coincidencia Baja"
+    }
+  },
+  "fileUpload": {
+    "limitExceededTitle": "Límite de Subida de Archivos Excedido",
+    "limitExceeded": "Solo puedes subir un máximo de {{max}} archivos en el editor masivo.",
+    "processingErrorTitle": "Error al Subir Archivos",
+    "processingError": "Ocurrió un error al procesar los archivos seleccionados."
+  },
+  "infoDialog": {
+    "defaultTitle": "Información",
+    "close": "Cerrar"
+  },
+  "common": {
+    "unknownSize": "Tamaño desconocido",
+    "unknownDate": "Desconocido",
+    "fileLabel": "Archivo {{number}}",
+    "editorLabel": "Editor {{number}}",
+    "untitledFile": "Archivo sin título"
+  },
+  "contactUs": {
+    "pageTitle": "Contacto y Comentarios",
+    "pageSubtitle": "¿Tienes preguntas, encontraste un error o quieres sugerir una nueva función? Nos encantaría saber de ti.",
+    "methods": {
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter"
+    },
+    "formTitle": "Envíanos un Mensaje",
+    "fullName": "Nombre Completo",
+    "fullNamePlaceholder": "Juan Pérez",
+    "emailAddress": "Correo Electrónico",
+    "emailPlaceholder": "tu.correo@ejemplo.com",
+    "subject": "Asunto / Categoría",
+    "subjectPlaceholder": "p. ej., Reporte de error, Sugerencia de función, Soporte",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntanos más sobre tu consulta o comentario...",
+    "sending": "Enviando...",
+    "sendMessage": "Enviar Mensaje",
+    "validation": {
+      "nameRequired": "El nombre es obligatorio",
+      "emailRequired": "El correo electrónico es obligatorio",
+      "emailInvalid": "Ingresa un correo electrónico válido",
+      "subjectRequired": "El asunto es obligatorio",
+      "messageRequired": "El mensaje es obligatorio",
+      "messageTooShort": "El mensaje debe tener al menos 10 caracteres"
+    },
+    "submitSuccessTitle": "Envío Exitoso",
+    "submitSuccess": "Tu mensaje se ha enviado correctamente.",
+    "submitErrorTitle": "Error de Envío",
+    "submitError": "Ocurrió un error al enviar tu mensaje. Inténtalo de nuevo más tarde."
+  },
+  "helpCenter": {
+    "pageTitle": "Centro de Ayuda",
+    "pageSubtitle": "Aprende a usar CSIM Online para detectar similitud de código y plagio",
+    "quickLinksTitle": "Enlaces Rápidos",
+    "quickLinks": {
+      "howItWorks": {
+        "title": "Cómo Funciona",
+        "description": "Aprende cómo funciona nuestro algoritmo de comparación"
+      },
+      "supportedLanguages": {
+        "title": "Lenguajes Compatibles",
+        "description": "3 lenguajes de programación compatibles"
+      },
+      "understandingResults": {
+        "title": "Cómo Entender los Resultados",
+        "description": "Cómo interpretar los puntajes de similitud"
+      },
+      "contactSupport": {
+        "title": "Contactar Soporte",
+        "description": "Obtén ayuda de nuestro equipo de desarrollo"
+      }
+    },
+    "howToUseTitle": "Cómo Usar CSIM Online",
+    "dualGuide": {
+      "title": "Editor Dual (Comparación 1 a 1)",
+      "subtitle": "Ideal para comparar dos archivos específicos lado a lado.",
+      "step1": "Selecciona el lenguaje de programación en la barra de herramientas superior.",
+      "step2": "Sube un archivo o pega tu código directamente en los editores izquierdo y derecho.",
+      "step3": "Haz clic en el botón \"Analizar\" para ejecutar la comparación.",
+      "step4": "Consulta el puntaje de \"Similitud General\" en la parte inferior. Haz clic en el ícono \"Ver Diferencias\" para ver las coincidencias resaltadas."
+    },
+    "bulkGuide": {
+      "title": "Editor Masivo (Múltiples Archivos)",
+      "subtitle": "Analiza aulas completas o carpetas de proyectos a la vez.",
+      "step1": "Selecciona el lenguaje de programación en la barra de herramientas superior.",
+      "step2": "Configura el porcentaje de Umbral de Similitud deseado. Solo se agruparán los archivos que coincidan por encima de este límite.",
+      "step3": "Sube varios archivos fuente o un único archivo ZIP que contenga tu código.",
+      "step4": "Selecciona los archivos en el administrador de archivos para incluirlos en el análisis.",
+      "step5": "Haz clic en \"Analizar\" para procesar todos los archivos seleccionados simultáneamente.",
+      "step6": "Revisa los Grupos de Similitud generados. Expande un grupo para ver diferencias o inspeccionar archivos individuales."
+    },
+    "hostingTitle": "Alojamiento de CSIM",
+    "hostingCard": {
+      "title": "Plan Gratuito de Render",
+      "subtitle": "CSIM está alojado en Render bajo el plan gratuito."
+    },
+    "techSpecsTitle": "Especificaciones técnicas",
+    "techSpecs": {
+      "ram": "RAM: 512 MB",
+      "cpu": "CPU: 0.1 vCPU compartida",
+      "storage": "Almacenamiento: Efímero y se borra al reiniciar"
+    },
+    "featuresTitle": "Funciones y límites",
+    "features": {
+      "spinDown": "Suspensión: Se suspende tras 15 minutos de inactividad, con un arranque en frío de 30 a 50 segundos",
+      "monthlyCompute": "Cómputo mensual: 750 horas gratuitas",
+      "ssl": "SSL/TLS: Certificados automáticos y gratuitos para dominios personalizados y subdominios .onrender.com"
+    },
+    "noteTitle": "Nota",
+    "noteBody": "512 MB de RAM son adecuados para servicios basados en FastAPI.",
+    "searchPlaceholder": "Buscar una pregunta...",
+    "faqTitle": "Preguntas Frecuentes",
+    "faqNoResults": "No pudimos encontrar respuestas para tu búsqueda. Intenta con otras palabras clave.",
+    "faq": {
+      "gettingStarted": {
+        "category": "Primeros Pasos",
+        "q1": {
+          "q": "¿Qué lenguajes de programación son compatibles?",
+          "a": "Actualmente admitimos Python, Java y C++. Estamos trabajando activamente para agregar más lenguajes en el futuro cercano."
+        },
+        "q2": {
+          "q": "¿Puedo pegar código directamente en lugar de subir archivos?",
+          "a": "¡Sí! Puedes pegar el código directamente en los editores de texto proporcionados para ambos archivos en la sección \"Editor Dual\". Solo asegúrate de seleccionar el lenguaje de programación correcto antes de analizar."
+        },
+        "q3": {
+          "q": "¿Cómo funciona el Umbral de Similitud?",
+          "a": "El umbral es un valor porcentual (0% a 100%) que determina qué tan estricto debe ser el algoritmo de agrupación. Por ejemplo, configurarlo en 50% significa que la herramienta marcará y agrupará archivos que comparten al menos la mitad de su estructura lógica. Puedes ajustar este control deslizante en el Editor Masivo antes de ejecutar el análisis."
+        },
+        "q4": {
+          "q": "¿Existe un límite en la cantidad de archivos para el \"Editor Masivo\"?",
+          "a": "Puedes subir archivos individuales o comprimirlos en un archivo ZIP para facilitar la carga. Actualmente, hay un límite de 50 archivos por análisis masivo para garantizar un rendimiento óptimo."
+        }
+      },
+      "understandingResults": {
+        "category": "Cómo Entender los Resultados",
+        "q1": {
+          "q": "¿Qué significa el porcentaje de similitud general?",
+          "a": "El porcentaje de similitud indica cuánta de la estructura lógica del código en los archivos es idéntica. Una coincidencia del 100% significa que la lógica es idéntica, mientras que porcentajes más bajos indican reutilización parcial. Usa el botón \"Ver Diferencias\" (diff) en los resultados para ver resaltadas las líneas coincidentes exactas."
+        }
+      },
+      "features": {
+        "category": "Funciones",
+        "q1": {
+          "q": "¿Cómo uso los Botones de Acción en los resultados?",
+          "a": "Pasa el cursor sobre cualquier botón de la aplicación para ver una descripción emergente. En el panel de resultados encontrarás botones para expandir grupos de archivos, ver diferencias lado a lado (Comparador de Diferencias) o inspeccionar el contenido sin procesar de los archivos."
+        },
+        "q2": {
+          "q": "¿Puedo descargar mis resultados?",
+          "a": "Sí, las funciones de descarga y exportación están disponibles en la esquina superior derecha del panel de resultados. Actualmente, esto solo está disponible en la sección \"Editor Masivo\"."
+        }
+      },
+      "bestPractices": {
+        "category": "Buenas Prácticas",
+        "q1": {
+          "q": "¿Qué tan precisa es la detección de plagio?",
+          "a": "Nuestro algoritmo compara la estructura y lógica profunda del código, no solo el texto plano. Para obtener mejores resultados, analiza archivos completos en lugar de fragmentos cortos. La precisión mejora con muestras de código más grandes."
+        },
+        "q2": {
+          "q": "¿Debo analizar código compilado o fuente?",
+          "a": "Usa siempre archivos de código fuente sin procesar (.py, .cpp, .java). No se pueden analizar código compilado ni ejecutables."
+        },
+        "q3": {
+          "q": "¿La herramienta puede detectar código ofuscado?",
+          "a": "Debido a que nuestra herramienta analiza la estructura lógica y los patrones de uso de variables en lugar de solo la coincidencia de texto, puede superar ofuscaciones básicas como renombrar variables o cambiar la indentación."
+        }
+      }
+    },
+    "stillHaveQuestions": {
+      "title": "¿Aún tienes preguntas?",
+      "description": "Ve a la sección de Contacto para comunicarte con nuestro equipo de soporte y obtener más ayuda."
+    }
+  }
+}

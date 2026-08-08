@@ -16,6 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { colorPalette } from '../../styles/colorPalette';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { updateHistory } from '../../hooks/redux/appActions';
 import {
   getSimilarityIcon,
@@ -25,6 +26,7 @@ import {
 import { TYPE_OF_ANALYSIS } from '../../utils/toolbar';
 
 const SessionHistory = () => {
+  const { t, i18n } = useTranslation();
   const [expandedId, setExpandedId] = useState(null);
   const dispatch = useDispatch();
   const history = useSelector((state) => state.history);
@@ -59,9 +61,9 @@ const SessionHistory = () => {
     };
 
     return [
-      { label: 'Unique Files', value: summary.uniqueFiles },
-      { label: 'Copied Files', value: summary.copiedFiles },
-      { label: 'Threshold', value: `${summary.threshold}` },
+      { label: t('sessionHistory.uniqueFiles'), value: summary.uniqueFiles },
+      { label: t('sessionHistory.copiedFiles'), value: summary.copiedFiles },
+      { label: t('sessionHistory.threshold'), value: `${summary.threshold}` },
     ];
   };
 
@@ -87,7 +89,7 @@ const SessionHistory = () => {
         }}
       >
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-          Session History ({history.length})
+          {t('sessionHistory.title', { count: history.length })}
         </Typography>
         <Button
           variant="text"
@@ -103,7 +105,7 @@ const SessionHistory = () => {
             '&:hover': { color: colorPalette.status.error, backgroundColor: 'transparent' },
           }}
         >
-          Clear all
+          {t('sessionHistory.clearAll')}
         </Button>
       </Box>
 
@@ -138,10 +140,17 @@ const SessionHistory = () => {
                 <ListItemText
                   primary={
                     isBulk
-                      ? `Bulk Analysis (${item.bulkSummary?.totalFiles || item.totalFiles || 0} files)`
-                      : item.file1Name + ' vs ' + item.file2Name
+                      ? t('sessionHistory.bulkAnalysis', {
+                          count: item.bulkSummary?.totalFiles || item.totalFiles || 0,
+                        })
+                      : t('sessionHistory.comparison', {
+                          file1: item.file1Name,
+                          file2: item.file2Name,
+                        })
                   }
-                  secondary={new Date(item.timestamp).toLocaleTimeString()}
+                  secondary={new Intl.DateTimeFormat(i18n.resolvedLanguage || i18n.language, {
+                    timeStyle: 'short',
+                  }).format(new Date(item.timestamp))}
                   primaryTypographyProps={{
                     variant: 'body2',
                     fontWeight: 500,
@@ -156,7 +165,7 @@ const SessionHistory = () => {
 
                 {isBulk ? (
                   <Chip
-                    label={item.success ? 'Success' : 'Failed'}
+                    label={item.success ? t('sessionHistory.success') : t('sessionHistory.failed')}
                     size="small"
                     sx={{
                       backgroundColor: item.success
@@ -171,7 +180,11 @@ const SessionHistory = () => {
                   />
                 ) : (
                   <Chip
-                    label={item.similarity !== null ? `${item.similarity.toFixed(0)}%` : 'Failed'}
+                    label={
+                      item.similarity !== null
+                        ? `${item.similarity.toFixed(0)}%`
+                        : t('sessionHistory.failed')
+                    }
                     size="small"
                     sx={{
                       backgroundColor: getSimilarityColor(item.similarity),
@@ -188,7 +201,7 @@ const SessionHistory = () => {
                   <IconButton
                     size="small"
                     onClick={() => handleDelete(index)}
-                    aria-label="delete history item"
+                    aria-label={t('sessionHistory.deleteItem')}
                     sx={{
                       color: colorPalette.status.error,
                       '&:hover': { backgroundColor: colorPalette.alpha.light },
@@ -200,7 +213,11 @@ const SessionHistory = () => {
                   <IconButton
                     size="small"
                     onClick={() => toggleExpand(item.id)}
-                    aria-label={isExpanded ? 'collapse details' : 'expand details'}
+                    aria-label={
+                      isExpanded
+                        ? t('sessionHistory.collapseDetails')
+                        : t('sessionHistory.expandDetails')
+                    }
                     aria-expanded={isExpanded}
                   >
                     <ExpandMoreIcon
@@ -217,25 +234,26 @@ const SessionHistory = () => {
 
               <Collapse in={isExpanded} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
                 <Stack sx={{ p: 2, pt: 0, gap: 1, backgroundColor: colorPalette.darkMode.hover }}>
-                  {(isBulk ? bulkSummary : [{ label: 'Total Lines', value: item.totalLines }]).map(
-                    (detail, idx) => (
-                      <Stack key={idx} direction="row" justifyContent="space-between">
-                        <Typography
-                          variant="caption"
-                          sx={{ color: colorPalette.darkMode.textSecondary }}
-                        >
-                          {detail.label}:
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          fontWeight={600}
-                          sx={{ color: colorPalette.darkMode.textPrimary }}
-                        >
-                          {detail.value || 0}
-                        </Typography>
-                      </Stack>
-                    )
-                  )}
+                  {(isBulk
+                    ? bulkSummary
+                    : [{ label: t('sessionHistory.totalLines'), value: item.totalLines }]
+                  ).map((detail, idx) => (
+                    <Stack key={idx} direction="row" justifyContent="space-between">
+                      <Typography
+                        variant="caption"
+                        sx={{ color: colorPalette.darkMode.textSecondary }}
+                      >
+                        {detail.label}:
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        fontWeight={600}
+                        sx={{ color: colorPalette.darkMode.textPrimary }}
+                      >
+                        {detail.value || 0}
+                      </Typography>
+                    </Stack>
+                  ))}
                 </Stack>
               </Collapse>
             </ListItem>

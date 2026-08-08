@@ -1,5 +1,6 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import EditorToolbar from '../EditorToolbar';
 import EditorPanel from './EditorPanel';
 import SingleResultsPanel from './SingleResultsPanel';
@@ -17,6 +18,7 @@ import { debounce } from 'lodash';
 import { DUAL_EDITOR_FILES_KEY, EDITOR_TYPES } from '../../../utils/toolbar';
 
 const DualEditor = () => {
+  const { t } = useTranslation();
   const [language, setLanguage] = useState(defaultLanguage);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const theme = useTheme();
@@ -98,7 +100,7 @@ const DualEditor = () => {
         totalLines: Math.max(file1?.content.split('\n').length, file2?.content.split('\n').length),
         uniqueBlocks: 0,
         matchedBlocks: 0,
-        details: `Analysis successfully completed`,
+        details: t('dualResults.analysisComplete'),
       };
 
       historyItem = {
@@ -117,7 +119,7 @@ const DualEditor = () => {
         totalLines: 0,
         uniqueBlocks: 0,
         matchedBlocks: 0,
-        details: 'An error occurred during analysis. Please try again.',
+        details: t('dualResults.analysisError'),
       };
       historyItem = {
         id: Date.now(),

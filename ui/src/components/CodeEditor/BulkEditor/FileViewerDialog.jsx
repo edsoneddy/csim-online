@@ -19,6 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Editor from '@monaco-editor/react';
+import { useTranslation } from 'react-i18next';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../../styles/monacoTheme';
 import {
   blurActiveElement,
@@ -29,6 +30,7 @@ import {
 } from '../../../utils/editor';
 
 const FileViewerDialog = ({ open, onClose, files = [] }) => {
+  const { t } = useTranslation();
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -101,12 +103,12 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
         <Stack direction="row" alignItems="center" spacing={1.5}>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }} noWrap>
-              File Viewer
+              {t('fileViewer.title')}
             </Typography>
             <Typography variant="body2" color="text.secondary" noWrap>
               {files.length > 0
-                ? `${files.length} file${files.length === 1 ? '' : 's'} loaded`
-                : 'No files available to preview'}
+                ? t('fileViewer.filesLoaded', { count: files.length })
+                : t('fileViewer.noFilesAvailable')}
             </Typography>
           </Box>
 
@@ -119,7 +121,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
                 onClick={handlePreviousFile}
                 disabled={currentFileIndex === 0}
               >
-                Prev
+                {t('fileViewer.prev')}
               </Button>
               <Button
                 size="small"
@@ -128,12 +130,12 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
                 onClick={handleNextFile}
                 disabled={currentFileIndex >= files.length - 1}
               >
-                Next
+                {t('fileViewer.next')}
               </Button>
             </Stack>
           )}
 
-          <IconButton onClick={handleClose} size="small" aria-label="close viewer">
+          <IconButton onClick={handleClose} size="small" aria-label={t('fileViewer.closeViewer')}>
             <CloseIcon />
           </IconButton>
         </Stack>
@@ -151,7 +153,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
           {files.map((file, index) => (
             <Tab
               key={file.id ?? `${file.name}-${index}`}
-              label={file.name || `File ${index + 1}`}
+              label={file.name || t('common.fileLabel', { number: index + 1 })}
               value={index}
               sx={{ minHeight: 40, textTransform: 'none', fontWeight: 600 }}
             />
@@ -179,9 +181,12 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
               spacing={1}
             >
               <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                <Chip label={currentFile.name || 'Untitled file'} variant="outlined" />
+                <Chip label={currentFile.name || t('common.untitledFile')} variant="outlined" />
                 <Chip label={currentLanguage} variant="outlined" />
-                <Chip label={`${getLineCount(currentContent)} lines`} variant="outlined" />
+                <Chip
+                  label={t('editor.panel.lines', { count: getLineCount(currentContent) })}
+                  variant="outlined"
+                />
                 <Chip label={formatFileSize(currentFile.size)} variant="outlined" />
               </Stack>
 
@@ -238,10 +243,10 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
           >
             <Stack spacing={1} alignItems="center">
               <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                No file selected
+                {t('fileViewer.noFileSelected')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Add files to bulk editor to preview them here.
+                {t('fileViewer.addFilesToPreview')}
               </Typography>
             </Stack>
           </Box>

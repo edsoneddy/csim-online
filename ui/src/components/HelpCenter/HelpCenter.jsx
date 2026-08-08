@@ -34,75 +34,77 @@ import {
 } from '@mui/icons-material';
 import { PageHeader, QuickLinksGrid, FAQSection, SearchBar, ActionCard } from '../Common';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { changeActualContent } from '../../hooks/redux/appActions';
 import { CONTACT_US_SECTION } from '../../constants/ui';
 
 const HelpCenter = () => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
 
   const faqData = [
     {
-      category: 'Getting Started',
+      category: t('helpCenter.faq.gettingStarted.category'),
       icon: <LocalLibraryIcon />,
       questions: [
         {
-          q: 'What programming languages are supported?',
-          a: 'Currently, we support Python, Java, and C++. We are actively working on adding more languages in the near future.',
+          q: t('helpCenter.faq.gettingStarted.q1.q'),
+          a: t('helpCenter.faq.gettingStarted.q1.a'),
         },
         {
-          q: 'Can I paste code directly instead of uploading files?',
-          a: 'Yes! You can paste code directly into the provided text editors for both files in the "Dual Editor" section. Just make sure to select the correct programming language before analyzing.',
+          q: t('helpCenter.faq.gettingStarted.q2.q'),
+          a: t('helpCenter.faq.gettingStarted.q2.a'),
         },
         {
-          q: 'How does the Similarity Threshold work?',
-          a: 'The threshold is a percentage value (0% to 100%) that determines how strict the grouping algorithm should be. For example, setting it to 50% means the tool will flag and group files that share at least half of their logical structure. You can adjust this slider in the Bulk Editor before running the analysis.',
+          q: t('helpCenter.faq.gettingStarted.q3.q'),
+          a: t('helpCenter.faq.gettingStarted.q3.a'),
         },
         {
-          q: 'Is there a limit to the number of files for the "Bulk Editor"?',
-          a: 'You can upload individual files or compress them into a ZIP archive for easier uploading. Currently, there is a limit of 50 files per bulk analysis to ensure optimal performance.',
+          q: t('helpCenter.faq.gettingStarted.q4.q'),
+          a: t('helpCenter.faq.gettingStarted.q4.a'),
         },
       ],
     },
     {
-      category: 'Understanding Results',
+      category: t('helpCenter.faq.understandingResults.category'),
       icon: <CodeIcon />,
       questions: [
         {
-          q: 'What does the overall similarity percentage mean?',
-          a: 'The similarity percentage indicates how much of the logical code structure in the files is identical. A 100% match means the logic is identical, while lower percentages indicate partial reuse. Use the "View Differences" (diff) button in the results to see the exact matching lines highlighted.',
+          q: t('helpCenter.faq.understandingResults.q1.q'),
+          a: t('helpCenter.faq.understandingResults.q1.a'),
         },
       ],
     },
     {
-      category: 'Features',
+      category: t('helpCenter.faq.features.category'),
       icon: <BugReportIcon />,
       questions: [
         {
-          q: 'How do I use the Action Buttons in the results?',
-          a: 'Hover over any button in the app to see a descriptive tooltip. In the results panel, you will find buttons to expand file groups, view side-by-side differences (Diff Viewer), or inspect the raw file content.',
+          q: t('helpCenter.faq.features.q1.q'),
+          a: t('helpCenter.faq.features.q1.a'),
         },
         {
-          q: 'Can I download my results?',
-          a: 'Yes, the download and export features are available in the top right corner of the results panel. Currently, this is only available in the "Bulk Editor" section.',
+          q: t('helpCenter.faq.features.q2.q'),
+          a: t('helpCenter.faq.features.q2.a'),
         },
       ],
     },
     {
-      category: 'Best Practices',
+      category: t('helpCenter.faq.bestPractices.category'),
       icon: <VideoLibraryIcon />,
       questions: [
         {
-          q: 'How accurate is the plagiarism detection?',
-          a: 'Our algorithm compares deep code structure and logic, not just plain text. For best results, analyze complete files rather than short snippets. The accuracy improves with larger code samples.',
+          q: t('helpCenter.faq.bestPractices.q1.q'),
+          a: t('helpCenter.faq.bestPractices.q1.a'),
         },
         {
-          q: 'Should I analyze compiled or source code?',
-          a: 'Always use raw source code files (.py, .cpp, .java). Compiled code or executables cannot be analyzed.',
+          q: t('helpCenter.faq.bestPractices.q2.q'),
+          a: t('helpCenter.faq.bestPractices.q2.a'),
         },
         {
-          q: 'Can the tool detect obfuscated code?',
-          a: 'Because our tool analyzes logical structure and variable usage patterns rather than just text matching, it can bypass basic obfuscation like renaming variables or changing indentation.',
+          q: t('helpCenter.faq.bestPractices.q3.q'),
+          a: t('helpCenter.faq.bestPractices.q3.a'),
         },
       ],
     },
@@ -110,15 +112,15 @@ const HelpCenter = () => {
 
   const quickLinks = [
     {
-      title: 'How It Works',
-      description: 'Learn how our comparison algorithm works',
+      title: t('helpCenter.quickLinks.howItWorks.title'),
+      description: t('helpCenter.quickLinks.howItWorks.description'),
       icon: <LocalLibraryIcon sx={{ fontSize: 40 }} />,
       onClick: () =>
         window.open('https://github.com/edsoneddy/csim/blob/main/docs/CodeSimilarity.md', '_blank'),
     },
     {
-      title: 'Supported Languages',
-      description: '3 programming languages supported',
+      title: t('helpCenter.quickLinks.supportedLanguages.title'),
+      description: t('helpCenter.quickLinks.supportedLanguages.description'),
       icon: <CodeIcon sx={{ fontSize: 40 }} />,
       onClick: () =>
         window.open(
@@ -127,8 +129,8 @@ const HelpCenter = () => {
         ),
     },
     {
-      title: 'Understanding Results',
-      description: 'How to interpret similarity scores',
+      title: t('helpCenter.quickLinks.understandingResults.title'),
+      description: t('helpCenter.quickLinks.understandingResults.description'),
       icon: <QuestionAnswerIcon sx={{ fontSize: 40 }} />,
       onClick: () =>
         window.open(
@@ -137,8 +139,8 @@ const HelpCenter = () => {
         ),
     },
     {
-      title: 'Contact Support',
-      description: 'Get help from our development team',
+      title: t('helpCenter.quickLinks.contactSupport.title'),
+      description: t('helpCenter.quickLinks.contactSupport.description'),
       icon: <VideoLibraryIcon sx={{ fontSize: 40 }} />,
       onClick: () => dispatch(changeActualContent(CONTACT_US_SECTION)),
     },
@@ -157,16 +159,13 @@ const HelpCenter = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-      <PageHeader
-        title="Help Center"
-        subtitle="Learn how to use CSIM Online to detect code similarity and plagiarism"
-      />
+      <PageHeader title={t('helpCenter.pageTitle')} subtitle={t('helpCenter.pageSubtitle')} />
 
-      <QuickLinksGrid title="Quick Links" links={quickLinks} />
+      <QuickLinksGrid title={t('helpCenter.quickLinksTitle')} links={quickLinks} />
 
       <Box sx={{ mb: 6, mt: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>
-          How to Use CSIM Online
+          {t('helpCenter.howToUseTitle')}
         </Typography>
         <Grid container spacing={3}>
           {/* Dual Editor Guide */}
@@ -176,35 +175,35 @@ const HelpCenter = () => {
             >
               <CardContent>
                 <Typography variant="h6" color="primary" gutterBottom>
-                  Dual Editor (1-to-1 Comparison)
+                  {t('helpCenter.dualGuide.title')}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-                  Ideal for checking two specific files side-by-side.
+                  {t('helpCenter.dualGuide.subtitle')}
                 </Typography>
                 <List dense>
                   <ListItem>
                     <ListItemIcon>
                       <LooksOneIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Select the programming language from the top toolbar." />
+                    <ListItemText primary={t('helpCenter.dualGuide.step1')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <LooksTwoIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Upload a file or paste your code directly into the left and right editors." />
+                    <ListItemText primary={t('helpCenter.dualGuide.step2')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Looks3Icon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary='Click the "Analyze" button to run the comparison.' />
+                    <ListItemText primary={t('helpCenter.dualGuide.step3')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Looks4Icon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary='Check the "Overall Similarity" score at the bottom. Click the "View Differences" icon to see highlighted matches.' />
+                    <ListItemText primary={t('helpCenter.dualGuide.step4')} />
                   </ListItem>
                 </List>
               </CardContent>
@@ -217,47 +216,47 @@ const HelpCenter = () => {
             >
               <CardContent>
                 <Typography variant="h6" color="primary" gutterBottom>
-                  Bulk Editor (Multiple Files)
+                  {t('helpCenter.bulkGuide.title')}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-                  Analyze entire classrooms or project folders at once.
+                  {t('helpCenter.bulkGuide.subtitle')}
                 </Typography>
                 <List dense>
                   <ListItem>
                     <ListItemIcon>
                       <LooksOneIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Select the programming language from the top toolbar." />
+                    <ListItemText primary={t('helpCenter.bulkGuide.step1')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <LooksTwoIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Set your desired Similarity Threshold percentage. Only files matching above this limit will be grouped." />
+                    <ListItemText primary={t('helpCenter.bulkGuide.step2')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Looks3Icon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Upload multiple source files or a single ZIP archive containing your code." />
+                    <ListItemText primary={t('helpCenter.bulkGuide.step3')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Looks4Icon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Select files in the file manager to include in the analysis." />
+                    <ListItemText primary={t('helpCenter.bulkGuide.step4')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Looks5Icon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary='Click "Analyze" to process all selected files simultaneously.' />
+                    <ListItemText primary={t('helpCenter.bulkGuide.step5')} />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <Looks6Icon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Review the generated Similarity Groups. Expand a group to view diffs or inspect individual files." />
+                    <ListItemText primary={t('helpCenter.bulkGuide.step6')} />
                   </ListItem>
                 </List>
               </CardContent>
@@ -268,66 +267,66 @@ const HelpCenter = () => {
 
       <Box sx={{ mb: 6, mt: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>
-          CSIM Hosting
+          {t('helpCenter.hostingTitle')}
         </Typography>
         <Card sx={{ backgroundColor: 'background.paper', backgroundImage: 'none' }}>
           <CardContent>
             <Typography variant="h6" color="primary" gutterBottom>
-              Render Free Plan
+              {t('helpCenter.hostingCard.title')}
             </Typography>
             <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-              CSIM is hosted on Render under the free plan.
+              {t('helpCenter.hostingCard.subtitle')}
             </Typography>
 
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
-                  Technical specifications
+                  {t('helpCenter.techSpecsTitle')}
                 </Typography>
                 <List dense disablePadding>
                   <ListItem disableGutters>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <MemoryIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="RAM: 512 MB" />
+                    <ListItemText primary={t('helpCenter.techSpecs.ram')} />
                   </ListItem>
                   <ListItem disableGutters>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <SpeedIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="CPU: 0.1 shared vCPU" />
+                    <ListItemText primary={t('helpCenter.techSpecs.cpu')} />
                   </ListItem>
                   <ListItem disableGutters>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <StorageIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Storage: Ephemeral and cleared on restart" />
+                    <ListItemText primary={t('helpCenter.techSpecs.storage')} />
                   </ListItem>
                 </List>
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
-                  Features and limits
+                  {t('helpCenter.featuresTitle')}
                 </Typography>
                 <List dense disablePadding>
                   <ListItem disableGutters>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <AccessTimeIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Spin-down: Suspends after 15 minutes of inactivity, with a 30-50 second cold start" />
+                    <ListItemText primary={t('helpCenter.features.spinDown')} />
                   </ListItem>
                   <ListItem disableGutters>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <DataUsageIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="Monthly compute: 750 free hours" />
+                    <ListItemText primary={t('helpCenter.features.monthlyCompute')} />
                   </ListItem>
                   <ListItem disableGutters>
                     <ListItemIcon sx={{ minWidth: 36 }}>
                       <ShieldIcon color="primary" />
                     </ListItemIcon>
-                    <ListItemText primary="SSL/TLS: Automatic, free certificates for custom domains and .onrender.com subdomains" />
+                    <ListItemText primary={t('helpCenter.features.ssl')} />
                   </ListItem>
                 </List>
               </Grid>
@@ -338,10 +337,10 @@ const HelpCenter = () => {
               sx={{ mt: 2, p: 2, backgroundColor: 'action.hover', borderColor: 'divider' }}
             >
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                Note
+                {t('helpCenter.noteTitle')}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                512 MB of RAM are a good fit for FastAPI-based services.
+                {t('helpCenter.noteBody')}
               </Typography>
             </Paper>
           </CardContent>
@@ -351,7 +350,7 @@ const HelpCenter = () => {
       <Divider sx={{ mb: 5 }} />
       <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
         <SearchBar
-          placeholder="Search for a question..."
+          placeholder={t('helpCenter.searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => {
             const value = typeof e === 'string' ? e : (e?.target?.value ?? '');
@@ -361,23 +360,21 @@ const HelpCenter = () => {
       </Box>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>
-          Frequently Asked Questions
+          {t('helpCenter.faqTitle')}
         </Typography>
 
         {filteredFaq.length > 0 ? (
           filteredFaq.map((section, index) => <FAQSection key={index} section={section} />)
         ) : (
           <Paper sx={{ p: 3, textAlign: 'center', backgroundColor: 'background.paper' }}>
-            <Typography color="textSecondary">
-              We could not find answers for your search. Try using different keywords.
-            </Typography>
+            <Typography color="textSecondary">{t('helpCenter.faqNoResults')}</Typography>
           </Paper>
         )}
       </Box>
 
       <ActionCard
-        title="Still have questions?"
-        description="Go to the Contact Us section to reach out to our support team for further assistance."
+        title={t('helpCenter.stillHaveQuestions.title')}
+        description={t('helpCenter.stillHaveQuestions.description')}
         variant="primary"
       />
     </Container>

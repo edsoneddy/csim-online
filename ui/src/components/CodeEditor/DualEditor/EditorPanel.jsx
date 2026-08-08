@@ -1,6 +1,7 @@
 import { Box, Paper, Chip, Typography, Stack } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import ClearIcon from '@mui/icons-material/Clear';
+import { useTranslation } from 'react-i18next';
 import { defineCSIMTheme, CSIM_THEME_NAME } from '../../../styles/monacoTheme';
 import TooltipIconButton from '../../Common/TooltipIconButton';
 import FileUploadButton from '../../Common/FileUploadButton';
@@ -16,6 +17,8 @@ const EditorPanel = ({
   isModified = false,
   onFileUploaded,
 }) => {
+  const { t } = useTranslation();
+
   const formatFileSize = (bytes) => {
     if (!bytes) return '';
     if (bytes < 1024) return `${bytes} B`;
@@ -88,7 +91,7 @@ const EditorPanel = ({
 
           {fileName && isModified && (
             <Chip
-              label={'Modified'}
+              label={t('editor.panel.modified')}
               size="small"
               variant="outlined"
               sx={{ height: 24, borderColor: 'divider', color: 'text.secondary' }}
@@ -105,24 +108,24 @@ const EditorPanel = ({
           )}
 
           <Chip
-            label={`${lineCount} lines`}
+            label={t('editor.panel.lines', { count: lineCount })}
             size="small"
             variant="outlined"
             sx={{ height: 24, borderColor: 'divider', color: 'text.secondary' }}
           />
 
           <Chip
-            label={`${charCount} chars`}
+            label={t('editor.panel.chars', { count: charCount })}
             size="small"
             variant="outlined"
             sx={{ height: 24, borderColor: 'divider', color: 'text.secondary' }}
           />
         </Stack>
         <Stack direction="row" sx={{ flexShrink: 0 }}>
-          <TooltipIconButton props={{ title: 'Upload' }} asChild>
+          <TooltipIconButton props={{ title: t('editor.panel.upload') }} asChild>
             <FileUploadButton onFilesSelected={onFileUploaded} />
           </TooltipIconButton>
-          <TooltipIconButton props={{ title: 'Clear', onClick: onClear }}>
+          <TooltipIconButton props={{ title: t('editor.panel.clear'), onClick: onClear }}>
             <ClearIcon />
           </TooltipIconButton>
         </Stack>

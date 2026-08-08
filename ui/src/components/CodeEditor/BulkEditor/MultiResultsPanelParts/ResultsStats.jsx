@@ -1,27 +1,29 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 import { colorPalette } from '../../../../styles/colorPalette';
 
 const ResultsStats = ({ totalGroups, totalSuspicious, totalUnique }) => {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const stats = [
     {
-      label: 'Total Groups',
+      label: t('bulkEditor.resultsStats.totalGroups'),
       value: totalGroups,
-      caption: 'Groups identified',
+      caption: t('bulkEditor.resultsStats.groupsIdentified'),
       color: theme.palette.text.secondary,
     },
     {
-      label: 'Suspicious Clusters',
+      label: t('bulkEditor.resultsStats.suspiciousClusters'),
       value: totalSuspicious,
-      caption: 'High similarity groups',
+      caption: t('bulkEditor.resultsStats.highSimilarityGroups'),
       color: colorPalette.status.warning,
     },
     {
-      label: 'Unique Files',
+      label: t('bulkEditor.resultsStats.uniqueFiles'),
       value: totalUnique,
-      caption: 'Files with no matches',
+      caption: t('bulkEditor.resultsStats.filesWithNoMatches'),
       color: colorPalette.status.success,
     },
   ];

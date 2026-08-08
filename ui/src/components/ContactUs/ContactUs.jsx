@@ -8,12 +8,14 @@ import {
   X as XIcon,
 } from '@mui/icons-material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { useTranslation } from 'react-i18next';
 import { PageHeader, ContactInfoCard, FormField } from '../Common';
 import { useDispatch } from 'react-redux';
 import { updateInfoDialog } from '../../hooks/redux/appActions';
 import { blurActiveElement } from '../../utils/editor';
 
 const ContactUs = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,31 +30,31 @@ const ContactUs = () => {
   const contactInfo = [
     {
       icon: <EmailIcon sx={{ fontSize: 32 }} />,
-      title: 'Email',
+      title: t('contactUs.methods.email'),
       content: 'crew0eddy@gmail.com',
       link: 'mailto:crew0eddy@gmail.com',
     },
     {
       icon: <PhoneIcon sx={{ fontSize: 32 }} />,
-      title: 'Phone',
+      title: t('contactUs.methods.phone'),
       content: '+591 68013221',
       link: 'tel:+59168013221',
     },
     {
       icon: <LocationOnIcon sx={{ fontSize: 32 }} />,
-      title: 'GitHub',
+      title: t('contactUs.methods.github'),
       content: '@edsoneddy',
       link: 'https://github.com/edsoneddy',
     },
     {
       icon: <LinkedInIcon sx={{ fontSize: 32 }} />,
-      title: 'LinkedIn',
+      title: t('contactUs.methods.linkedin'),
       content: 'Edson Eddy',
       link: 'https://www.linkedin.com/in/edson-eddy',
     },
     {
       icon: <XIcon sx={{ fontSize: 32 }} />,
-      title: 'Twitter',
+      title: t('contactUs.methods.twitter'),
       content: '@edsoneddy',
       link: 'https://x.com/crew0eddy',
     },
@@ -76,23 +78,23 @@ const ContactUs = () => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = t('contactUs.validation.nameRequired');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('contactUs.validation.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = t('contactUs.validation.emailInvalid');
     }
 
     if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
+      newErrors.subject = t('contactUs.validation.subjectRequired');
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = t('contactUs.validation.messageRequired');
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
+      newErrors.message = t('contactUs.validation.messageTooShort');
     }
 
     setErrors(newErrors);
@@ -137,22 +139,12 @@ const ContactUs = () => {
       });
       blurActiveElement();
       dispatch(
-        updateInfoDialog(
-          true,
-          'Your message has been submitted successfully.',
-          'Submission Successful'
-        )
+        updateInfoDialog(true, t('contactUs.submitSuccess'), t('contactUs.submitSuccessTitle'))
       );
     } catch (error) {
       console.error('Error submitting form:', error);
       blurActiveElement();
-      dispatch(
-        updateInfoDialog(
-          true,
-          'There was an error submitting your message. Please try again later.',
-          'Submission Error'
-        )
-      );
+      dispatch(updateInfoDialog(true, t('contactUs.submitError'), t('contactUs.submitErrorTitle')));
     } finally {
       setLoading(false);
     }
@@ -160,10 +152,7 @@ const ContactUs = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
-      <PageHeader
-        title="Contact & Feedback"
-        subtitle="Have questions, found a bug, or want to suggest a new feature? We'd love to hear from you."
-      />
+      <PageHeader title={t('contactUs.pageTitle')} subtitle={t('contactUs.pageSubtitle')} />
 
       <Grid container spacing={{ xs: 4, md: 6, lg: 8 }}>
         <Grid item xs={12} md={5} sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -195,7 +184,7 @@ const ContactUs = () => {
             }}
           >
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Send us a Message
+              {t('contactUs.formTitle')}
             </Typography>
 
             <Box
@@ -211,46 +200,46 @@ const ContactUs = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <FormField
-                    label="Full Name"
+                    label={t('contactUs.fullName')}
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
                     error={errors.name}
-                    placeholder="John Doe"
+                    placeholder={t('contactUs.fullNamePlaceholder')}
                     disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormField
-                    label="Email Address"
+                    label={t('contactUs.emailAddress')}
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     error={errors.email}
-                    placeholder="your.email@example.com"
+                    placeholder={t('contactUs.emailPlaceholder')}
                     disabled={loading}
                   />
                 </Grid>
               </Grid>
 
               <FormField
-                label="Subject / Category"
+                label={t('contactUs.subject')}
                 name="subject"
                 value={formData.subject}
                 onChange={handleInputChange}
                 error={errors.subject}
-                placeholder="e.g., Bug Report, Feature Suggestion, Support"
+                placeholder={t('contactUs.subjectPlaceholder')}
                 disabled={loading}
               />
 
               <FormField
-                label="Message"
+                label={t('contactUs.message')}
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
                 error={errors.message}
-                placeholder="Tell us more about your inquiry or feedback..."
+                placeholder={t('contactUs.messagePlaceholder')}
                 disabled={loading}
                 multiline
                 rows={6}
@@ -271,7 +260,7 @@ const ContactUs = () => {
                   borderRadius: 2,
                 }}
               >
-                {loading ? 'Sending...' : 'Send Message'}
+                {loading ? t('contactUs.sending') : t('contactUs.sendMessage')}
               </Button>
             </Box>
           </Paper>

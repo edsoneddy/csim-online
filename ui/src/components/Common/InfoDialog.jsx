@@ -7,10 +7,12 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { updateInfoDialog } from '../../hooks/redux/appActions';
 import { blurActiveElement } from '../../utils/editor';
 
 const InfoDialog = ({ open, errorMessage, header }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleClose = () => {
     blurActiveElement();
@@ -23,13 +25,13 @@ const InfoDialog = ({ open, errorMessage, header }) => {
       aria-labelledby="error-dialog-title"
       aria-describedby="error-dialog-description"
     >
-      <DialogTitle>{header || 'Information'}</DialogTitle>
+      <DialogTitle>{header || t('infoDialog.defaultTitle')}</DialogTitle>
       <DialogContent>
         <DialogContentText>{errorMessage}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          Close
+          {t('infoDialog.close')}
         </Button>
       </DialogActions>
     </Dialog>

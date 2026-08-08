@@ -4,9 +4,11 @@ export const TYPE_OF_ANALYSIS = {
 };
 
 // Toolbar Utility Functions
+// Opaque ids -- not display text. Tab labels are translated independently
+// in CodeTabsHeader.jsx; see docs/i18n.md.
 export const EDITOR_TYPES = {
-  DUAL_EDITOR: 'Dual Editor',
-  BULK_EDITOR: 'Bulk Editor',
+  DUAL_EDITOR: 'dual-editor',
+  BULK_EDITOR: 'bulk-editor',
 };
 
 // Toolbar Buttons
