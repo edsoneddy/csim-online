@@ -195,6 +195,16 @@ export const buildTheme = (mode) => {
           },
         },
       },
+      MuiButtonBase: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            '&.Mui-focusVisible': {
+              outline: `2px solid ${theme.palette.primary.main}`,
+              outlineOffset: 2,
+            },
+          }),
+        },
+      },
     },
   });
 };

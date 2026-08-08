@@ -40,6 +40,12 @@ const EditorToolbar = ({
               onChange={(event) => {
                 onLanguageChange(event.target.value);
               }}
+              sx={{
+                '& .MuiSelect-select': {
+                  paddingTop: '10.5px',
+                  paddingBottom: '10.5px',
+                },
+              }}
             >
               {languageOptions.map((option, index) => (
                 <MenuItem key={index} value={option}>
