@@ -1,4 +1,4 @@
-import { Typography, IconButton } from '@mui/material';
+import { Typography, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Menu as MenuIcon, ViewSidebar as ViewSidebarIcon } from '@mui/icons-material';
 import { AppBar as CustomAppBar } from '../../utils/menu';
 import { Toolbar } from '@mui/material';
@@ -7,11 +7,13 @@ import { openHistoryMenu, openSidebarMenu } from '../../hooks/redux/appActions';
 import { blurActiveElement } from '../../utils/editor';
 
 const MenuAppBar = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
   const dispatch = useDispatch();
 
   return (
-    <CustomAppBar position="relative" open={open}>
+    <CustomAppBar position="relative" open={open && !isMobile}>
       <Toolbar
         sx={{
           display: 'flex',

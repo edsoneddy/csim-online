@@ -49,8 +49,8 @@ const AppContainer = () => {
         onClose={handleCloseHistoryMenu}
         sx={{
           '& .MuiDrawer-paper': {
-            top: '64px',
-            height: 'calc(100% - 64px)',
+            top: { xs: '56px', sm: '64px' },
+            height: { xs: 'calc(100% - 56px)', sm: 'calc(100% - 64px)' },
           },
         }}
       >
