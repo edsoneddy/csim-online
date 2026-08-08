@@ -17,7 +17,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { DiffEditor } from '@monaco-editor/react';
 import { useTranslation } from 'react-i18next';
-import { handleMonacoMount, monacoThemeNameFor } from '../../styles/monacoTheme';
+import { handleMonacoBeforeMount, monacoThemeNameFor } from '../../styles/monacoTheme';
 import { useThemeMode } from '../../theme/ThemeModeContext';
 import {
   blurActiveElement,
@@ -68,8 +68,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
     [modifiedFile?.name]
   );
 
-  const handleEditorDidMount = (editor, monaco) => {
-    handleMonacoMount(editor, monaco);
+  const handleEditorDidMount = (editor) => {
     editor.updateOptions({ readOnly: true });
   };
 
@@ -257,6 +256,7 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
                   contextmenu: false,
                   wordWrap: 'on',
                 }}
+                beforeMount={handleMonacoBeforeMount}
                 onMount={handleEditorDidMount}
                 keepCurrentOriginalModel={true}
                 keepCurrentModifiedModel={true}

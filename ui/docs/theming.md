@@ -73,9 +73,18 @@ Monaco gets exactly two themes (`csimDarkTheme` / `csimLightTheme`, defined
 in `monacoTheme.js`) — it mirrors the app's `resolvedMode`, nothing more.
 Every `<Editor>`/`<DiffEditor>` in the app:
 
-- calls the shared `handleMonacoMount` in its `onMount` (registers both
-  themes — cheap, Monaco dedupes by name, safe to call every mount), and
+- calls the shared `handleMonacoBeforeMount` in its `beforeMount` (registers
+  both themes — cheap, Monaco dedupes by name, safe to call every mount —
+  *before* Monaco creates the editor instance), and
 - passes `theme={monacoThemeNameFor(resolvedMode)}` as a prop.
+
+Registration must happen in `beforeMount`, not `onMount`: Monaco resolves the
+`theme` prop when it creates the editor, which happens before `onMount`
+fires. If the custom theme name isn't registered yet at creation time, Monaco
+silently falls back to its built-in light `vs` theme (a white flash, most
+visible in dark mode) and `@monaco-editor/react` only calls `setTheme()`
+again when the `theme` prop value changes — so a mode that was correct on a
+later prop change could still start wrong on first mount.
 
 `@monaco-editor/react` applies a changed `theme` prop via
 `monaco.editor.setTheme()` internally rather than remounting, so switching

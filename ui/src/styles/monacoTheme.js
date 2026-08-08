@@ -87,7 +87,12 @@ const defineCSIMThemes = (monaco) => {
   });
 };
 
-/** Shared `onMount` handler for every `<Editor>`/`<DiffEditor>` in the app. */
-export const handleMonacoMount = (editor, monaco) => {
+/** Shared `beforeMount` handler for every `<Editor>`/`<DiffEditor>` in the
+ * app. Registers both themes before Monaco creates the editor instance, so
+ * the initial `theme` prop resolves correctly on first paint instead of
+ * falling back to the built-in light `vs` theme (visible as a white flash,
+ * particularly in dark mode) until some later prop change triggers
+ * `setTheme()`. */
+export const handleMonacoBeforeMount = (monaco) => {
   defineCSIMThemes(monaco);
 };

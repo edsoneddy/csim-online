@@ -2,7 +2,7 @@ import { Box, Paper, Chip, Typography, Stack } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useTranslation } from 'react-i18next';
-import { handleMonacoMount, monacoThemeNameFor } from '../../../styles/monacoTheme';
+import { handleMonacoBeforeMount, monacoThemeNameFor } from '../../../styles/monacoTheme';
 import { useThemeMode } from '../../../theme/ThemeModeContext';
 import TooltipIconButton from '../../Common/TooltipIconButton';
 import FileUploadButton from '../../Common/FileUploadButton';
@@ -29,8 +29,6 @@ const EditorPanel = ({
   };
 
   const handleEditorDidMount = (editor, monaco) => {
-    handleMonacoMount(editor, monaco);
-
     if (editorOptions?.onMount) {
       editorOptions.onMount(editor, monaco);
     }
@@ -139,6 +137,7 @@ const EditorPanel = ({
           theme={monacoThemeNameFor(resolvedMode)}
           value={value}
           options={editorOptions}
+          beforeMount={handleMonacoBeforeMount}
           onMount={handleEditorDidMount}
           onChange={(newValue) => onChange(newValue || '')}
         />

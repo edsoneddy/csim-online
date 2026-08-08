@@ -20,7 +20,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Editor from '@monaco-editor/react';
 import { useTranslation } from 'react-i18next';
-import { handleMonacoMount, monacoThemeNameFor } from '../../../styles/monacoTheme';
+import { handleMonacoBeforeMount, monacoThemeNameFor } from '../../../styles/monacoTheme';
 import { useThemeMode } from '../../../theme/ThemeModeContext';
 import {
   blurActiveElement,
@@ -55,8 +55,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
     }
   }, [currentFileIndex, files.length, open]);
 
-  const handleEditorDidMount = (editor, monaco) => {
-    handleMonacoMount(editor, monaco);
+  const handleEditorDidMount = (editor) => {
     editor.updateOptions({ readOnly: true });
   };
 
@@ -225,6 +224,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
                   renderWhitespace: 'selection',
                   selectOnLineNumbers: false,
                 }}
+                beforeMount={handleMonacoBeforeMount}
                 onMount={handleEditorDidMount}
               />
             </Box>
