@@ -24,7 +24,7 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 - **Framework**: FastAPI 0.111.0
 - **Server**: Uvicorn 0.23.2
 - **Validation**: Pydantic 2.7.1
-- **Analysis**: CSIM 3.0.0
+- **Analysis**: CSIM 3.0.1
 
 ### Frontend
 - **Framework**: React 19
@@ -93,7 +93,7 @@ No additional configuration needed for local development.
 
 ## Supported Languages & Versions
 
-### CSIM 3.0.0 Language Support
+### CSIM 3.0.1 Language Support
 
 | Language | Version | Internal ID | Display Name |
 |----------|---------|-------------|--------------|
@@ -103,7 +103,7 @@ No additional configuration needed for local development.
 
 ### Important Notes
 
-- **Language Format**: CSIM 3.0.0 requires version-specific language identifiers
+- **Language Format**: CSIM 3.0.1 requires version-specific language identifiers
 - The UI displays friendly names ("Python 3.13") but sends version-specific strings (`python_3_13`) to the API
 - Supported file extensions: `.py`, `.java`, `.cpp`
 - Bulk uploads support ZIP archives containing multiple files
@@ -206,7 +206,7 @@ csim-online/
 
 **API Testing:**
 ```bash
-# Test csim 3.0.0 behavior
+# Test csim 3.0.1 behavior
 python3 test_csim_3.py
 ```
 
@@ -238,7 +238,7 @@ npm run clean
 **Debug Steps**:
 1. Check API logs for error messages
 2. Verify language format is correct (should be `python_3_13`, not `python`)
-3. Ensure csim 3.0.0 is installed: `pip list | grep csim`
+3. Ensure csim 3.0.1 is installed: `pip list | grep csim`
 
 **Quick Test**:
 ```bash
@@ -259,7 +259,7 @@ curl -X POST http://localhost:8000/api/analyze \
 
 **Cause**: Monaco Editor doesn't recognize internal language format.
 
-**Status**: ✅ Fixed in version 3.0.0
+**Status**: ✅ Fixed in version 3.0.1
 - Internal language format (`python_3_13`) is automatically converted to Monaco format (`python`)
 - This conversion happens transparently in `utils/editor.js`
 
@@ -282,11 +282,11 @@ cd ../ui
 npm install
 ```
 
-## CSIM 3.0.0 Upgrade Notes
+## CSIM 3.0.1 Upgrade Notes
 
 ### What Changed
 
-| Aspect | Version 2.0.6 | Version 3.0.0 |
+| Aspect | Version 2.0.6 | Version 3.0.1 |
 |--------|---------------|---------------|
 | Language Format | `python`, `java`, `cpp` | `python_3_13`, `java_20`, `cpp_14` |
 | Python Support | 3.x | 3.13+ |
@@ -302,7 +302,7 @@ npm install
 ### Migration Path
 
 If upgrading from CSIM 2.0.6:
-1. Update `requirements.txt`: `csim==3.0.0`
+1. Update `requirements.txt`: `csim==3.0.1`
 2. Update language mappings (see Language Support section)
 3. Update any external integrations to use new language format
 4. Test with `test_csim_3.py` script
@@ -373,7 +373,7 @@ For issues, feature requests, or feedback:
 
 ## Project Status
 
-- ✅ CSIM 3.0.0 Integration Complete
+- ✅ CSIM 3.0.1 Integration Complete
 - ✅ Multi-language Support (Python, Java, C++)
 - ✅ Theme Support (Light/Dark/System)
 - ✅ Internationalization (EN/ES)
@@ -384,5 +384,5 @@ For issues, feature requests, or feedback:
 ---
 
 **Last Updated**: August 2026  
-**CSIM Version**: 3.0.0  
+**CSIM Version**: 3.0.1  
 **React Version**: 19+
