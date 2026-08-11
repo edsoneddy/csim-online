@@ -12,7 +12,39 @@
 			href="https://fonts.googleapis.com/icon?family=Material+Icons"
 		/>
 		<title>CSIM Online</title>
-		<script type="module" crossorigin src="/csim-online/assets/index-CQZYnEVB.js"></script>
+		<style>
+			/* Keep these two hex values in sync with modes.dark.background /
+			   modes.light.background in src/styles/colorPalette.js. */
+			html[data-theme-mode='dark'],
+			html[data-theme-mode='dark'] body {
+				background: #0f1419;
+			}
+			html[data-theme-mode='light'],
+			html[data-theme-mode='light'] body {
+				background: #f8fafc;
+			}
+		</style>
+		<script>
+			// Resolve light/dark before the first paint, matching the logic in
+			// src/theme/ThemeModeContext.jsx, so there's no flash of the wrong
+			// background while the JS bundle is still loading.
+			(function () {
+				try {
+					var stored = localStorage.getItem('csim_theme_mode');
+					var mode = ['light', 'dark', 'system'].indexOf(stored) !== -1 ? stored : 'system';
+					var resolved =
+						mode === 'system'
+							? window.matchMedia('(prefers-color-scheme: dark)').matches
+								? 'dark'
+								: 'light'
+							: mode;
+					document.documentElement.setAttribute('data-theme-mode', resolved);
+				} catch (e) {
+					document.documentElement.setAttribute('data-theme-mode', 'dark');
+				}
+			})();
+		</script>
+		<script type="module" crossorigin src="/csim-online/assets/index-DILt4GVQ.js"></script>
 		<link rel="stylesheet" crossorigin href="/csim-online/assets/index-CSTh6mKk.css">
 	</head>
 	<body>
