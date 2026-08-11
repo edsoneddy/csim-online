@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Badge, IconButton, Menu, MenuItem, ListItemText } from '@mui/material';
-import { Translate as TranslateIcon, Check as CheckIcon } from '@mui/icons-material';
+import { Check as CheckIcon } from '@mui/icons-material';
+import LanguageIcon from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
 import { SUPPORTED_LANGUAGES } from '../../i18n';
 
@@ -45,7 +46,7 @@ const LanguageSwitcher = () => {
             },
           }}
         >
-          <TranslateIcon fontSize="small" />
+          <LanguageIcon fontSize="small" />
         </Badge>
       </IconButton>
       <Menu
