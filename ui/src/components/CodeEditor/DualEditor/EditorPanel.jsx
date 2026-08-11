@@ -4,6 +4,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useTranslation } from 'react-i18next';
 import { handleMonacoBeforeMount, monacoThemeNameFor } from '../../../styles/monacoTheme';
 import { useThemeMode } from '../../../theme/ThemeModeContext';
+import { getMonacoLanguage } from '../../../utils/editor';
 import TooltipIconButton from '../../Common/TooltipIconButton';
 import FileUploadButton from '../../Common/FileUploadButton';
 
@@ -133,7 +134,7 @@ const EditorPanel = ({
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
         <Editor
           height="100%"
-          language={language}
+          language={getMonacoLanguage(language)}
           theme={monacoThemeNameFor(resolvedMode)}
           value={value}
           options={editorOptions}

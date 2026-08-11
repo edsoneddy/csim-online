@@ -2,7 +2,7 @@ import { Stack, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { useTranslation } from 'react-i18next';
-import { languageOptions } from '../../constants/ui';
+import { languageOptions, languageDisplayNames } from '../../constants/ui';
 import {
   ANALYZE_BUTTON,
   CLEAR_BUTTON,
@@ -40,6 +40,7 @@ const EditorToolbar = ({
               onChange={(event) => {
                 onLanguageChange(event.target.value);
               }}
+              renderValue={(value) => languageDisplayNames[value] || value}
               sx={{
                 '& .MuiSelect-select': {
                   paddingTop: '10.5px',
@@ -49,7 +50,7 @@ const EditorToolbar = ({
             >
               {languageOptions.map((option, index) => (
                 <MenuItem key={index} value={option}>
-                  {option}
+                  {languageDisplayNames[option]}
                 </MenuItem>
               ))}
             </Select>

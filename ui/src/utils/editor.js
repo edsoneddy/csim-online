@@ -1,6 +1,17 @@
 import i18n from '../i18n';
 import { languageByExtension } from '../constants/ui';
 
+// Map internal language identifiers to Monaco Editor language identifiers
+const monacoLanguageMap = {
+  python_3_13: 'python',
+  java_20: 'java',
+  cpp_14: 'cpp',
+};
+
+export const getMonacoLanguage = (internalLanguage) => {
+  return monacoLanguageMap[internalLanguage] || internalLanguage;
+};
+
 export const getLanguageFromFileName = (fileName = '') => {
   const extension = fileName.split('.').pop()?.toLowerCase();
   return languageByExtension[extension] || 'plaintext';

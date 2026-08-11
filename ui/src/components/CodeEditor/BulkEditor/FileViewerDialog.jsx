@@ -25,6 +25,7 @@ import { useThemeMode } from '../../../theme/ThemeModeContext';
 import {
   blurActiveElement,
   getLanguageFromFileName,
+  getMonacoLanguage,
   formatFileSize,
   getLineCount,
   normalizeContent,
@@ -208,7 +209,7 @@ const FileViewerDialog = ({ open, onClose, files = [] }) => {
             >
               <Editor
                 height="100%"
-                language={currentLanguage}
+                language={getMonacoLanguage(currentLanguage)}
                 theme={monacoThemeNameFor(resolvedMode)}
                 value={currentContent}
                 options={{

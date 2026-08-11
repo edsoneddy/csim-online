@@ -22,6 +22,7 @@ import { useThemeMode } from '../../theme/ThemeModeContext';
 import {
   blurActiveElement,
   getLanguageFromFileName,
+  getMonacoLanguage,
   formatFileSize,
   getLineCount,
   normalizeContent,
@@ -241,9 +242,9 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
             >
               <DiffEditor
                 height="100%"
-                language={originalLanguage}
-                originalLanguage={originalLanguage}
-                modifiedLanguage={modifiedLanguage}
+                language={getMonacoLanguage(originalLanguage)}
+                originalLanguage={getMonacoLanguage(originalLanguage)}
+                modifiedLanguage={getMonacoLanguage(modifiedLanguage)}
                 theme={monacoThemeNameFor(resolvedMode)}
                 original={originalContent}
                 modified={modifiedContent}

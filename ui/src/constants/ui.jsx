@@ -6,18 +6,25 @@ export const HELP_CENTER_SECTION = 'HELP_CENTER_SECTION';
 export const CONTACT_US_SECTION = 'CONTACT_US_SECTION';
 
 // Language Options
-export const defaultLanguage = 'python';
-export const languageOptions = ['python', 'java', 'cpp'];
+export const defaultLanguage = 'python_3_13';
+export const languageOptions = ['python_3_13', 'java_20', 'cpp_14'];
 // Supported File Extensions
 export const SUPPORTED_EXTENSIONS = ['.py', '.java', '.cpp'];
 export const defaultThreshold = 75;
 export const languageByExtension = {
-  py: 'python',
-  java: 'java',
-  cpp: 'cpp',
+  py: 'python_3_13',
+  java: 'java_20',
+  cpp: 'cpp_14',
 };
 
 export const SUPPORTED_COMPRESSED_EXTENSIONS = ['.zip'];
+
+// Language Display Names
+export const languageDisplayNames = {
+  python_3_13: 'Python 3.13',
+  java_20: 'Java 20',
+  cpp_14: 'C++ 14',
+};
 
 // File Manager
 export const FILE_1_KEY = 'file1';
