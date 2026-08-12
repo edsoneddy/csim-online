@@ -1,6 +1,8 @@
 {
   "app": {
-    "title": "CSIM Online"
+    "title": "CSIM Online",
+    "csimVersion": "csim v{{version}}",
+    "uiVersion": "UI v{{version}}"
   },
   "layout": {
     "appBar": {

@@ -7,7 +7,7 @@ export const CONTACT_US_SECTION = 'CONTACT_US_SECTION';
 
 // Language Options
 export const defaultLanguage = 'python_3_13';
-export const languageOptions = ['python_3_13', 'java_20', 'cpp_14'];
+export const languageOptions = ['python_3_13', 'python_3', 'java_20', 'java_24', 'cpp_14'];
 // Supported File Extensions
 export const SUPPORTED_EXTENSIONS = ['.py', '.java', '.cpp'];
 export const defaultThreshold = 75;
@@ -22,7 +22,9 @@ export const SUPPORTED_COMPRESSED_EXTENSIONS = ['.zip'];
 // Language Display Names
 export const languageDisplayNames = {
   python_3_13: 'Python 3.13',
+  python_3: 'Python 3',
   java_20: 'Java 20',
+  java_24: 'Java 24 (Experimental)',
   cpp_14: 'C++ 14',
 };
 

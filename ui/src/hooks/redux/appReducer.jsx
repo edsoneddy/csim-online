@@ -12,6 +12,7 @@ import {
   REMOVE_ALL_FILES_FROM_BULK_EDITOR,
   UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
   UPDATE_INFO_DIALOG,
+  UPDATE_CSIM_VERSION,
 } from './appActionTypes';
 
 const initialState = {
@@ -20,6 +21,9 @@ const initialState = {
     isOpenLanguageMenu: false,
     isOpenHistoryMenu: false,
     actualContent: CODE_SECTION,
+  },
+  appInfo: {
+    csimVersion: null,
   },
   history: [],
   fileManager: {
@@ -164,6 +168,14 @@ const appReducer = (state = initialState, action) => {
           open: action.open,
           message: action.message || '',
           header: action.header || '',
+        },
+      };
+    case UPDATE_CSIM_VERSION:
+      return {
+        ...state,
+        appInfo: {
+          ...state.appInfo,
+          csimVersion: action.csimVersion,
         },
       };
     default:

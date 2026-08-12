@@ -38,7 +38,7 @@ Plain `redux` (`createStore`) with hand-written action types/creators/reducer �
 - `src/hooks/redux/appActions.jsx` — action creators
 - `src/hooks/redux/appReducer.jsx` — single root reducer, single flat `initialState` tree
 
-The global state shape has three top-level branches: `menu` (sidebar/history drawer open state, active section), `fileManager` (holds `dualEditorFiles` keyed by `FILE_1_KEY`/`FILE_2_KEY` plus `results`, and `bulkEditorFiles` with `files`/`selected`/`results`), and `history` (flat array of past analysis runs, both dual and bulk, rendered by `SessionHistory.jsx`). `infoDialog` holds global error/info modal state. When adding new pieces of shared state, extend this same reducer/action-type pattern rather than introducing a second store or context.
+The global state shape has three top-level branches: `menu` (sidebar/history drawer open state, active section), `fileManager` (holds `dualEditorFiles` keyed by `FILE_1_KEY`/`FILE_2_KEY` plus `results`, and `bulkEditorFiles` with `files`/`selected`/`results`), and `history` (flat array of past analysis runs, both dual and bulk, rendered by `SessionHistory.jsx`). `infoDialog` holds global error/info modal state. `appInfo` holds `csimVersion`, fetched from `GET /api/version` on mount by `MenuAppBar.jsx` and dispatched via `updateCsimVersion`. When adding new pieces of shared state, extend this same reducer/action-type pattern rather than introducing a second store or context.
 
 ### Two analysis modes share one shell
 
@@ -57,4 +57,9 @@ Material UI 5 + Emotion, single dark theme (`src/styles/theme.jsx`), with a hand
 
 ### Supported languages/files
 
-`src/constants/ui.jsx` defines the supported analysis languages (`python`, `java`, `cpp`), their file extensions, and `.zip` as a supported compressed upload extension (bulk uploads are unzipped client-side via `jszip`). Extend this file, not scattered literals, when adding language/extension support.
+`src/constants/ui.jsx` defines the supported analysis languages as CSIM's version-specific identifiers — `python_3_13`, `python_3`, `java_20`, `java_24` (experimental upstream), `cpp_14` — via `languageOptions`/`languageDisplayNames`, plus their file extensions (`languageByExtension`) and `.zip` as a supported compressed upload extension (bulk uploads are unzipped client-side via `jszip`). Extend this file, not scattered literals, when adding language/extension support. Only one internal ID per extension can be the default in `languageByExtension` (currently `python_3_13`, `java_20`, `cpp_14`); the other version (e.g. `python_3`, `java_24`) is still selectable via the toolbar dropdown.
+
+### Version display
+
+- **CSIM engine version**: single source of truth is `csim==X.Y.Z` in `api/requirements.txt`. The API resolves the installed version at runtime via `importlib.metadata.version("csim")` and serves it at `GET /api/version`. `MenuAppBar.jsx` fetches it once on mount (`sendGetRequest` in `src/utils/requestHandler.js`) and stores it in `state.appInfo.csimVersion`. Bumping the requirements.txt line and redeploying the API is the only change needed — no UI code touches the version string directly.
+- **UI version**: single source of truth is `version` in `ui/package.json`, re-exported as `UI_VERSION` from `src/constants/version.js` (imports `package.json` directly). Displayed next to the CSIM version in `MenuAppBar.jsx`. Tag releases in git to match (e.g. `v1.0.0`).

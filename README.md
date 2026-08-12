@@ -2,7 +2,7 @@
 
 A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code similarity detection and plagiarism analysis tool. Compare two files side-by-side or analyze multiple files in bulk to identify similar code patterns.
 
-![CSIM Online](https://img.shields.io/badge/CSIM-3.0.0-blue)
+![CSIM Online](https://img.shields.io/badge/CSIM-3.2.0-blue)
 ![Python](https://img.shields.io/badge/Python-3.13+-green)
 ![React](https://img.shields.io/badge/React-19+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -11,12 +11,13 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 
 - **Dual Editor Mode**: Compare two files side-by-side with syntax highlighting and similarity scoring
 - **Bulk Analysis**: Analyze multiple files at once with configurable similarity thresholds
-- **Multi-Language Support**: Python 3.13, Java 20, C++ 14
+- **Multi-Language Support**: Python 3.13, Python 3, Java 20, Java 24 (experimental), C++ 14
 - **Theme Support**: Light, dark, and system-preference themes
 - **Internationalization**: English and Spanish locales
 - **Diff Viewer**: Visual side-by-side comparison of matching code
 - **File Viewer**: Preview and navigate through uploaded files
 - **Session History**: Track and review previous analyses
+- **Version Display**: The UI shows the CSIM engine version reported live by the API, plus its own release version
 
 ## Tech Stack
 
@@ -24,7 +25,7 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 - **Framework**: FastAPI 0.111.0
 - **Server**: Uvicorn 0.23.2
 - **Validation**: Pydantic 2.7.1
-- **Analysis**: CSIM 3.0.1
+- **Analysis**: CSIM 3.2.0
 
 ### Frontend
 - **Framework**: React 19
@@ -54,6 +55,7 @@ The API will be available at `http://localhost:8000`
 
 API endpoints:
 - `GET /` - Health check
+- `GET /api/version` - Returns the installed CSIM engine version (`{"csim_version": "3.2.0"}`), read live from the `csim` package via `importlib.metadata`. The UI fetches this on load and displays it next to the app title — bump `csim` in `api/requirements.txt` and it propagates automatically, no UI changes needed.
 - `POST /api/analyze` - Compare two files
 - `POST /api/analyze-all` - Analyze multiple files with threshold
 
@@ -93,18 +95,21 @@ No additional configuration needed for local development.
 
 ## Supported Languages & Versions
 
-### CSIM 3.0.1 Language Support
+### CSIM 3.2.0 Language Support
 
 | Language | Version | Internal ID | Display Name |
 |----------|---------|-------------|--------------|
 | Python   | 3.13    | `python_3_13` | Python 3.13  |
+| Python   | 3 (universal grammar) | `python_3` | Python 3 |
 | Java     | 20      | `java_20`   | Java 20      |
+| Java     | 24 (experimental) | `java_24` | Java 24 (Experimental) |
 | C++      | 14      | `cpp_14`    | C++ 14       |
 
 ### Important Notes
 
-- **Language Format**: CSIM 3.0.1 requires version-specific language identifiers
+- **Language Format**: CSIM requires version-specific language identifiers
 - The UI displays friendly names ("Python 3.13") but sends version-specific strings (`python_3_13`) to the API
+- `java_24` is marked experimental upstream in CSIM 3.2.0 — expect it to be less battle-tested than `java_20`
 - Supported file extensions: `.py`, `.java`, `.cpp`
 - Bulk uploads support ZIP archives containing multiple files
 
@@ -238,7 +243,7 @@ npm run clean
 **Debug Steps**:
 1. Check API logs for error messages
 2. Verify language format is correct (should be `python_3_13`, not `python`)
-3. Ensure csim 3.0.1 is installed: `pip list | grep csim`
+3. Ensure csim 3.2.0 is installed: `pip list | grep csim` (or hit `GET /api/version`)
 
 **Quick Test**:
 ```bash
@@ -281,6 +286,20 @@ pip install -r requirements.txt --force-reinstall
 cd ../ui
 npm install
 ```
+
+## CSIM 3.2.0 Upgrade Notes
+
+### What Changed
+
+| Aspect | Version 3.0.1/3.1.1 | Version 3.2.0 |
+|--------|----------------------|----------------|
+| Python Support | `python_3_13` only | Adds `python_3` (universal grammar) |
+| Java Support | `java_20` only | Adds `java_24` (experimental) |
+
+### Notes
+
+- This is an additive, non-breaking change — existing `python_3_13`, `java_20`, and `cpp_14` identifiers behave the same
+- No migration required for existing integrations; `python_3` and `java_24` are new opt-in options in the language selector
 
 ## CSIM 3.0.1 Upgrade Notes
 
@@ -371,18 +390,25 @@ For issues, feature requests, or feedback:
 - [Material-UI](https://mui.com/) - Component library
 - [Monaco Editor](https://microsoft.github.io/monaco-editor/) - Code editor
 
+## Versioning
+
+- **CSIM engine version**: driven by a single file, `api/requirements.txt` (`csim==X.Y.Z`). The API reads the installed package version at runtime via `importlib.metadata` and exposes it at `GET /api/version`; the UI fetches it on load and shows it next to the app title. Bump that one line and both API and UI reflect it automatically after a redeploy — no other file needs to change.
+- **UI (CSIM Online) version**: tracked in `ui/package.json` (`version`) and tagged in git (e.g. `v1.0.0`). Displayed next to the CSIM engine version in the app bar.
+
 ## Project Status
 
-- ✅ CSIM 3.0.1 Integration Complete
-- ✅ Multi-language Support (Python, Java, C++)
+- ✅ CSIM 3.2.0 Integration Complete
+- ✅ Multi-language Support (Python 3.13/3, Java 20/24, C++ 14)
 - ✅ Theme Support (Light/Dark/System)
 - ✅ Internationalization (EN/ES)
 - ✅ Diff Viewer
 - ✅ Bulk Analysis
+- ✅ Live CSIM/UI version display
 - 🚀 Production Ready
 
 ---
 
 **Last Updated**: August 2026  
-**CSIM Version**: 3.0.1  
+**CSIM Version**: 3.2.0  
+**UI Version**: 1.0.0  
 **React Version**: 19+

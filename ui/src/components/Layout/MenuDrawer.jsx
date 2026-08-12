@@ -5,6 +5,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Typography,
+  Box,
   useTheme,
   useMediaQuery,
   ListItem,
@@ -23,6 +25,7 @@ import { Drawer as CustomDrawer, DrawerHeader as CustomDrawerHeader } from '../.
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { changeActualContent, openSidebarMenu } from '../../hooks/redux/appActions';
+import { UI_VERSION } from '../../constants/version';
 
 import {
   CODE_SECTION,
@@ -48,7 +51,7 @@ const MenuDrawer = () => {
   };
 
   const drawerContent = (
-    <>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <CustomDrawerHeader>
         <IconButton onClick={handleToggle} aria-label={t('layout.drawer.collapseMenu')}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -132,7 +135,21 @@ const MenuDrawer = () => {
           </ListItemButton>
         </ListItem>
       </List>
-    </>
+      <Box sx={{ mt: 'auto', px: 2.5, py: 1.5 }}>
+        <Typography
+          variant="caption"
+          noWrap
+          sx={{
+            display: 'block',
+            color: 'text.secondary',
+            opacity: open ? 1 : 0,
+            transition: 'opacity 0.2s ease',
+          }}
+        >
+          {t('app.uiVersion', { version: UI_VERSION })}
+        </Typography>
+      </Box>
+    </Box>
   );
 
   if (isMobile) {

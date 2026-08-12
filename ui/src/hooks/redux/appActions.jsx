@@ -11,6 +11,7 @@ import {
   REMOVE_ALL_FILES_FROM_BULK_EDITOR,
   UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
   UPDATE_INFO_DIALOG,
+  UPDATE_CSIM_VERSION,
 } from './appActionTypes';
 
 export const openSidebarMenu = () => ({
@@ -73,4 +74,9 @@ export const updateInfoDialog = (open, message, header) => ({
   open,
   message,
   header,
+});
+
+export const updateCsimVersion = (csimVersion) => ({
+  type: UPDATE_CSIM_VERSION,
+  csimVersion,
 });

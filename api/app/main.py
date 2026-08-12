@@ -3,8 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from csim import Compare
 from csim.utils import group_by_exhaustive_search
+from importlib.metadata import version as get_package_version
 import os
 import uvicorn
+
+CSIM_VERSION = get_package_version("csim")
 
 class FileItem(BaseModel):
     name: str = Field(..., min_length=1, description="The name of the file")
@@ -45,6 +48,11 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"status": "API is running smoothly"}
+
+
+@app.get("/api/version")
+def read_version():
+    return {"csim_version": CSIM_VERSION}
 
 
 @app.post("/api/analyze")

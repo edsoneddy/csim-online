@@ -19,3 +19,17 @@ export const sendPostRequest = async (endpoint, payload) => {
 
   return response.json();
 };
+
+/**
+ * Sends a GET request to the API and handles errors safely.
+ */
+export const sendGetRequest = async (endpoint) => {
+  const response = await fetch(`${API_URL}${endpoint}`);
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Server error: ${response.status}`);
+  }
+
+  return response.json();
+};

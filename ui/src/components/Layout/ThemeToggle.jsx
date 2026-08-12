@@ -3,7 +3,7 @@ import { IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/mat
 import {
   LightMode as LightModeIcon,
   DarkMode as DarkModeIcon,
-  SettingsBrightness as SystemModeIcon,
+  Brightness4 as Brightness4Icon,
   Check as CheckIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ import { useThemeMode } from '../../theme/ThemeModeContext';
 const MODE_ICONS = {
   light: LightModeIcon,
   dark: DarkModeIcon,
-  system: SystemModeIcon,
+  system: Brightness4Icon,
 };
 
 const MODES = ['light', 'dark', 'system'];
