@@ -11,7 +11,7 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 
 - **Dual Editor Mode**: Compare two files side-by-side with syntax highlighting and similarity scoring
 - **Bulk Analysis**: Analyze multiple files at once with configurable similarity thresholds
-- **Multi-Language Support**: Python 3.13, Python 3, Java 20, Java 24 (experimental), C++ 14
+- **Multi-Language Support**: Python 3, Python 3.13, Java 24, C++ 14
 - **Theme Support**: Light, dark, and system-preference themes
 - **Internationalization**: English and Spanish locales
 - **Diff Viewer**: Visual side-by-side comparison of matching code
@@ -99,17 +99,17 @@ No additional configuration needed for local development.
 
 | Language | Version | Internal ID | Display Name |
 |----------|---------|-------------|--------------|
-| Python   | 3.13    | `python_3_13` | Python 3.13  |
 | Python   | 3 (universal grammar) | `python_3` | Python 3 |
-| Java     | 20      | `java_20`   | Java 20      |
-| Java     | 24 (experimental) | `java_24` | Java 24 (Experimental) |
+| Python   | 3.13    | `python_3_13` | Python 3.13  |
+| Java     | 24      | `java_24`   | Java 24      |
 | C++      | 14      | `cpp_14`    | C++ 14       |
 
 ### Important Notes
 
 - **Language Format**: CSIM requires version-specific language identifiers
 - The UI displays friendly names ("Python 3.13") but sends version-specific strings (`python_3_13`) to the API
-- `java_24` is marked experimental upstream in CSIM 3.2.0 — expect it to be less battle-tested than `java_20`
+- **Python 3** (`python_3`) is the default/first option — it uses CSIM's universal grammar and is the recommended choice unless you specifically need 3.13-only syntax
+- `java_20` is still accepted by the CSIM library but is no longer offered in the UI's language selector — `java_24` is the only Java option shown
 - Supported file extensions: `.py`, `.java`, `.cpp`
 - Bulk uploads support ZIP archives containing multiple files
 
@@ -293,13 +293,14 @@ npm install
 
 | Aspect | Version 3.0.1/3.1.1 | Version 3.2.0 |
 |--------|----------------------|----------------|
-| Python Support | `python_3_13` only | Adds `python_3` (universal grammar) |
-| Java Support | `java_20` only | Adds `java_24` (experimental) |
+| Python Support | `python_3_13` only | `python_3` (universal grammar, now default) and `python_3_13` |
+| Java Support | `java_20` only | `java_24` — replaces `java_20` in the UI's language selector |
 
 ### Notes
 
-- This is an additive, non-breaking change — existing `python_3_13`, `java_20`, and `cpp_14` identifiers behave the same
-- No migration required for existing integrations; `python_3` and `java_24` are new opt-in options in the language selector
+- The CSIM library itself accepts `python_3_13`, `python_3`, `java_20`, `java_24`, and `cpp_14`; the UI's language selector exposes `python_3`, `python_3_13`, `java_24`, and `cpp_14`
+- `java_20` was dropped from the dropdown in favor of `java_24`; existing history entries analyzed with `java_20` are unaffected, but re-running that analysis requires selecting `java_24`
+- No backend migration required — this is purely a UI language-selector change
 
 ## CSIM 3.0.1 Upgrade Notes
 
@@ -398,7 +399,7 @@ For issues, feature requests, or feedback:
 ## Project Status
 
 - ✅ CSIM 3.2.0 Integration Complete
-- ✅ Multi-language Support (Python 3.13/3, Java 20/24, C++ 14)
+- ✅ Multi-language Support (Python 3/3.13, Java 24, C++ 14)
 - ✅ Theme Support (Light/Dark/System)
 - ✅ Internationalization (EN/ES)
 - ✅ Diff Viewer

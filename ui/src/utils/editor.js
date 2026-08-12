@@ -4,7 +4,8 @@ import { languageByExtension } from '../constants/ui';
 // Map internal language identifiers to Monaco Editor language identifiers
 const monacoLanguageMap = {
   python_3_13: 'python',
-  java_20: 'java',
+  python_3: 'python',
+  java_24: 'java',
   cpp_14: 'cpp',
 };
 
