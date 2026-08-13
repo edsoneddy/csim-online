@@ -135,7 +135,7 @@ const FileUploadButton = forwardRef(
           type="file"
           onChange={handleFileChange}
           style={{ display: 'none' }}
-          accept={extensions || SUPPORTED_EXTENSIONS.join(',')}
+          accept={extensions || `${SUPPORTED_EXTENSIONS.join(',')},text/plain`}
           disabled={disabled}
           multiple={multiple}
         />
