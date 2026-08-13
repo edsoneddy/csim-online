@@ -20,24 +20,40 @@ CSIM Online is a web application that provides:
 
 ## Quick Start
 
+This UI needs the CSIM Online backend API running to actually perform analyses. Start the backend first, then the frontend.
+
 ### Prerequisites
 
-- Node.js 16+
+- Node.js 18+
 - npm or yarn
+- Python 3.13+ (for the backend, see below)
 
-### Installation
+### Backend Setup
+
+The backend lives in `../api` (one level up from this folder).
+
+```bash
+cd ../api
+pip install -r requirements.txt
+python3 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+The API will be available at [http://localhost:8000](http://localhost:8000).
+
+### Frontend Setup
 
 ```bash
 npm install
-```
-
-### Development
-
-```bash
 npm run dev
 ```
 
 Opens [http://localhost:3000](http://localhost:3000) - HMR enabled, ~90ms startup.
+
+By default the UI talks to the API at `http://localhost:8000`. To point it elsewhere, create a `.env` file in this folder:
+
+```env
+VITE_API_URL=http://localhost:8000
+```
 
 ### Production
 
