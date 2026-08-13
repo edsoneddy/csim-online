@@ -1,4 +1,5 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Box, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import EditorToolbar from '../EditorToolbar';
@@ -17,12 +18,19 @@ import {
 import { debounce } from 'lodash';
 import { DUAL_EDITOR_FILES_KEY, EDITOR_TYPES } from '../../../utils/toolbar';
 
+// Below this breakpoint the two editors no longer fit side by side (see the
+// grid's `md` column below) and stacking them vertically wastes too much
+// space, so we switch to a single tabbed editor instead.
+const EDITORS_STACK_BREAKPOINT = 'md';
+
 const DualEditor = () => {
   const { t } = useTranslation();
   const [language, setLanguage] = useState(defaultLanguage);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [activeEditorTab, setActiveEditorTab] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isEditorsStacked = useMediaQuery(theme.breakpoints.down(EDITORS_STACK_BREAKPOINT));
   const history = useSelector((state) => state.history);
   const dispatch = useDispatch();
 
@@ -169,45 +177,120 @@ const DualEditor = () => {
         />
       </Box>
 
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            md: '1fr 1fr',
-          },
-          gridAutoRows: {
-            xs: 'minmax(320px, 1fr)',
-            md: '1fr',
-          },
-          gap: 2,
-          flex: 1,
-          minHeight: 0,
-          width: '100%',
-        }}
-      >
-        <EditorPanel
-          value={file1?.content}
-          onChange={handleCode1Change}
-          language={language}
-          fileName={file1?.name}
-          fileSize={file1?.size}
-          editorOptions={editorOptions}
-          onClear={handleClearEditor1}
-          onFileUploaded={handleFile1Upload}
-        />
+      {isEditorsStacked ? (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            minHeight: 0,
+            width: '100%',
+          }}
+        >
+          <Box sx={{ flex: 1, minHeight: 320, display: activeEditorTab === 0 ? 'flex' : 'none' }}>
+            <EditorPanel
+              value={file1?.content}
+              onChange={handleCode1Change}
+              language={language}
+              fileName={file1?.name}
+              fileSize={file1?.size}
+              editorOptions={editorOptions}
+              onClear={handleClearEditor1}
+              onFileUploaded={handleFile1Upload}
+            />
+          </Box>
 
-        <EditorPanel
-          value={file2?.content}
-          onChange={handleCode2Change}
-          language={language}
-          fileName={file2?.name}
-          fileSize={file2?.size}
-          editorOptions={editorOptions}
-          onClear={handleClearEditor2}
-          onFileUploaded={handleFile2Upload}
-        />
-      </Box>
+          <Box sx={{ flex: 1, minHeight: 320, display: activeEditorTab === 1 ? 'flex' : 'none' }}>
+            <EditorPanel
+              value={file2?.content}
+              onChange={handleCode2Change}
+              language={language}
+              fileName={file2?.name}
+              fileSize={file2?.size}
+              editorOptions={editorOptions}
+              onClear={handleClearEditor2}
+              onFileUploaded={handleFile2Upload}
+            />
+          </Box>
+
+          {/* Sheet-style tab strip, Excel-like: compact, left-aligned, flush
+              against the bottom edge of the editor panel above it. */}
+          <AppBar
+            position="static"
+            elevation={0}
+            sx={{
+              mt: 0,
+              borderRadius: '0 0 4px 4px',
+              borderTop: 0,
+              borderBottom: 0,
+              boxShadow: 'none',
+              background: 'none',
+              backgroundColor: (t) => alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.16 : 0.08),
+            }}
+          >
+            <Tabs
+              value={activeEditorTab}
+              onChange={(_event, newValue) => setActiveEditorTab(newValue)}
+              variant="standard"
+              indicatorColor="primary"
+              textColor="primary"
+              sx={{
+                minHeight: 32,
+                '& .MuiTabs-flexContainer': { gap: 0.5, px: 1 },
+                '& .MuiTab-root': {
+                  minHeight: 32,
+                  minWidth: 0,
+                  py: 0.25,
+                  px: 1.5,
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  color: 'text.secondary',
+                  borderRadius: '0 0 6px 6px',
+                  '&.Mui-selected': {
+                    backgroundColor: (t) => alpha(t.palette.primary.main, 0.2),
+                  },
+                },
+              }}
+            >
+              <Tab label={t('editor.tabs.editorIndex', { index: 1 })} />
+              <Tab label={t('editor.tabs.editorIndex', { index: 2 })} />
+            </Tabs>
+          </AppBar>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 2,
+            flex: 1,
+            minHeight: 0,
+            width: '100%',
+          }}
+        >
+          <EditorPanel
+            value={file1?.content}
+            onChange={handleCode1Change}
+            language={language}
+            fileName={file1?.name}
+            fileSize={file1?.size}
+            editorOptions={editorOptions}
+            onClear={handleClearEditor1}
+            onFileUploaded={handleFile1Upload}
+          />
+
+          <EditorPanel
+            value={file2?.content}
+            onChange={handleCode2Change}
+            language={language}
+            fileName={file2?.name}
+            fileSize={file2?.size}
+            editorOptions={editorOptions}
+            onClear={handleClearEditor2}
+            onFileUploaded={handleFile2Upload}
+          />
+        </Box>
+      )}
 
       <SingleResultsPanel isAnalyzing={isAnalyzing} files={[file1, file2]} />
     </Box>

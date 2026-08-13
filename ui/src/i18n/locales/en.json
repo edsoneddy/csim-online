@@ -36,7 +36,8 @@
   "editor": {
     "tabs": {
       "dual": "Dual Editor",
-      "bulk": "Bulk Editor"
+      "bulk": "Bulk Editor",
+      "editorIndex": "Editor {{index}}"
     },
     "toolbar": {
       "languageLabel": "Language",
