@@ -209,7 +209,8 @@
       "phone": "Phone",
       "github": "GitHub",
       "linkedin": "LinkedIn",
-      "twitter": "Twitter"
+      "twitter": "Twitter",
+      "telegram": "Telegram"
     },
     "formTitle": "Send us a Message",
     "fullName": "Full Name",
@@ -255,6 +256,10 @@
       "contactSupport": {
         "title": "Contact Support",
         "description": "Get help from our development team"
+      },
+      "runLocally": {
+        "title": "Run Locally",
+        "description": "Set up the backend and frontend on your own machine"
       }
     },
     "howToUseTitle": "How to Use CSIM Online",
@@ -293,8 +298,6 @@
       "monthlyCompute": "Monthly compute: 750 free hours",
       "ssl": "SSL/TLS: Automatic, free certificates for custom domains and .onrender.com subdomains"
     },
-    "noteTitle": "Note",
-    "noteBody": "512 MB of RAM are a good fit for FastAPI-based services.",
     "searchPlaceholder": "Search for a question...",
     "faqTitle": "Frequently Asked Questions",
     "faqNoResults": "We could not find answers for your search. Try using different keywords.",
@@ -316,6 +319,10 @@
         "q4": {
           "q": "Is there a limit to the number of files for the \"Bulk Editor\"?",
           "a": "You can upload individual files or compress them into a ZIP archive for easier uploading. Currently, there is a limit of 50 files per bulk analysis to ensure optimal performance."
+        },
+        "q5": {
+          "q": "Can I remove the 50-file limit?",
+          "a": "That cap only applies to this hosted instance, to keep it responsive on Render's free tier. If you run CSIM Online locally, you can change or remove it by editing the MAX_FILES_IN_BULK_EDITOR constant in ui/src/utils/table.js. See the \"Run Locally\" quick link above for setup instructions."
         }
       },
       "understandingResults": {

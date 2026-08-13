@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Container, Grid, Button, Box, CircularProgress, Paper, Typography } from '@mui/material';
 import {
   Email as EmailIcon,
-  Phone as PhoneIcon,
+  Telegram as TelegramIcon,
   LocationOn as LocationOnIcon,
   Send as SendIcon,
   X as XIcon,
@@ -35,10 +35,10 @@ const ContactUs = () => {
       link: 'mailto:crew0eddy@gmail.com',
     },
     {
-      icon: <PhoneIcon sx={{ fontSize: 32 }} />,
-      title: t('contactUs.methods.phone'),
-      content: '+591 68013221',
-      link: 'tel:+59168013221',
+      icon: <TelegramIcon sx={{ fontSize: 32 }} />,
+      title: t('contactUs.methods.telegram'),
+      content: '@edsoneddy',
+      link: 'https://t.me/edsoneddy',
     },
     {
       icon: <LocationOnIcon sx={{ fontSize: 32 }} />,

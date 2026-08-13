@@ -25,6 +25,7 @@ import {
   DataUsage as DataUsageIcon,
   Shield as ShieldIcon,
   Speed as SpeedIcon,
+  Computer as ComputerIcon,
   LooksOne as LooksOneIcon,
   LooksTwo as LooksTwoIcon,
   Looks3 as Looks3Icon,
@@ -63,6 +64,10 @@ const HelpCenter = () => {
         {
           q: t('helpCenter.faq.gettingStarted.q4.q'),
           a: t('helpCenter.faq.gettingStarted.q4.a'),
+        },
+        {
+          q: t('helpCenter.faq.gettingStarted.q5.q'),
+          a: t('helpCenter.faq.gettingStarted.q5.a'),
         },
       ],
     },
@@ -143,6 +148,13 @@ const HelpCenter = () => {
       description: t('helpCenter.quickLinks.contactSupport.description'),
       icon: <VideoLibraryIcon sx={{ fontSize: 40 }} />,
       onClick: () => dispatch(changeActualContent(CONTACT_US_SECTION)),
+    },
+    {
+      title: t('helpCenter.quickLinks.runLocally.title'),
+      description: t('helpCenter.quickLinks.runLocally.description'),
+      icon: <ComputerIcon sx={{ fontSize: 40 }} />,
+      onClick: () =>
+        window.open('https://github.com/edsoneddy/csim-online#quick-start', '_blank'),
     },
   ];
 
@@ -331,18 +343,6 @@ const HelpCenter = () => {
                 </List>
               </Grid>
             </Grid>
-
-            <Paper
-              variant="outlined"
-              sx={{ mt: 2, p: 2, backgroundColor: 'action.hover', borderColor: 'divider' }}
-            >
-              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {t('helpCenter.noteTitle')}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {t('helpCenter.noteBody')}
-              </Typography>
-            </Paper>
           </CardContent>
         </Card>
       </Box>

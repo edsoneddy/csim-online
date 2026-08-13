@@ -209,7 +209,8 @@
       "phone": "Teléfono",
       "github": "GitHub",
       "linkedin": "LinkedIn",
-      "twitter": "Twitter"
+      "twitter": "Twitter",
+      "telegram": "Telegram"
     },
     "formTitle": "Envíanos un Mensaje",
     "fullName": "Nombre Completo",
@@ -255,6 +256,10 @@
       "contactSupport": {
         "title": "Contactar Soporte",
         "description": "Obtén ayuda de nuestro equipo de desarrollo"
+      },
+      "runLocally": {
+        "title": "Ejecutar Localmente",
+        "description": "Configura el backend y el frontend en tu propio equipo"
       }
     },
     "howToUseTitle": "Cómo Usar CSIM Online",
@@ -293,8 +298,6 @@
       "monthlyCompute": "Cómputo mensual: 750 horas gratuitas",
       "ssl": "SSL/TLS: Certificados automáticos y gratuitos para dominios personalizados y subdominios .onrender.com"
     },
-    "noteTitle": "Nota",
-    "noteBody": "512 MB de RAM son adecuados para servicios basados en FastAPI.",
     "searchPlaceholder": "Buscar una pregunta...",
     "faqTitle": "Preguntas Frecuentes",
     "faqNoResults": "No pudimos encontrar respuestas para tu búsqueda. Intenta con otras palabras clave.",
@@ -316,6 +319,10 @@
         "q4": {
           "q": "¿Existe un límite en la cantidad de archivos para el \"Editor Masivo\"?",
           "a": "Puedes subir archivos individuales o comprimirlos en un archivo ZIP para facilitar la carga. Actualmente, hay un límite de 50 archivos por análisis masivo para garantizar un rendimiento óptimo."
+        },
+        "q5": {
+          "q": "¿Puedo quitar el límite de 50 archivos?",
+          "a": "Ese límite solo aplica a esta instancia alojada, para mantenerla estable en el plan gratuito de Render. Si ejecutas CSIM Online de forma local, puedes cambiarlo o quitarlo editando la constante MAX_FILES_IN_BULK_EDITOR en ui/src/utils/table.js. Consulta el enlace rápido \"Ejecutar Localmente\" de arriba para las instrucciones de instalación."
         }
       },
       "understandingResults": {
