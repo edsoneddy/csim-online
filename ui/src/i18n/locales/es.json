@@ -76,7 +76,8 @@
     "originalFile": "Original: {{name}}",
     "modifiedFile": "Modificado: {{name}}",
     "noFilesSelected": "No hay archivos seleccionados",
-    "addTwoFiles": "Agrega dos archivos al editor masivo para compararlos aquí."
+    "addTwoFiles": "Agrega dos archivos al editor masivo para compararlos aquí.",
+    "disclaimer": "Diff generado por Monaco Editor (el motor de VS Code), similar a git diff — no es el análisis de similitud de CSIM."
   },
   "fileViewer": {
     "title": "Visor de Archivos",

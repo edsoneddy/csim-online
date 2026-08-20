@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  Alert,
   Box,
   Chip,
   Dialog,
@@ -140,6 +141,10 @@ const FileDiffViewerDialog = ({ open, onClose, files = [] }) => {
           background: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 100%)`,
         }}
       >
+        <Alert severity="info" variant="outlined" sx={{ mt: 1, py: 0.25 }}>
+          {t('diffViewer.disclaimer')}
+        </Alert>
+
         {originalFile && modifiedFile ? (
           <>
             <Stack spacing={1.5}>
