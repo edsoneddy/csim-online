@@ -7,6 +7,8 @@ const monacoLanguageMap = {
   python_3: 'python',
   java_24: 'java',
   cpp_14: 'cpp',
+  kotlin: 'kotlin',
+  c: 'c',
 };
 
 export const getMonacoLanguage = (internalLanguage) => {
