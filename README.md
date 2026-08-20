@@ -11,7 +11,7 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 
 - **Dual Editor Mode**: Compare two files side-by-side with syntax highlighting and similarity scoring
 - **Bulk Analysis**: Analyze multiple files at once with configurable similarity thresholds
-- **Multi-Language Support**: Python 3, Python 3.13, Java 24, C++ 14
+- **Multi-Language Support**: Python 3, Python 3.13, Java 24, C++ 14, Kotlin, C
 - **Theme Support**: Light, dark, and system-preference themes
 - **Internationalization**: English and Spanish locales
 - **Diff Viewer**: Visual side-by-side comparison of matching code

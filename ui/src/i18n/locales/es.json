@@ -249,7 +249,7 @@
       },
       "supportedLanguages": {
         "title": "Lenguajes Compatibles",
-        "description": "3 lenguajes de programación compatibles"
+        "description": "5 lenguajes de programación compatibles"
       },
       "understandingResults": {
         "title": "Cómo Entender los Resultados",
@@ -308,7 +308,7 @@
         "category": "Primeros Pasos",
         "q1": {
           "q": "¿Qué lenguajes de programación son compatibles?",
-          "a": "Actualmente admitimos Python, Java y C++. Estamos trabajando activamente para agregar más lenguajes en el futuro cercano."
+          "a": "Actualmente admitimos Python, Java, C++, Kotlin y C. Estamos trabajando activamente para agregar más lenguajes en el futuro cercano."
         },
         "q2": {
           "q": "¿Puedo pegar código directamente en lugar de subir archivos?",
@@ -353,7 +353,7 @@
         },
         "q2": {
           "q": "¿Debo analizar código compilado o fuente?",
-          "a": "Usa siempre archivos de código fuente sin procesar (.py, .cpp, .java). No se pueden analizar código compilado ni ejecutables."
+          "a": "Usa siempre archivos de código fuente sin procesar (.py, .java, .cpp, .kt, .c). No se pueden analizar código compilado ni ejecutables."
         },
         "q3": {
           "q": "¿La herramienta puede detectar código ofuscado?",

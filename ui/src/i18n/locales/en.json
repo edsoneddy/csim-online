@@ -249,7 +249,7 @@
       },
       "supportedLanguages": {
         "title": "Supported Languages",
-        "description": "3 programming languages supported"
+        "description": "5 programming languages supported"
       },
       "understandingResults": {
         "title": "Understanding Results",
@@ -308,7 +308,7 @@
         "category": "Getting Started",
         "q1": {
           "q": "What programming languages are supported?",
-          "a": "Currently, we support Python, Java, and C++. We are actively working on adding more languages in the near future."
+          "a": "Currently, we support Python, Java, C++, Kotlin, and C. We are actively working on adding more languages in the near future."
         },
         "q2": {
           "q": "Can I paste code directly instead of uploading files?",
@@ -353,7 +353,7 @@
         },
         "q2": {
           "q": "Should I analyze compiled or source code?",
-          "a": "Always use raw source code files (.py, .cpp, .java). Compiled code or executables cannot be analyzed."
+          "a": "Always use raw source code files (.py, .java, .cpp, .kt, .c). Compiled code or executables cannot be analyzed."
         },
         "q3": {
           "q": "Can the tool detect obfuscated code?",
