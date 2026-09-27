@@ -2,7 +2,7 @@
 
 A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code similarity detection and plagiarism analysis tool. Compare two files side-by-side or analyze multiple files in bulk to identify similar code patterns.
 
-![CSIM Online](https://img.shields.io/badge/CSIM-3.4.1-blue)
+![CSIM Online](https://img.shields.io/badge/CSIM-4.1.0-blue)
 ![Python](https://img.shields.io/badge/Python-3.13+-green)
 ![React](https://img.shields.io/badge/React-19+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -25,7 +25,7 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 - **Framework**: FastAPI 0.111.0
 - **Server**: Uvicorn 0.23.2
 - **Validation**: Pydantic 2.7.1
-- **Analysis**: CSIM 3.4.1
+- **Analysis**: CSIM 4.1.0
 
 ### Frontend
 - **Framework**: React 19
@@ -55,7 +55,7 @@ The API will be available at `http://localhost:8000`
 
 API endpoints:
 - `GET /` - Health check
-- `GET /api/version` - Returns the installed CSIM engine version (`{"csim_version": "3.4.1"}`), read live from the `csim` package via `importlib.metadata`. The UI fetches this on load and displays it next to the app title — bump `csim` in `api/requirements.txt` and it propagates automatically, no UI changes needed.
+- `GET /api/version` - Returns the installed CSIM engine version (`{"csim_version": "4.1.0"}`), read live from the `csim` package via `importlib.metadata`. The UI fetches this on load and displays it next to the app title — bump `csim` in `api/requirements.txt` and it propagates automatically, no UI changes needed.
 - `POST /api/analyze` - Compare two files
 - `POST /api/analyze-all` - Analyze multiple files with threshold
 
@@ -247,7 +247,7 @@ npm run clean
 **Debug Steps**:
 1. Check API logs for error messages
 2. Verify language format is correct (should be `python_3_13`, not `python`)
-3. Ensure csim 3.4.1 is installed: `pip list | grep csim` (or hit `GET /api/version`)
+3. Ensure csim 4.1.0 is installed: `pip list | grep csim` (or hit `GET /api/version`)
 
 **Quick Test**:
 ```bash
