@@ -11,7 +11,9 @@ import {
   REMOVE_ALL_FILES_FROM_BULK_EDITOR,
   UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
   UPDATE_INFO_DIALOG,
-  UPDATE_CSIM_VERSION,
+  UPDATE_CSIMX_VERSION,
+  UPDATE_MAX_FILES,
+  UPDATE_ANALYSIS_JOB,
 } from './appActionTypes';
 
 export const openSidebarMenu = () => ({
@@ -76,7 +78,17 @@ export const updateInfoDialog = (open, message, header) => ({
   header,
 });
 
-export const updateCsimVersion = (csimVersion) => ({
-  type: UPDATE_CSIM_VERSION,
-  csimVersion,
+export const updateCsimxVersion = (csimxVersion) => ({
+  type: UPDATE_CSIMX_VERSION,
+  csimxVersion,
+});
+
+export const updateAnalysisJob = (job) => ({
+  type: UPDATE_ANALYSIS_JOB,
+  job,
+});
+
+export const updateMaxFiles = (maxFiles) => ({
+  type: UPDATE_MAX_FILES,
+  maxFiles,
 });

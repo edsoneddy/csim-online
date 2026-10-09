@@ -3,8 +3,20 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
+import TooltipIconButton from './TooltipIconButton';
 
-const InputSlider = ({ label, value, onChange, min, max, step, fixed, suffix }) => {
+const InputSlider = ({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  fixed,
+  suffix,
+  help,
+  disabled = false,
+}) => {
   const handleChange = (event, newValue) => {
     onChange(newValue);
   };
@@ -12,8 +24,15 @@ const InputSlider = ({ label, value, onChange, min, max, step, fixed, suffix }) 
   const val = fixed ? value.toFixed(fixed) : value;
   const labelFixed = `${label} ${val}${suffix ? `${suffix}` : ''}`;
 
-  return (
-    <FormControl variant="outlined" size="small" sx={{ minWidth: 120, width: '100%' }}>
+  // Shared popup for every slider: a one-sentence help tooltip over the whole control (the value
+  // is already in the label, so there is no value bubble).
+  const control = (
+    <FormControl
+      variant="outlined"
+      size="small"
+      disabled={disabled}
+      sx={{ minWidth: 120, width: '100%' }}
+    >
       <InputLabel shrink id={`slider-label-${labelFixed}`}>
         {labelFixed}
       </InputLabel>
@@ -34,6 +53,7 @@ const InputSlider = ({ label, value, onChange, min, max, step, fixed, suffix }) 
               max={max}
               step={step}
               size="small"
+              disabled={disabled}
               onChange={handleChange}
               aria-labelledby={`slider-label-${labelFixed}`}
               sx={{ flexGrow: 1 }}
@@ -49,6 +69,16 @@ const InputSlider = ({ label, value, onChange, min, max, step, fixed, suffix }) 
         }}
       />
     </FormControl>
+  );
+
+  // Same tooltip as the buttons (TooltipIconButton + the MuiTooltip theme override).
+  return help ? (
+    <TooltipIconButton props={{ title: help, offset: [0, 5] }} asChild>
+      {/* A span keeps the tooltip working while the slider is disabled (MUI skips disabled children). */}
+      <span style={{ display: 'block' }}>{control}</span>
+    </TooltipIconButton>
+  ) : (
+    control
   );
 };
 

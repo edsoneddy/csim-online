@@ -6,6 +6,7 @@ const TooltipIconButton = ({ props, children, asChild = false, sx = {} }) => {
   const {
     title,
     placement = 'top',
+    offset = [0, -5],
     hiddenTooltip = false,
     onClick = () => {},
     disabled = false,
@@ -29,7 +30,7 @@ const TooltipIconButton = ({ props, children, asChild = false, sx = {} }) => {
             {
               name: 'offset',
               options: {
-                offset: [0, -5],
+                offset,
               },
             },
           ],

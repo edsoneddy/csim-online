@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "CSIM Online",
-    "csimVersion": "csim v{{version}}",
+    "csimxVersion": "csimx v{{version}}",
     "uiVersion": "UI v{{version}}"
   },
   "layout": {
@@ -43,7 +43,12 @@
       "languageLabel": "Language",
       "analyze": "Analyze",
       "clearAll": "Clear All",
-      "threshold": "Threshold"
+      "threshold": "Threshold",
+      "thresholdHint": "Minimum similarity to group files.",
+      "prefilter": "Lexical prefilter",
+      "prefilterHint": "Faster: skips pairs with very different tokens.",
+      "prefilterMargin": "Margin",
+      "prefilterMarginHint": "Higher = safer, but slower."
     },
     "panel": {
       "upload": "Upload",
@@ -121,6 +126,7 @@
       "close": "Close"
     },
     "multiResults": {
+      "prefilterStats": "Prefilter: {{skipped}} of {{pairs}} pairs skipped, {{parsed}} of {{files}} files parsed",
       "similarityGroups": "Similarity Groups",
       "analyzing": "Analyzing...",
       "noResults": "No Results",
@@ -159,6 +165,27 @@
       "name": "Name",
       "size": "Size",
       "lastModified": "Last Modified"
+    },
+    "progress": {
+      "starting": "Starting...",
+      "phase": {
+        "parse": "Reading files",
+        "lexical": "Comparing tokens",
+        "structural": "Comparing structure"
+      },
+      "remaining": "{{time}} left",
+      "calculating": "Calculating time...",
+      "cancel": "Cancel analysis",
+      "cancelHint": "Stops the calculation."
+    },
+    "messages": {
+      "busyTitle": "Service busy",
+      "busy": "Another analysis is already running. Try again when it finishes.",
+      "cancelledTitle": "Analysis cancelled",
+      "cancelled": "The analysis was cancelled.",
+      "cancelledIdle": "The analysis was cancelled because this page stopped checking on it.",
+      "errorTitle": "Analysis failed",
+      "error": "The analysis could not be completed."
     }
   },
   "sessionHistory": {
@@ -320,11 +347,11 @@
         },
         "q4": {
           "q": "Is there a limit to the number of files for the \"Bulk Editor\"?",
-          "a": "You can upload individual files or compress them into a ZIP archive for easier uploading. Currently, there is a limit of 50 files per bulk analysis to ensure optimal performance."
+          "a": "You can upload individual files or compress them into a ZIP archive for easier uploading. Currently, there is a limit of {{max}} files per bulk analysis to ensure optimal performance."
         },
         "q5": {
-          "q": "Can I remove the 50-file limit?",
-          "a": "That cap only applies to this hosted instance, to keep it responsive on Render's free tier. If you run CSIM Online locally, you can change or remove it by editing the MAX_FILES_IN_BULK_EDITOR constant in ui/src/utils/table.js. See the \"Run Locally\" quick link above for setup instructions."
+          "q": "Can I remove the file limit?",
+          "a": "That cap only applies to this hosted instance (currently {{max}} files), to keep it responsive on Render's free tier. If you run CSIM Online locally, you can change or remove it with the MAX_FILES environment variable of the API; the interface follows it automatically. See the \"Run Locally\" quick link above for setup instructions."
         }
       },
       "understandingResults": {
@@ -343,6 +370,22 @@
         "q2": {
           "q": "Can I download my results?",
           "a": "Yes, the download and export features are available in the top right corner of the results panel. Currently, this is only available in the \"Bulk Editor\" section."
+        },
+        "q3": {
+          "q": "What is the lexical prefilter?",
+          "a": "An optional speed-up for the Bulk Editor (the \"Lexical prefilter\" switch, off by default). It first compares the token sequences of each pair of files and runs the structural comparison only on the pairs that are not too different in tokens. Files that take part in no such pair are not parsed at all, so large sets finish much faster. It only affects bulk (group) analysis, never the Dual Editor."
+        },
+        "q4": {
+          "q": "What does the prefilter margin mean, and what are the risks?",
+          "a": "The margin (0.00 to 0.30, default 0.05) is how far under the group threshold the token similarity may be for a pair to still get the structural comparison. A larger margin skips fewer pairs and loses fewer, but it is slower. The filter is lossy: a pair with the same structure but very different tokens, such as moved blocks or reordered statements, can be skipped even though the structural comparison would have grouped it. It pays off from a threshold of about 60% up; with lower thresholds, leave it off."
+        },
+        "q5": {
+          "q": "What do the prefilter numbers in the results mean?",
+          "a": "When the prefilter is on, the results show how many pairs were skipped out of all the possible pairs, and how many files were actually parsed out of the total. More skipped pairs and fewer parsed files mean more time saved."
+        },
+        "q6": {
+          "q": "How long will a bulk analysis take, and can I cancel it?",
+          "a": "Before a long analysis starts, a window shows the estimated time (with a range) and the number of pairs to compare; short ones start right away. With the lexical prefilter on, long analyses are estimated by comparing the tokens first, so the time is closer to the real one and the window also shows how long it would take without the prefilter; if that takes too long, the estimate is an upper bound and the real time can be shorter. While it runs, the results box shows the phase, a progress bar and the remaining time, with a stop button to cancel it. The service runs one analysis at a time, and very large ones are refused. Keep this page open: if it stops checking, the analysis is cancelled."
         }
       },
       "bestPractices": {
@@ -365,5 +408,25 @@
       "title": "Still have questions?",
       "description": "Go to the Contact Us section to reach out to our support team for further assistance."
     }
+  },
+  "time": {
+    "seconds": "{{s}} s",
+    "minutes": "{{m}} min",
+    "minutesSeconds": "{{m}} min {{s}} s",
+    "hours": "{{h}} h",
+    "hoursMinutes": "{{h}} h {{m}} min"
+  },
+  "estimateDialog": {
+    "title": "This analysis will take a while",
+    "blockedTitle": "This analysis is too large",
+    "about": "It will take about {{time}} (between {{low}} and {{high}}).",
+    "details": "{{files}} files, {{pairs}} pairs to compare.",
+    "prefilterNote": "With the lexical prefilter on it can be shorter.",
+    "tooManyFiles": "{{files}} files is above the limit of {{max}}.",
+    "tooSlow": "Estimated time {{time}} is above the limit of {{max}}.",
+    "hint": "Use fewer files or turn on the lexical prefilter.",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "withoutPrefilter": "Without the prefilter it would be up to {{time}}."
   }
 }

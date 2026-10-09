@@ -1,8 +1,8 @@
 # CSIM Online
 
-A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code similarity detection and plagiarism analysis tool. Compare two files side-by-side or analyze multiple files in bulk to identify similar code patterns.
+A modern web interface for [csimx](https://pypi.org/project/csimx/) (successor of csim) - a code similarity detection and plagiarism analysis tool. Compare two files side-by-side or analyze multiple files in bulk to identify similar code patterns.
 
-![CSIM Online](https://img.shields.io/badge/CSIM-4.1.0-blue)
+![CSIM Online](https://img.shields.io/badge/csimx-0.2.0-blue)
 ![Python](https://img.shields.io/badge/Python-3.13+-green)
 ![React](https://img.shields.io/badge/React-19+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -17,7 +17,7 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 - **Diff Viewer**: Visual side-by-side comparison of matching code
 - **File Viewer**: Preview and navigate through uploaded files
 - **Session History**: Track and review previous analyses
-- **Version Display**: The UI shows the CSIM engine version reported live by the API, plus its own release version
+- **Version Display**: The UI shows the csimx version reported live by the API, plus its own release version
 
 ## Tech Stack
 
@@ -25,7 +25,7 @@ A modern web interface for [CSIM](https://pypi.org/project/csim/) - a code simil
 - **Framework**: FastAPI 0.111.0
 - **Server**: Uvicorn 0.23.2
 - **Validation**: Pydantic 2.7.1
-- **Analysis**: CSIM 4.1.0
+- **Analysis**: csimx 0.2.0
 
 ### Frontend
 - **Framework**: React 19
@@ -55,9 +55,28 @@ The API will be available at `http://localhost:8000`
 
 API endpoints:
 - `GET /` - Health check
-- `GET /api/version` - Returns the installed CSIM engine version (`{"csim_version": "4.1.0"}`), read live from the `csim` package via `importlib.metadata`. The UI fetches this on load and displays it next to the app title — bump `csim` in `api/requirements.txt` and it propagates automatically, no UI changes needed.
+- `GET /api/version` - Returns the installed csimx version (`{"csimx_version": "0.2.0"}`), read live via `importlib.metadata`. The UI fetches this on load and shows it next to the app title — bump `csimx` in `api/requirements.txt` and it propagates automatically.
 - `POST /api/analyze` - Compare two files
 - `POST /api/analyze-all` - Analyze multiple files with threshold
+
+### Time estimate and background jobs
+
+`POST /api/analyze-all` is synchronous and deprecated (the old UI still uses it). The Bulk Editor uses:
+
+- `POST /api/estimate` (same body): fast estimate from the real size of the pruned trees (`estimate_group`, upper bound when the prefilter is on), computed in a short-lived child process. Returns the csimx estimate (`estimated_seconds`, `range_seconds`, `pairs`, `structural_pairs`, ...) plus `allowed`, `reason` (`too_slow` / `too_many_files`), `max_seconds` and `max_files`.
+- `POST /api/jobs` (same body): recomputes the estimate server side, refuses (413 too many files, 422 too slow) when not allowed, and runs the grouping in its own process. One job at a time: a second request gets 429 with the running job's progress. Returns `{"job_id"}`.
+- `GET /api/jobs/{id}`: `state` (`running`/`done`/`cancelled`/`error`), `phase` (`parse`/`lexical`/`structural`), `done`, `total`, `elapsed_seconds`, `eta_seconds`, `estimate`, and `result` (the analyze-all payload) when done. Every GET is a heartbeat: a running job with no GET for `HEARTBEAT_SECONDS` is cancelled.
+- `DELETE /api/jobs/{id}`: terminates the job process (idempotent). csimx cannot be interrupted, so cancelling kills the process.
+
+With the prefilter on, the estimate is first the cheap upper bound (every pair compared); when that reaches `EXACT_PREFILTER_MIN_SECONDS` (10) the child process also runs the lexical pass for an exact estimate (`exact: true`, with `upper_bound_seconds` for comparison). If that does not finish within `EXACT_ESTIMATE_TIMEOUT_SECONDS` (20) the bound is returned (`exact: false`, `exact_reason: "timeout"`). `POST /api/jobs` decides `allowed` with the same estimate (the exact one when available, the bound otherwise); estimates are memoized for 2 minutes server side so jobs right after an estimate do not repeat the lexical pass.
+
+Environment: `MAX_ESTIMATED_SECONDS` (600), `MAX_FILES` (100, also the cap of the Bulk Editor: the UI reads it from `GET /api/version`), `ESTIMATE_TIMEOUT_SECONDS` (60), `HEARTBEAT_SECONDS` (30), `JOB_KEEP_SECONDS` (600). `GET /api/version` also reports `speed_factor` (this machine against the csimx reference, calibrated in the background at start) and the limits.
+
+### Lexical prefilter (csimx)
+
+`POST /api/analyze-all` takes an optional `"prefilter_margin"` (0.0 to 0.30; omitted/null = off, every pair compared structurally). When set, pairs are compared by tokens first and only those within `threshold - margin` go to the structural stage. It is lossy: a larger margin skips fewer pairs and loses fewer, and it pays off from a threshold of about 0.6 up. The response then includes `prefilter_stats` (`pairs`, `skipped`, `parsed`, `files`). In the Bulk Editor this is the "Lexical prefilter" switch (off by default) plus the margin slider. Requests without `prefilter_margin` behave as before.
+
+Tests: `cd api && pip install -r requirements.txt -r requirements-dev.txt && pytest`.
 
 ### Frontend Setup
 
@@ -247,7 +266,7 @@ npm run clean
 **Debug Steps**:
 1. Check API logs for error messages
 2. Verify language format is correct (should be `python_3_13`, not `python`)
-3. Ensure csim 4.1.0 is installed: `pip list | grep csim` (or hit `GET /api/version`)
+3. Ensure csimx 0.2.0 is installed: `pip list | grep csimx` (or hit `GET /api/version`)
 
 **Quick Test**:
 ```bash
@@ -404,7 +423,7 @@ For issues, feature requests, or feedback:
 
 ## Acknowledgments
 
-- [CSIM](https://pypi.org/project/csim/) - Code similarity analysis library
+- [csimx](https://pypi.org/project/csimx/) - Code similarity analysis library
 - [FastAPI](https://fastapi.tiangolo.com/) - Modern Python web framework
 - [React](https://react.dev/) - UI library
 - [Material-UI](https://mui.com/) - Component library
@@ -412,7 +431,7 @@ For issues, feature requests, or feedback:
 
 ## Versioning
 
-- **CSIM engine version**: driven by a single file, `api/requirements.txt` (`csim==X.Y.Z`). The API reads the installed package version at runtime via `importlib.metadata` and exposes it at `GET /api/version`; the UI fetches it on load and shows it next to the app title. Bump that one line and both API and UI reflect it automatically after a redeploy — no other file needs to change.
+- **csimx version**: driven by a single file, `api/requirements.txt` (`csimx==X.Y.Z`). The API reads the installed package version at runtime via `importlib.metadata` and exposes it at `GET /api/version`; the UI fetches it on load and shows it next to the app title. Bump that one line and both API and UI reflect it automatically after a redeploy — no other file needs to change.
 - **UI (CSIM Online) version**: tracked in `ui/package.json` (`version`) and tagged in git (e.g. `v1.0.0`). Displayed at the bottom of the sidebar drawer.
 
 ## Project Status

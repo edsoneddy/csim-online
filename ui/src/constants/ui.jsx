@@ -10,6 +10,17 @@ export const defaultLanguage = 'python_3';
 // Supported File Extensions
 export const SUPPORTED_EXTENSIONS = ['.py', '.java', '.cpp', '.kt', '.c'];
 export const defaultThreshold = 75;
+
+// Cap of files in the Bulk Editor until the API reports its own `max_files` (GET /api/version).
+export const DEFAULT_MAX_FILES = 100;
+
+// Bulk analysis jobs: below this estimate (seconds) the analysis starts without asking.
+export const SMALL_ESTIMATE_SECONDS = 5;
+export const JOB_POLL_INTERVAL_MS = 1000;
+
+// Lexical prefilter (csimx): default margin sent as `prefilter_margin` (API max is 0.30).
+export const PREFILTER_MARGIN = 0.05;
+export const MAX_PREFILTER_MARGIN = 0.3;
 export const languageByExtension = {
   py: 'python_3_13',
   java: 'java_24',

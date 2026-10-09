@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "CSIM Online",
-    "csimVersion": "csim v{{version}}",
+    "csimxVersion": "csimx v{{version}}",
     "uiVersion": "UI v{{version}}"
   },
   "layout": {
@@ -43,7 +43,12 @@
       "languageLabel": "Lenguaje",
       "analyze": "Analizar",
       "clearAll": "Borrar Todo",
-      "threshold": "Umbral"
+      "threshold": "Umbral",
+      "thresholdHint": "Similitud mínima para agrupar archivos.",
+      "prefilter": "Prefiltro léxico",
+      "prefilterHint": "Más rápido: omite pares con tokens muy distintos.",
+      "prefilterMargin": "Margen",
+      "prefilterMarginHint": "Más alto = más seguro, pero más lento."
     },
     "panel": {
       "upload": "Subir",
@@ -121,6 +126,7 @@
       "close": "Cerrar"
     },
     "multiResults": {
+      "prefilterStats": "Prefiltro: {{skipped}} de {{pairs}} pares omitidos, {{parsed}} de {{files}} archivos analizados",
       "similarityGroups": "Grupos de Similitud",
       "analyzing": "Analizando...",
       "noResults": "Sin Resultados",
@@ -159,6 +165,27 @@
       "name": "Nombre",
       "size": "Tamaño",
       "lastModified": "Última Modificación"
+    },
+    "progress": {
+      "starting": "Iniciando...",
+      "phase": {
+        "parse": "Leyendo archivos",
+        "lexical": "Comparando tokens",
+        "structural": "Comparando estructura"
+      },
+      "remaining": "Faltan {{time}}",
+      "calculating": "Calculando tiempo...",
+      "cancel": "Cancelar análisis",
+      "cancelHint": "Detiene el cálculo."
+    },
+    "messages": {
+      "busyTitle": "Servicio ocupado",
+      "busy": "Ya hay otro análisis en curso. Inténtalo de nuevo cuando termine.",
+      "cancelledTitle": "Análisis cancelado",
+      "cancelled": "El análisis fue cancelado.",
+      "cancelledIdle": "El análisis se canceló porque esta página dejó de consultarlo.",
+      "errorTitle": "Falló el análisis",
+      "error": "No se pudo completar el análisis."
     }
   },
   "sessionHistory": {
@@ -320,11 +347,11 @@
         },
         "q4": {
           "q": "¿Existe un límite en la cantidad de archivos para el \"Editor Masivo\"?",
-          "a": "Puedes subir archivos individuales o comprimirlos en un archivo ZIP para facilitar la carga. Actualmente, hay un límite de 50 archivos por análisis masivo para garantizar un rendimiento óptimo."
+          "a": "Puedes subir archivos individuales o comprimirlos en un archivo ZIP para facilitar la carga. Actualmente, hay un límite de {{max}} archivos por análisis masivo para garantizar un rendimiento óptimo."
         },
         "q5": {
-          "q": "¿Puedo quitar el límite de 50 archivos?",
-          "a": "Ese límite solo aplica a esta instancia alojada, para mantenerla estable en el plan gratuito de Render. Si ejecutas CSIM Online de forma local, puedes cambiarlo o quitarlo editando la constante MAX_FILES_IN_BULK_EDITOR en ui/src/utils/table.js. Consulta el enlace rápido \"Ejecutar Localmente\" de arriba para las instrucciones de instalación."
+          "q": "¿Puedo quitar el límite de archivos?",
+          "a": "Ese límite solo aplica a esta instancia alojada (actualmente {{max}} archivos), para mantenerla estable en el plan gratuito de Render. Si ejecutas CSIM Online de forma local, puedes cambiarlo o quitarlo con la variable de entorno MAX_FILES de la API; la interfaz la sigue automáticamente. Consulta el enlace rápido \"Ejecutar Localmente\" de arriba para las instrucciones de instalación."
         }
       },
       "understandingResults": {
@@ -343,6 +370,22 @@
         "q2": {
           "q": "¿Puedo descargar mis resultados?",
           "a": "Sí, las funciones de descarga y exportación están disponibles en la esquina superior derecha del panel de resultados. Actualmente, esto solo está disponible en la sección \"Editor Masivo\"."
+        },
+        "q3": {
+          "q": "¿Qué es el prefiltro léxico?",
+          "a": "Es una aceleración opcional del Editor Masivo (el interruptor \"Prefiltro léxico\", apagado por defecto). Primero compara las secuencias de tokens de cada par de archivos y ejecuta la comparación estructural solo en los pares que no son muy distintos en tokens. Los archivos que no participan en ningún par así ni siquiera se analizan, por lo que los conjuntos grandes terminan mucho más rápido. Solo afecta el análisis masivo (agrupación), nunca el Editor Dual."
+        },
+        "q4": {
+          "q": "¿Qué significa el margen del prefiltro y qué riesgos tiene?",
+          "a": "El margen (0.00 a 0.30, por defecto 0.05) es cuánto por debajo del umbral de agrupación puede estar la similitud de tokens para que el par aún reciba la comparación estructural. Un margen mayor omite menos pares y pierde menos, pero es más lento. El filtro es con pérdida: un par con la misma estructura pero tokens muy distintos, como bloques movidos o sentencias reordenadas, puede omitirse aunque la comparación estructural lo habría agrupado. Conviene desde un umbral de aproximadamente 60%; con umbrales menores, déjalo apagado."
+        },
+        "q5": {
+          "q": "¿Qué significan los números del prefiltro en los resultados?",
+          "a": "Con el prefiltro activo, los resultados muestran cuántos pares se omitieron del total de pares posibles y cuántos archivos se analizaron realmente del total. Más pares omitidos y menos archivos analizados significan más tiempo ahorrado."
+        },
+        "q6": {
+          "q": "¿Cuánto tardará un análisis masivo y puedo cancelarlo?",
+          "a": "Antes de un análisis largo, una ventana muestra el tiempo estimado (con un rango) y el número de pares por comparar; los cortos empiezan de inmediato. Con el prefiltro léxico activado, los análisis largos se estiman comparando primero los tokens, así que el tiempo se acerca más al real y la ventana también indica cuánto tardaría sin el prefiltro; si eso tarda demasiado, la estimación es una cota máxima y el tiempo real puede ser menor. Mientras corre, el cuadro de resultados muestra la fase, una barra de progreso y el tiempo restante, con un botón de parar para cancelarlo. El servicio ejecuta un análisis a la vez y rechaza los muy grandes. Mantén esta página abierta: si deja de consultarlo, el análisis se cancela."
         }
       },
       "bestPractices": {
@@ -365,5 +408,25 @@
       "title": "¿Aún tienes preguntas?",
       "description": "Ve a la sección de Contacto para comunicarte con nuestro equipo de soporte y obtener más ayuda."
     }
+  },
+  "time": {
+    "seconds": "{{s}} s",
+    "minutes": "{{m}} min",
+    "minutesSeconds": "{{m}} min {{s}} s",
+    "hours": "{{h}} h",
+    "hoursMinutes": "{{h}} h {{m}} min"
+  },
+  "estimateDialog": {
+    "title": "Este análisis tardará un poco",
+    "blockedTitle": "Este análisis es demasiado grande",
+    "about": "Tardará unos {{time}} (entre {{low}} y {{high}}).",
+    "details": "{{files}} archivos, {{pairs}} pares por comparar.",
+    "prefilterNote": "Con el prefiltro léxico activado puede ser menos.",
+    "tooManyFiles": "{{files}} archivos superan el límite de {{max}}.",
+    "tooSlow": "El tiempo estimado de {{time}} supera el límite de {{max}}.",
+    "hint": "Usa menos archivos o activa el prefiltro léxico.",
+    "continue": "Continuar",
+    "cancel": "Cancelar",
+    "withoutPrefilter": "Sin el prefiltro serían hasta {{time}}."
   }
 }

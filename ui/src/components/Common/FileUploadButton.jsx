@@ -4,7 +4,6 @@ import { useRef, forwardRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
-import { MAX_FILES_IN_BULK_EDITOR } from '../../utils/table';
 import { updateInfoDialog } from '../../hooks/redux/appActions';
 import { SUPPORTED_EXTENSIONS } from '../../constants/ui';
 import { blurActiveElement } from '../../utils/editor';
@@ -14,6 +13,7 @@ const FileUploadButton = forwardRef(
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const fileInputRef = useRef(null);
+    const maxFiles = useSelector((state) => state.appInfo.maxFiles);
     const filesLength = (useSelector((state) => state.fileManager.bulkEditorFiles.files) || [])
       .length;
 
@@ -84,12 +84,12 @@ const FileUploadButton = forwardRef(
           }
         }
 
-        if (filesLength + rawProcessedFiles.length > MAX_FILES_IN_BULK_EDITOR) {
+        if (filesLength + rawProcessedFiles.length > maxFiles) {
           blurActiveElement();
           dispatch(
             updateInfoDialog(
               true,
-              t('fileUpload.limitExceeded', { max: MAX_FILES_IN_BULK_EDITOR }),
+              t('fileUpload.limitExceeded', { max: maxFiles }),
               t('fileUpload.limitExceededTitle')
             )
           );

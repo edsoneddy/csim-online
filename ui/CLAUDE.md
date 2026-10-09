@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-CSIM Online is a React web frontend for [CSIM](https://pypi.org/project/csim/), a code similarity/plagiarism detection tool. The UI lets users compare two files side-by-side (Dual Editor) or run bulk similarity analysis across many files (Bulk Editor), and sends the actual analysis work to a separate backend API.
+CSIM Online is a React web frontend for [csimx](https://pypi.org/project/csimx/) (successor of csim), a code similarity/plagiarism detection tool. The UI lets users compare two files side-by-side (Dual Editor) or run bulk similarity analysis across many files (Bulk Editor), and sends the actual analysis work to a separate backend API.
 
 ## Commands
 
@@ -57,9 +57,22 @@ Material UI 5 + Emotion, single dark theme (`src/styles/theme.jsx`), with a hand
 
 ### Supported languages/files
 
-`src/constants/ui.jsx` defines the supported analysis languages as CSIM's version-specific identifiers — `python_3`, `python_3_13`, `java_24`, `cpp_14`, `kotlin`, `c` — via `languageDisplayNames` (the source of truth: id → display name), plus their file extensions (`languageByExtension`) and `.zip` as a supported compressed upload extension (bulk uploads are unzipped client-side via `jszip`). `languageOptions` is *derived* from `languageDisplayNames` (`Object.keys(...).sort(...)` by display name), so the dropdown in `EditorToolbar.jsx` is always alphabetically ordered and stays that way automatically as languages are added/removed — never hand-list/reorder `languageOptions` itself. `defaultLanguage` (`python_3`) is a separate constant, independent of dropdown order. Extend `languageDisplayNames`, not scattered literals, when adding language/extension support. Only one internal ID per extension can be the default in `languageByExtension` (currently `python_3_13`, `java_24`, `cpp_14`, `kotlin`, `c`); the other Python version (`python_3`) is still selectable via the toolbar dropdown. `java_20` was removed from the UI in favor of `java_24` — CSIM itself still accepts it, but the language selector no longer offers it.
+`src/constants/ui.jsx` defines the supported analysis languages as csimx's version-specific identifiers — `python_3`, `python_3_13`, `java_24`, `cpp_14`, `kotlin`, `c` — via `languageDisplayNames` (the source of truth: id → display name), plus their file extensions (`languageByExtension`) and `.zip` as a supported compressed upload extension (bulk uploads are unzipped client-side via `jszip`). `languageOptions` is *derived* from `languageDisplayNames` (`Object.keys(...).sort(...)` by display name), so the dropdown in `EditorToolbar.jsx` is always alphabetically ordered and stays that way automatically as languages are added/removed — never hand-list/reorder `languageOptions` itself. `defaultLanguage` (`python_3`) is a separate constant, independent of dropdown order. Extend `languageDisplayNames`, not scattered literals, when adding language/extension support. Only one internal ID per extension can be the default in `languageByExtension` (currently `python_3_13`, `java_24`, `cpp_14`, `kotlin`, `c`); the other Python version (`python_3`) is still selectable via the toolbar dropdown. `java_20` was removed from the UI in favor of `java_24` — csimx itself still accepts it, but the language selector no longer offers it.
 
 ### Version display
 
-- **CSIM engine version**: single source of truth is `csim==X.Y.Z` in `api/requirements.txt`. The API resolves the installed version at runtime via `importlib.metadata.version("csim")` and serves it at `GET /api/version`. `MenuAppBar.jsx` fetches it once on mount (`sendGetRequest` in `src/utils/requestHandler.js`) and stores it in `state.appInfo.csimVersion`, rendered as a small `vX.Y.Z` `Chip` next to the app title (no "CSIM" text repeated — a `title` tooltip carries that context). Bumping the requirements.txt line and redeploying the API is the only change needed — no UI code touches the version string directly.
+- **csimx version**: single source of truth is `csimx==X.Y.Z` in `api/requirements.txt`. The API resolves the installed version at runtime via `importlib.metadata.version("csimx")` and serves it at `GET /api/version`. `MenuAppBar.jsx` fetches it once on mount (`sendGetRequest` in `src/utils/requestHandler.js`) and stores it in `state.appInfo.csimxVersion`, rendered as a small `vX.Y.Z` `Chip` next to the app title (shows `csimx vX.Y.Z` — a `title` tooltip carries that context). Bumping the requirements.txt line and redeploying the API is the only change needed — no UI code touches the version string directly.
 - **UI version**: single source of truth is `version` in `ui/package.json`, re-exported as `UI_VERSION` from `src/constants/version.js` (imports `package.json` directly). Displayed at the bottom of `MenuDrawer.jsx` (sidebar footer), fading with the rest of the nav labels when the drawer is collapsed to icon-only. Tag releases in git to match (e.g. `v1.0.0`).
+
+
+### Lexical prefilter (csimx)
+
+The Bulk Editor has a switch (off by default) plus a margin slider (0.00-0.30, `PREFILTER_MARGIN` default 0.05 in `src/constants/ui.jsx`); when on, the margin goes in the payload as `prefilter_margin` (`analysisPayload.js`) and results carry `prefilter_stats`, shown in `MultiResultsPanel`.
+
+### Time estimate, progress and cancel (Bulk Editor)
+
+Analyze calls `POST /api/estimate`; below `SMALL_ESTIMATE_SECONDS` (`constants/ui.jsx`) the job starts at once, otherwise `EstimateDialog.jsx` asks (or explains why it is refused). The job (`POST /api/jobs`) lives in `state.analysisJob` (`updateAnalysisJob`); `BulkEditor.jsx` polls `GET /api/jobs/{id}` every `JOB_POLL_INTERVAL_MS` (each poll is the server heartbeat; the poll stops on unmount, so leaving the Bulk Editor for long gets the job cancelled by the server) and `AnalysisProgress.jsx` (rendered inside the results box by `AnalysisResultsState`, replacing its plain spinner while a job runs) shows phase, progress bar, ETA and a cancel button (`DELETE`). Errors/busy/cancelled reuse the global `InfoDialog` (`updateInfoDialog`). Durations go through `utils/time.js#formatDuration`. `requestHandler.js` errors carry `status` and `body`.
+
+### File cap
+
+The cap of files in the Bulk Editor is not a UI constant: the API owns it (`MAX_FILES`, default 100) and reports it as `max_files` in `GET /api/version`. `MenuAppBar.jsx` stores it in `state.appInfo.maxFiles` (fallback `DEFAULT_MAX_FILES` in `src/constants/ui.jsx` until the API answers); `FileUploadButton.jsx` and the Help Center FAQ read it from there.

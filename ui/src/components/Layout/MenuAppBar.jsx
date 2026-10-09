@@ -5,7 +5,12 @@ import { Toolbar } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { openHistoryMenu, openSidebarMenu, updateCsimVersion } from '../../hooks/redux/appActions';
+import {
+  openHistoryMenu,
+  openSidebarMenu,
+  updateCsimxVersion,
+  updateMaxFiles,
+} from '../../hooks/redux/appActions';
 import { blurActiveElement } from '../../utils/editor';
 import { sendGetRequest } from '../../utils/requestHandler';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -16,12 +21,17 @@ const MenuAppBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const open = useSelector((state) => state.menu.isOpenSidebarMenu);
-  const csimVersion = useSelector((state) => state.appInfo.csimVersion);
+  const csimxVersion = useSelector((state) => state.appInfo.csimxVersion);
   const dispatch = useDispatch();
 
   useEffect(() => {
     sendGetRequest('/api/version')
-      .then((data) => dispatch(updateCsimVersion(data.csim_version)))
+      .then((data) => {
+        dispatch(updateCsimxVersion(data.csimx_version ?? null));
+        if (Number.isInteger(data.max_files) && data.max_files > 0) {
+          dispatch(updateMaxFiles(data.max_files));
+        }
+      })
       .catch(() => {});
   }, [dispatch]);
 
@@ -72,12 +82,12 @@ const MenuAppBar = () => {
           >
             {t('app.title')}
           </Typography>
-          {csimVersion && (
+          {csimxVersion && (
             <Chip
-              label={`v${csimVersion}`}
+              label={`csimx v${csimxVersion}`}
               size="small"
               variant="outlined"
-              title={t('app.csimVersion', { version: csimVersion })}
+              title={t('app.csimxVersion', { version: csimxVersion })}
               sx={{
                 display: { xs: 'none', sm: 'inline-flex' },
                 height: 20,

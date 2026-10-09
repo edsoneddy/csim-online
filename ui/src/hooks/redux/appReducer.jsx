@@ -1,4 +1,4 @@
-import { CODE_SECTION, FILE_1_KEY, FILE_2_KEY } from '../../constants/ui';
+import { CODE_SECTION, DEFAULT_MAX_FILES, FILE_1_KEY, FILE_2_KEY } from '../../constants/ui';
 import {
   OPEN_SIDEBAR_MENU,
   CHANGE_ACTUAL_CONTENT,
@@ -12,7 +12,9 @@ import {
   REMOVE_ALL_FILES_FROM_BULK_EDITOR,
   UPDATE_FILE_MANAGER_RESULTS_BY_EDITOR_KEY,
   UPDATE_INFO_DIALOG,
-  UPDATE_CSIM_VERSION,
+  UPDATE_CSIMX_VERSION,
+  UPDATE_MAX_FILES,
+  UPDATE_ANALYSIS_JOB,
 } from './appActionTypes';
 
 const initialState = {
@@ -23,8 +25,11 @@ const initialState = {
     actualContent: CODE_SECTION,
   },
   appInfo: {
-    csimVersion: null,
+    csimxVersion: null,
+    maxFiles: DEFAULT_MAX_FILES,
   },
+  // The running bulk job ({ id, state, phase, done, total, etaSeconds }) or null.
+  analysisJob: null,
   history: [],
   fileManager: {
     dualEditorFiles: {
@@ -170,13 +175,26 @@ const appReducer = (state = initialState, action) => {
           header: action.header || '',
         },
       };
-    case UPDATE_CSIM_VERSION:
+    case UPDATE_MAX_FILES:
       return {
         ...state,
         appInfo: {
           ...state.appInfo,
-          csimVersion: action.csimVersion,
+          maxFiles: action.maxFiles,
         },
+      };
+    case UPDATE_CSIMX_VERSION:
+      return {
+        ...state,
+        appInfo: {
+          ...state.appInfo,
+          csimxVersion: action.csimxVersion,
+        },
+      };
+    case UPDATE_ANALYSIS_JOB:
+      return {
+        ...state,
+        analysisJob: action.job,
       };
     default:
       return state;

@@ -16,11 +16,20 @@ export const LANGUAGE_SELECT = 'language-select';
 export const ANALYZE_BUTTON = 'analyze-button';
 export const CLEAR_BUTTON = 'clear-button';
 export const THRESHOLD_SLIDER = 'threshold-slider';
+export const PREFILTER_SWITCH = 'prefilter-switch';
+export const PREFILTER_MARGIN_SLIDER = 'prefilter-margin-slider';
 
 // Toolbar Button Configurations
 export const TOOLBAR_BUTTONS = {
   [EDITOR_TYPES.DUAL_EDITOR]: [LANGUAGE_SELECT, ANALYZE_BUTTON, CLEAR_BUTTON],
-  [EDITOR_TYPES.BULK_EDITOR]: [LANGUAGE_SELECT, THRESHOLD_SLIDER, ANALYZE_BUTTON, CLEAR_BUTTON],
+  [EDITOR_TYPES.BULK_EDITOR]: [
+    LANGUAGE_SELECT,
+    PREFILTER_SWITCH,
+    PREFILTER_MARGIN_SLIDER,
+    THRESHOLD_SLIDER,
+    ANALYZE_BUTTON,
+    CLEAR_BUTTON,
+  ],
 };
 
 export const DUAL_EDITOR_FILES_KEY = 'dualEditorFiles';

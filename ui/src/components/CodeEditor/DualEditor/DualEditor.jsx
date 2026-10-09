@@ -225,7 +225,8 @@ const DualEditor = () => {
               borderBottom: 0,
               boxShadow: 'none',
               background: 'none',
-              backgroundColor: (t) => alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.16 : 0.08),
+              backgroundColor: (t) =>
+                alpha(t.palette.primary.main, t.palette.mode === 'dark' ? 0.16 : 0.08),
             }}
           >
             <Tabs

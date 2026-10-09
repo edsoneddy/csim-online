@@ -1,17 +1,30 @@
-import { Stack, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import {
+  Stack,
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+  Switch,
+} from '@mui/material';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { useTranslation } from 'react-i18next';
-import { languageOptions, languageDisplayNames } from '../../constants/ui';
+import { languageOptions, languageDisplayNames, MAX_PREFILTER_MARGIN } from '../../constants/ui';
 import {
   ANALYZE_BUTTON,
   CLEAR_BUTTON,
   EDITOR_TYPES,
   LANGUAGE_SELECT,
+  PREFILTER_SWITCH,
+  PREFILTER_MARGIN_SLIDER,
   THRESHOLD_SLIDER,
   TOOLBAR_BUTTONS,
 } from '../../utils/toolbar';
 import InputSlider from '../Common/InputSlider';
+import TooltipIconButton from '../Common/TooltipIconButton';
 const EditorToolbar = ({
   editorType = EDITOR_TYPES.DUAL_EDITOR,
   onAnalyze,
@@ -22,6 +35,10 @@ const EditorToolbar = ({
   onLanguageChange,
   threshold,
   onThresholdChange,
+  prefilter = false,
+  onPrefilterChange,
+  prefilterMargin,
+  onPrefilterMarginChange,
 }) => {
   const { t } = useTranslation();
   const languageLabel = t('editor.toolbar.languageLabel');
@@ -55,6 +72,37 @@ const EditorToolbar = ({
               ))}
             </Select>
           </FormControl>
+        );
+      case PREFILTER_SWITCH:
+        return (
+          <TooltipIconButton props={{ title: t('editor.toolbar.prefilterHint') }} asChild>
+            <FormControlLabel
+              control={
+                <Switch
+                  id={PREFILTER_SWITCH}
+                  size="small"
+                  checked={prefilter}
+                  onChange={(event) => onPrefilterChange(event.target.checked)}
+                />
+              }
+              label={t('editor.toolbar.prefilter')}
+              sx={{ m: 0, whiteSpace: 'nowrap' }}
+            />
+          </TooltipIconButton>
+        );
+      case PREFILTER_MARGIN_SLIDER:
+        return (
+          <InputSlider
+            label={t('editor.toolbar.prefilterMargin')}
+            help={t('editor.toolbar.prefilterMarginHint')}
+            disabled={!prefilter}
+            value={prefilterMargin}
+            onChange={onPrefilterMarginChange}
+            min={0}
+            max={MAX_PREFILTER_MARGIN}
+            step={0.01}
+            fixed={2}
+          />
         );
       case ANALYZE_BUTTON:
         return (
@@ -93,6 +141,7 @@ const EditorToolbar = ({
         return (
           <InputSlider
             label={t('editor.toolbar.threshold')}
+            help={t('editor.toolbar.thresholdHint')}
             value={threshold}
             onChange={onThresholdChange}
             suffix="%"
@@ -113,15 +162,29 @@ const EditorToolbar = ({
       useFlexGap
       flexWrap="wrap"
       sx={{
-        width: 'auto',
+        width: { xs: '100%', sm: 'auto' },
         justifyContent: 'center',
         alignItems: 'center',
         '& .MuiButton-root': { whiteSpace: 'nowrap' },
       }}
     >
-      {TOOLBAR_BUTTONS[editorType].map((option, index) => (
-        <Box key={index}>{getToolbarOption(option)}</Box>
-      ))}
+      {TOOLBAR_BUTTONS[editorType].map((option, index) => {
+        const control = getToolbarOption(option);
+        // Sliders take the whole row on phones and keep a usable width from `sm` up.
+        const isSlider = option === THRESHOLD_SLIDER || option === PREFILTER_MARGIN_SLIDER;
+        return (
+          control && (
+            <Box
+              key={index}
+              sx={
+                isSlider ? { width: { xs: '100%', sm: 'auto' }, minWidth: { sm: 200 } } : undefined
+              }
+            >
+              {control}
+            </Box>
+          )
+        );
+      })}
     </Stack>
   );
 };

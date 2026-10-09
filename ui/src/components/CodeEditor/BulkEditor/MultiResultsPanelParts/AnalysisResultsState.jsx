@@ -2,9 +2,15 @@ import { CircularProgress, Paper, Stack, Typography } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
+import AnalysisProgress from '../AnalysisProgress';
 import { RESULTS_STATUS } from '../../../../utils/results';
 
-const AnalysisResultsState = ({ status = RESULTS_STATUS.ERROR, isAnalyzing = false }) => {
+const AnalysisResultsState = ({
+  status = RESULTS_STATUS.ERROR,
+  isAnalyzing = false,
+  job = null,
+  onCancelJob = () => {},
+}) => {
   const { t } = useTranslation();
   if (isAnalyzing) {
     return (
@@ -15,18 +21,25 @@ const AnalysisResultsState = ({ status = RESULTS_STATUS.ERROR, isAnalyzing = fal
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          overflow: 'auto',
+          py: 2,
+          minHeight: { xs: 340, md: 0 }, // room for the progress and its cancel button when stacked
           bgcolor: 'background.default',
           border: '1px solid',
           borderColor: 'divider',
         }}
       >
-        <Stack alignItems="center" spacing={2}>
-          <CircularProgress aria-label={t('bulkEditor.multiResults.analyzing')} />
+        {job ? (
+          <AnalysisProgress job={job} onCancel={onCancelJob} />
+        ) : (
+          <Stack alignItems="center" spacing={2}>
+            <CircularProgress aria-label={t('bulkEditor.multiResults.analyzing')} />
 
-          <Typography variant="h6" sx={{ color: 'text.primary' }}>
-            {t('bulkEditor.multiResults.analyzing')}
-          </Typography>
-        </Stack>
+            <Typography variant="h6" sx={{ color: 'text.primary' }}>
+              {t('bulkEditor.multiResults.analyzing')}
+            </Typography>
+          </Stack>
+        )}
       </Paper>
     );
   }

@@ -1,6 +1,6 @@
 # CSIM Online
 
-Modern web interface to run [CSIM](https://pypi.org/project/csim/) - code similarity detection tool.
+Modern web interface to run [csimx](https://pypi.org/project/csimx/) - code similarity detection tool.
 
 ## 🎯 Objectives
 
@@ -91,6 +91,6 @@ npm run build
 
 ## Resources
 
-- [CSIM PyPI](https://pypi.org/project/csim/)
+- [csimx PyPI](https://pypi.org/project/csimx/)
 - [React Docs](https://react.dev/)
 - [Vite Docs](https://vitejs.dev/)

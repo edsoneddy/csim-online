@@ -7,7 +7,13 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { RESULTS_STATUS } from '../../../utils/results';
 
-const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = () => {} }) => {
+const MultiResultsPanel = ({
+  isAnalyzing,
+  job = null,
+  onCancelJob = () => {},
+  onViewSelected,
+  onViewDiffSelected = () => {},
+}) => {
   const { t } = useTranslation();
   const results = useSelector((state) => state.fileManager.bulkEditorFiles.results);
 
@@ -16,6 +22,8 @@ const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = (
       <AnalysisResultsState
         status={results == null ? RESULTS_STATUS.EMPTY : RESULTS_STATUS.ERROR}
         isAnalyzing={isAnalyzing}
+        job={job}
+        onCancelJob={onCancelJob}
       />
     );
   }
@@ -48,6 +56,17 @@ const MultiResultsPanel = ({ isAnalyzing, onViewSelected, onViewDiffSelected = (
           totalSuspicious={totalSuspicious}
           totalUnique={totalUnique}
         />
+
+        {results.prefilter_stats && (
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            {t('bulkEditor.multiResults.prefilterStats', {
+              skipped: results.prefilter_stats.skipped,
+              pairs: results.prefilter_stats.pairs,
+              parsed: results.prefilter_stats.parsed,
+              files: results.prefilter_stats.files,
+            })}
+          </Typography>
+        )}
 
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>

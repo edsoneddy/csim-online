@@ -34,7 +34,7 @@ import {
   Looks6 as Looks6Icon,
 } from '@mui/icons-material';
 import { PageHeader, QuickLinksGrid, FAQSection, SearchBar, ActionCard } from '../Common';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { changeActualContent } from '../../hooks/redux/appActions';
 import { CONTACT_US_SECTION } from '../../constants/ui';
@@ -43,6 +43,7 @@ const HelpCenter = () => {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
+  const maxFiles = useSelector((state) => state.appInfo.maxFiles);
 
   const faqData = [
     {
@@ -63,11 +64,11 @@ const HelpCenter = () => {
         },
         {
           q: t('helpCenter.faq.gettingStarted.q4.q'),
-          a: t('helpCenter.faq.gettingStarted.q4.a'),
+          a: t('helpCenter.faq.gettingStarted.q4.a', { max: maxFiles }),
         },
         {
           q: t('helpCenter.faq.gettingStarted.q5.q'),
-          a: t('helpCenter.faq.gettingStarted.q5.a'),
+          a: t('helpCenter.faq.gettingStarted.q5.a', { max: maxFiles }),
         },
       ],
     },
@@ -92,6 +93,22 @@ const HelpCenter = () => {
         {
           q: t('helpCenter.faq.features.q2.q'),
           a: t('helpCenter.faq.features.q2.a'),
+        },
+        {
+          q: t('helpCenter.faq.features.q3.q'),
+          a: t('helpCenter.faq.features.q3.a'),
+        },
+        {
+          q: t('helpCenter.faq.features.q4.q'),
+          a: t('helpCenter.faq.features.q4.a'),
+        },
+        {
+          q: t('helpCenter.faq.features.q5.q'),
+          a: t('helpCenter.faq.features.q5.a'),
+        },
+        {
+          q: t('helpCenter.faq.features.q6.q'),
+          a: t('helpCenter.faq.features.q6.a'),
         },
       ],
     },
@@ -153,8 +170,7 @@ const HelpCenter = () => {
       title: t('helpCenter.quickLinks.runLocally.title'),
       description: t('helpCenter.quickLinks.runLocally.description'),
       icon: <ComputerIcon sx={{ fontSize: 40 }} />,
-      onClick: () =>
-        window.open('https://github.com/edsoneddy/csim-online#quick-start', '_blank'),
+      onClick: () => window.open('https://github.com/edsoneddy/csim-online#quick-start', '_blank'),
     },
   ];
 

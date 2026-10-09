@@ -20,7 +20,12 @@ export const createAnalyzePayload = (language, file1, file2) => {
   };
 };
 
-export const createAnalyzeAllPayload = (language, files, threshold = 0.0) => {
+export const createAnalyzeAllPayload = (
+  language,
+  files,
+  threshold = 0.0,
+  prefilterMargin = null
+) => {
   const payload = {
     lang: language,
     threshold: threshold,
@@ -29,6 +34,10 @@ export const createAnalyzeAllPayload = (language, files, threshold = 0.0) => {
       content: file.content,
     })),
   };
+
+  if (prefilterMargin != null) {
+    payload.prefilter_margin = prefilterMargin;
+  }
 
   return payload;
 };
