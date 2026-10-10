@@ -37,9 +37,15 @@ const AnalysisProgress = ({ job, onCancel }) => {
   const { done, eta } = useSmoothProgress(job);
   const hasTotal = job.total > 0;
   const percent = hasTotal ? Math.min(99, Math.floor((done / job.total) * 100)) : 0;
-  const phaseLabel = job.phase
-    ? t(`bulkEditor.progress.phase.${job.phase}`)
-    : t('bulkEditor.progress.starting');
+  const queued = job.state === 'queued';
+  const phaseLabel = queued
+    ? t('bulkEditor.progress.queued', {
+        position: job.queuePosition ?? 1,
+        time: formatDuration(job.queueWaitSeconds ?? 0, t),
+      })
+    : job.phase
+      ? t(`bulkEditor.progress.phase.${job.phase}`)
+      : t('bulkEditor.progress.starting');
 
   return (
     <Stack
@@ -56,26 +62,30 @@ const AnalysisProgress = ({ job, onCancel }) => {
       >
         {phaseLabel}
       </Typography>
-      <Box sx={{ width: '100%' }}>
-        <LinearProgress
-          variant={hasTotal ? 'determinate' : 'indeterminate'}
-          value={percent}
-          aria-label={phaseLabel}
-        />
-        <Stack direction="row" justifyContent="space-between" sx={{ mt: 0.5 }}>
-          <Typography variant="caption" color="text.secondary">
-            {hasTotal ? `${done}/${job.total}` : ''}
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {hasTotal ? `${percent}%` : ''}
-          </Typography>
-        </Stack>
-      </Box>
-      <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-        {eta != null
-          ? t('bulkEditor.progress.remaining', { time: formatDuration(eta, t) })
-          : t('bulkEditor.progress.calculating')}
-      </Typography>
+      {!queued && (
+        <Box sx={{ width: '100%' }}>
+          <LinearProgress
+            variant={hasTotal ? 'determinate' : 'indeterminate'}
+            value={percent}
+            aria-label={phaseLabel}
+          />
+          <Stack direction="row" justifyContent="space-between" sx={{ mt: 0.5 }}>
+            <Typography variant="caption" color="text.secondary">
+              {hasTotal ? `${done}/${job.total}` : ''}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              {hasTotal ? `${percent}%` : ''}
+            </Typography>
+          </Stack>
+        </Box>
+      )}
+      {!queued && (
+        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+          {eta != null
+            ? t('bulkEditor.progress.remaining', { time: formatDuration(eta, t) })
+            : t('bulkEditor.progress.calculating')}
+        </Typography>
+      )}
       <TooltipIconButton props={{ title: t('bulkEditor.progress.cancelHint') }} asChild>
         <Button
           variant="outlined"

@@ -1,3 +1,4 @@
+import json
 import os
 import time
 
@@ -6,6 +7,7 @@ from fastapi.testclient import TestClient
 
 from app import main
 from app.jobs import JobManager
+from app.worker import run_group
 from tests import workers
 from tests.test_api import files
 
@@ -48,8 +50,8 @@ def fake_manager(monkeypatch):
     """Swap in a manager whose child process is a test worker; clean up afterwards."""
     created = []
 
-    def make(worker, heartbeat=30.0):
-        manager = JobManager(worker, heartbeat_seconds=heartbeat)
+    def make(worker, heartbeat=30.0, **options):
+        manager = JobManager(worker, heartbeat_seconds=heartbeat, **options)
         monkeypatch.setattr(main, "manager", manager)
         created.append(manager)
         return manager
@@ -155,7 +157,8 @@ def test_job_lifecycle_matches_analyze_all(fake_manager):
         snap = wait_for(started.json()["job_id"], {"done", "error"})
         assert snap["state"] == "done", snap
         assert snap["eta_seconds"] == 0.0 and "estimate" not in snap
-        assert snap["result"] == client.post("/api/analyze-all", json=body(**extra)).json()
+        expected = run_group(main._payload(main.AnalysisRequest(**body(**extra))))
+        assert snap["result"] == json.loads(json.dumps(expected))
         assert snap["phase"] in ("parse", "lexical", "structural") and snap["done"] == snap["total"]
 
 
@@ -241,7 +244,7 @@ def test_polled_payload_is_light(fake_manager):
     assert "estimate" not in light.json()
     assert set(light.json()) == {
         "job_id", "state", "phase", "done", "total", "elapsed_seconds", "eta_seconds",
-        "result", "error",
+        "queue_position", "queue_wait_seconds", "result", "error",
     }
     assert client.get(f"/api/jobs/{job_id}?full=1").json()["estimate"]["files"] == 3
     client.delete(f"/api/jobs/{job_id}")

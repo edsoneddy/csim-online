@@ -6,7 +6,7 @@ are started with the "spawn" method).
 """
 import time
 
-from csimx import estimate_group
+from csimx import Compare, estimate_group
 from csimx.utils import group_by_exhaustive_search
 
 PROGRESS_INTERVAL = 0.2  # seconds between progress messages (phase changes are always sent)
@@ -83,6 +83,16 @@ def estimate_worker(conn, payload):
             conn.send(("partial", {**cheap, "exact": False, "exact_reason": "timeout"}))
             exact = estimate_group(names, contents, lang, exact_prefilter=True, **kwargs)
             conn.send(("result", {**exact, "exact": True, "exact_reason": None}))
+    except Exception as error:
+        conn.send(("error", f"{type(error).__name__}: {error}"))
+    finally:
+        conn.close()
+
+
+def compare_worker(conn, payload):
+    """Child process entry: send ("result", similarity) or ("error", text)."""
+    try:
+        conn.send(("result", Compare(ted_algorithm="apted", **payload)))
     except Exception as error:
         conn.send(("error", f"{type(error).__name__}: {error}"))
     finally:

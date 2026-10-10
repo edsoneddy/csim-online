@@ -2,6 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.main import CSIMX_VERSION, app
+from app.worker import run_group
 
 client = TestClient(app)
 
@@ -56,43 +57,43 @@ def test_analyze(lang):
     assert 0.9 <= r.json()["result"] <= 1.0
 
 
-def test_analyze_all():
+def group(margin=None):
     other = "def main():\n    print(input())\n    print('x' * 3)\n"
-    r = client.post(
-        "/api/analyze-all",
-        json={
+    f = files("python_3", other)
+    return run_group(
+        {
+            "names": [x["name"] for x in f],
+            "contents": [x["content"] for x in f],
             "lang": "python_3",
             "threshold": 0.8,
-            "files": files("python_3", other),
-        },
+            "prefilter_margin": margin,
+        }
     )
-    assert r.status_code == 200
-    body = r.json()
+
+
+def test_group_worker_logic():
+    body = group()
     assert sorted(body["similarity_groups"][0]) == ["a.py", "b.py"]
     assert body["unique_groups"] == ["c.py"]
     assert body["prefilter_stats"] is None
 
 
-def test_analyze_all_csimx_prefilter_returns_stats():
-    other = "def main():\n    print(input())\n    print('x' * 3)\n"
-    r = client.post(
-        "/api/analyze-all",
-        json={
-            "lang": "python_3",
-            "threshold": 0.8,
-            "prefilter_margin": 0.05,
-            "files": files("python_3", other),
-        },
-    )
-    assert r.status_code == 200
-    body = r.json()
+def test_group_with_prefilter_returns_stats():
+    body = group(0.05)
     assert sorted(body["similarity_groups"][0]) == ["a.py", "b.py"]
     assert body["prefilter_stats"]["pairs"] == 3
 
 
+def test_analyze_all_is_gone():
+    r = client.post("/api/analyze-all", json={"lang": "python_3", "files": files("python_3")})
+    assert r.status_code == 410
+    assert r.json()["code"] == "gone" and "Reload" in r.json()["detail"]
+    assert client.post("/api/analyze-all").status_code == 410  # even without a body
+
+
 def test_prefilter_margin_out_of_range():
     r = client.post(
-        "/api/analyze-all",
+        "/api/estimate",
         json={
             "lang": "python_3",
             "prefilter_margin": 0.9,

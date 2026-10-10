@@ -17,6 +17,8 @@ const EstimateDialog = ({ estimate, hasPrefilter, onContinue, onClose }) => {
   const { t } = useTranslation();
   const open = Boolean(estimate);
   const allowed = estimate?.allowed;
+  // analyses ahead of a new one: the queue plus the one running
+  const ahead = estimate?.queue ? estimate.queue.length + (estimate.queue.running ? 1 : 0) : 0;
 
   const renderBody = () => {
     if (!estimate) return null;
@@ -47,6 +49,14 @@ const EstimateDialog = ({ estimate, hasPrefilter, onContinue, onClose }) => {
         <Typography variant="body2" color="text.secondary">
           {t('estimateDialog.details', { files: estimate.files, pairs: estimate.structural_pairs })}
         </Typography>
+        {ahead > 0 && (
+          <Typography variant="body2" color="text.secondary">
+            {t('estimateDialog.queueAhead', {
+              count: ahead,
+              time: formatDuration(estimate.queue.wait_seconds, t),
+            })}
+          </Typography>
+        )}
         {hasPrefilter &&
           estimate.exact &&
           estimate.upper_bound_seconds > estimate.estimated_seconds && (

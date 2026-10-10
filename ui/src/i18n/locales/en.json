@@ -177,7 +177,8 @@
       "remaining": "{{time}} left",
       "calculating": "Calculating time...",
       "cancel": "Cancel analysis",
-      "cancelHint": "Stops the calculation."
+      "cancelHint": "Stops the calculation.",
+      "queued": "In queue: position {{position}}, about {{time}}"
     },
     "messages": {
       "busyTitle": "Service busy",
@@ -186,7 +187,20 @@
       "cancelled": "The analysis was cancelled.",
       "cancelledIdle": "The analysis was cancelled because this page stopped checking on it.",
       "errorTitle": "Analysis failed",
-      "error": "The analysis could not be completed."
+      "error": "The analysis could not be completed.",
+      "tooLargeTitle": "Files too large",
+      "fileTooLarge": "The file \"{{file}}\" is {{size}} KB; the limit is {{max}} KB per file.",
+      "totalTooLarge": "The files add up to {{size}} KB; the limit is {{max}} KB in total.",
+      "bodyTooLarge": "The files are too large to send at once.",
+      "waitTitle": "Please wait",
+      "queueFull": "The queue is full right now. Try again in about {{time}}.",
+      "budgetExceeded": "You have used your analysis time for this hour. You can run another in about {{time}}.",
+      "rateLimited": "Too many requests. Try again in {{time}}.",
+      "serviceBusy": "The service is busy. Try again in {{time}}.",
+      "goneTitle": "Reload the page",
+      "gone": "This version of the page is out of date. Reload the page to analyze files.",
+      "timeoutTitle": "Time limit exceeded",
+      "timeout": "The analysis was stopped because it exceeded the time limit. Try fewer or smaller files."
     }
   },
   "sessionHistory": {
@@ -387,6 +401,10 @@
         "q6": {
           "q": "How long will a bulk analysis take, and can I cancel it?",
           "a": "Before a long analysis starts, a window shows the estimated time (with a range) and the number of pairs to compare; short ones start right away. With the prefilter on, long analyses are estimated by comparing the tokens first, so the time is closer to the real one and the window also shows how long it would take without the prefilter; if that takes too long, the estimate is an upper bound and the real time can be shorter. While it runs, the results box shows the phase, a progress bar and the remaining time, with a stop button to cancel it. The service runs one analysis at a time, and very large ones are refused. Keep this page open: if it stops checking, the analysis is cancelled."
+        },
+        "q7": {
+          "q": "What are the limits for using the service?",
+          "a": "The service is shared, so each person can have one analysis at a time. If someone else is analyzing, yours waits in a queue and starts by itself (you can cancel while waiting). Each analysis has a size limit per file and in total, a maximum estimated time, and a time limit while it runs. There is also an hourly budget of computing time per person; if you use it up, the message tells you when you can run another analysis."
         }
       },
       "bestPractices": {
@@ -428,6 +446,13 @@
     "hint": "Use fewer files or turn on the prefilter.",
     "continue": "Continue",
     "cancel": "Cancel",
-    "withoutPrefilter": "Without the prefilter it would be up to {{time}}."
+    "withoutPrefilter": "Without the prefilter it would be up to {{time}}.",
+    "queueAhead_one": "There is {{count}} analysis ahead of yours, about {{time}}.",
+    "queueAhead_other": "There are {{count}} analyses ahead of yours, about {{time}}."
+  },
+  "busyJobDialog": {
+    "title": "You already have an analysis",
+    "text": "You already have an analysis running or waiting in the queue. Cancel it to start a new one.",
+    "cancelJob": "Cancel that analysis"
   }
 }

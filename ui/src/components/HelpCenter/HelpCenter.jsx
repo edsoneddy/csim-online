@@ -110,6 +110,10 @@ const HelpCenter = () => {
           q: t('helpCenter.faq.features.q6.q'),
           a: t('helpCenter.faq.features.q6.a'),
         },
+        {
+          q: t('helpCenter.faq.features.q7.q'),
+          a: t('helpCenter.faq.features.q7.a'),
+        },
       ],
     },
     {

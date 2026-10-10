@@ -18,6 +18,7 @@ import {
   defaultLanguage,
   defaultThreshold,
   PREFILTER_MARGIN,
+  JOB_POLL_MAX_MS,
   SMALL_ESTIMATE_SECONDS,
 } from '../../../constants/ui';
 import {
@@ -31,6 +32,8 @@ import FileDiffViewerDialog from '../FileDiffViewerDialog';
 import { blurActiveElement } from '../../../utils/editor';
 import { getPollIntervalMs } from '../../../utils/polling';
 import EstimateDialog from './EstimateDialog';
+import BusyJobDialog from './BusyJobDialog';
+import { formatDuration } from '../../../utils/time';
 
 const BulkEditor = () => {
   const { t } = useTranslation();
@@ -46,6 +49,7 @@ const BulkEditor = () => {
   // isStarting covers the estimate and the job start; the job itself lives in the store.
   const [isStarting, setIsStarting] = useState(false);
   const [estimate, setEstimate] = useState(null);
+  const [busyJob, setBusyJob] = useState(null); // the job that blocks a new one (client_busy)
   const job = useSelector((state) => state.analysisJob);
   const isAnalyzing = isStarting || job != null;
   const dispatch = useDispatch();
@@ -146,14 +150,58 @@ const BulkEditor = () => {
     dispatch(updateHistory([historyItem, ...historyRef.current]));
   };
 
-  const showMessage = (titleKey, messageKey = titleKey) =>
+  const showMessage = (titleKey, messageKey = titleKey, values = {}) =>
     dispatch(
       updateInfoDialog(
         true,
-        t(`bulkEditor.messages.${messageKey}`),
+        t(`bulkEditor.messages.${messageKey}`, values),
         t(`bulkEditor.messages.${titleKey}Title`)
       )
     );
+
+  // Maps an API error (its `code`, see the limits in the README) to a dialog.
+  const showApiError = (error) => {
+    const body = error.body || {};
+    const wait = { time: formatDuration(body.retry_after, t) };
+    switch (body.code) {
+      case 'client_busy':
+        setBusyJob(body);
+        break;
+      case 'queue_full':
+        showMessage('wait', 'queueFull', wait);
+        break;
+      case 'budget_exceeded':
+        showMessage('wait', 'budgetExceeded', wait);
+        break;
+      case 'rate_limited':
+        showMessage('wait', 'rateLimited', wait);
+        break;
+      case 'busy':
+        showMessage('wait', 'serviceBusy', wait);
+        break;
+      case 'file_too_large':
+        showMessage('tooLarge', 'fileTooLarge', {
+          file: body.file,
+          size: Math.ceil(body.bytes / 1000),
+          max: Math.floor(body.max_file_bytes / 1000),
+        });
+        break;
+      case 'total_too_large':
+        showMessage('tooLarge', 'totalTooLarge', {
+          size: Math.ceil(body.bytes / 1000),
+          max: Math.floor(body.max_total_bytes / 1000),
+        });
+        break;
+      case 'body_too_large':
+        showMessage('tooLarge', 'bodyTooLarge');
+        break;
+      case 'gone':
+        showMessage('gone');
+        break;
+      default:
+        showMessage('error');
+    }
+  };
 
   // The analysis the running job belongs to (what to show when it ends).
   const contextRef = useRef(null);
@@ -171,6 +219,8 @@ const BulkEditor = () => {
       finishWithResults(snapshot.result, files, thresholdValue);
     } else if (snapshot.state === 'cancelled') {
       showMessage('cancelled', 'cancelledIdle'); // the server gave up: no heartbeat or restart
+    } else if (snapshot.state === 'timeout') {
+      showMessage('timeout');
     } else {
       finishWithFailure(files, thresholdValue);
       showMessage('error');
@@ -183,11 +233,13 @@ const BulkEditor = () => {
       dispatch(
         updateAnalysisJob({
           id: started.job_id,
-          state: 'running',
+          state: started.state || 'running',
           phase: null,
           done: 0,
           total: 0,
           etaSeconds: null,
+          queuePosition: started.queue_position ?? null,
+          queueWaitSeconds: started.queue_wait_seconds ?? null,
           receivedAt: Date.now(),
           estimateSeconds: started.estimate?.estimated_seconds ?? null,
         })
@@ -198,13 +250,11 @@ const BulkEditor = () => {
         dispatch(updateAnalysisJob(null));
       }
     } catch (error) {
-      if (error.status === 429) {
-        showMessage('busy');
-      } else if (error.body?.detail?.allowed === false) {
+      if (error.body?.detail?.allowed === false) {
         setEstimate(error.body.detail); // refused by the server: show why
       } else {
         console.info('Error starting csimx analysis:', error);
-        showMessage('error');
+        showApiError(error);
       }
       contextRef.current = null;
     } finally {
@@ -235,7 +285,7 @@ const BulkEditor = () => {
       console.info('Error estimating csimx analysis:', error);
       contextRef.current = null;
       setIsStarting(false);
-      showMessage('error');
+      showApiError(error);
       return;
     }
     await startJob(payload);
@@ -245,6 +295,18 @@ const BulkEditor = () => {
     setEstimate(null);
     setIsStarting(true);
     await startJob(contextRef.current.payload);
+  };
+
+  // client_busy: the user already has a job (maybe from another tab); offer to cancel it.
+  const handleCancelBusyJob = async () => {
+    const id = busyJob?.job_id;
+    setBusyJob(null);
+    if (!id) return;
+    try {
+      await sendDeleteRequest(`/api/jobs/${id}`);
+    } catch (error) {
+      console.info('Error cancelling the existing csimx analysis:', error);
+    }
   };
 
   const handleEstimateClose = () => {
@@ -268,7 +330,9 @@ const BulkEditor = () => {
   // Poll the running job. Each poll is also the server heartbeat; the next one is scheduled only
   // after the previous answer (never piled up) with an interval that follows the estimate.
   const jobId = job?.id;
-  const pollMs = getPollIntervalMs(job?.estimateSeconds);
+  // Queued jobs wait for a long time: the long interval; running ones follow their estimate.
+  const nextPollMs = (state) =>
+    state === 'queued' ? JOB_POLL_MAX_MS : getPollIntervalMs(jobRef.current?.estimateSeconds);
   useEffect(() => {
     if (!jobId) return undefined;
     let stopped = false;
@@ -286,11 +350,13 @@ const BulkEditor = () => {
               done: snapshot.done,
               total: snapshot.total,
               etaSeconds: snapshot.eta_seconds,
+              queuePosition: snapshot.queue_position,
+              queueWaitSeconds: snapshot.queue_wait_seconds,
               receivedAt: Date.now(),
               estimateSeconds: jobRef.current?.estimateSeconds ?? null,
             })
           );
-          timer = setTimeout(poll, pollMs);
+          timer = setTimeout(poll, nextPollMs(snapshot.state));
         } else {
           stopped = true;
           handleJobEnd(snapshot);
@@ -302,7 +368,7 @@ const BulkEditor = () => {
         handleJobEnd({ state: error.status === 404 ? 'cancelled' : 'error' });
       }
     };
-    timer = setTimeout(poll, pollMs);
+    timer = setTimeout(poll, nextPollMs(jobRef.current?.state));
     return () => {
       stopped = true;
       clearTimeout(timer);
@@ -424,6 +490,11 @@ const BulkEditor = () => {
         />
       </Box>
 
+      <BusyJobDialog
+        busyJob={busyJob}
+        onCancelJob={handleCancelBusyJob}
+        onClose={() => setBusyJob(null)}
+      />
       <EstimateDialog
         estimate={estimate}
         hasPrefilter={prefilter}

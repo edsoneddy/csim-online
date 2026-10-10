@@ -177,7 +177,8 @@
       "remaining": "Faltan {{time}}",
       "calculating": "Calculando tiempo...",
       "cancel": "Cancelar análisis",
-      "cancelHint": "Detiene el cálculo."
+      "cancelHint": "Detiene el cálculo.",
+      "queued": "En cola: posición {{position}}, unos {{time}}"
     },
     "messages": {
       "busyTitle": "Servicio ocupado",
@@ -186,7 +187,20 @@
       "cancelled": "El análisis fue cancelado.",
       "cancelledIdle": "El análisis se canceló porque esta página dejó de consultarlo.",
       "errorTitle": "Falló el análisis",
-      "error": "No se pudo completar el análisis."
+      "error": "No se pudo completar el análisis.",
+      "tooLargeTitle": "Archivos demasiado grandes",
+      "fileTooLarge": "El archivo \"{{file}}\" pesa {{size}} KB; el límite es {{max}} KB por archivo.",
+      "totalTooLarge": "Los archivos suman {{size}} KB; el límite es {{max}} KB en total.",
+      "bodyTooLarge": "Los archivos son demasiado grandes para enviarlos de una vez.",
+      "waitTitle": "Espera un momento",
+      "queueFull": "La cola está llena ahora. Inténtalo de nuevo en unos {{time}}.",
+      "budgetExceeded": "Has usado tu tiempo de análisis de esta hora. Podrás ejecutar otro en unos {{time}}.",
+      "rateLimited": "Demasiadas solicitudes. Inténtalo de nuevo en {{time}}.",
+      "serviceBusy": "El servicio está ocupado. Inténtalo de nuevo en {{time}}.",
+      "goneTitle": "Recarga la página",
+      "gone": "Esta versión de la página está desactualizada. Recarga la página para analizar archivos.",
+      "timeoutTitle": "Límite de tiempo superado",
+      "timeout": "El análisis se detuvo porque superó el límite de tiempo. Prueba con menos archivos o más pequeños."
     }
   },
   "sessionHistory": {
@@ -387,6 +401,10 @@
         "q6": {
           "q": "¿Cuánto tardará un análisis masivo y puedo cancelarlo?",
           "a": "Antes de un análisis largo, una ventana muestra el tiempo estimado (con un rango) y el número de pares por comparar; los cortos empiezan de inmediato. Con el prefiltro activado, los análisis largos se estiman comparando primero los tokens, así que el tiempo se acerca más al real y la ventana también indica cuánto tardaría sin el prefiltro; si eso tarda demasiado, la estimación es una cota máxima y el tiempo real puede ser menor. Mientras corre, el cuadro de resultados muestra la fase, una barra de progreso y el tiempo restante, con un botón de parar para cancelarlo. El servicio ejecuta un análisis a la vez y rechaza los muy grandes. Mantén esta página abierta: si deja de consultarlo, el análisis se cancela."
+        },
+        "q7": {
+          "q": "¿Cuáles son los límites de uso del servicio?",
+          "a": "El servicio es compartido, así que cada persona puede tener un análisis a la vez. Si otra persona está analizando, el tuyo espera en una cola y empieza solo (puedes cancelarlo mientras esperas). Cada análisis tiene un límite de tamaño por archivo y en total, un tiempo estimado máximo y un límite de tiempo mientras corre. Además hay un presupuesto por hora de tiempo de cálculo por persona; si lo agotas, el mensaje te dice cuándo podrás ejecutar otro análisis."
         }
       },
       "bestPractices": {
@@ -428,6 +446,13 @@
     "hint": "Usa menos archivos o activa el prefiltro.",
     "continue": "Continuar",
     "cancel": "Cancelar",
-    "withoutPrefilter": "Sin el prefiltro serían hasta {{time}}."
+    "withoutPrefilter": "Sin el prefiltro serían hasta {{time}}.",
+    "queueAhead_one": "Hay {{count}} análisis antes del tuyo, unos {{time}}.",
+    "queueAhead_other": "Hay {{count}} análisis antes del tuyo, unos {{time}}."
+  },
+  "busyJobDialog": {
+    "title": "Ya tienes un análisis",
+    "text": "Ya tienes un análisis en curso o esperando en la cola. Cancélalo para iniciar uno nuevo.",
+    "cancelJob": "Cancelar ese análisis"
   }
 }
