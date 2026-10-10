@@ -79,7 +79,11 @@ const EstimateDialog = ({ estimate, hasPrefilter, onContinue, onClose }) => {
       </DialogTitle>
       <DialogContent sx={{ overflowWrap: 'anywhere' }}>{renderBody()}</DialogContent>
       <DialogActions sx={{ flexWrap: 'wrap', gap: 1, px: { xs: 2, sm: 3 }, pb: 2 }}>
-        <Button onClick={onClose} color="primary">
+        <Button
+          onClick={onClose}
+          color={allowed ? 'error' : 'primary'}
+          variant={allowed ? 'outlined' : 'text'}
+        >
           {allowed ? t('estimateDialog.cancel') : t('infoDialog.close')}
         </Button>
         {allowed && (

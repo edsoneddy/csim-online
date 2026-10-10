@@ -16,6 +16,7 @@ const InputSlider = ({
   suffix,
   help,
   disabled = false,
+  tooltipPlacement = 'top',
 }) => {
   const handleChange = (event, newValue) => {
     onChange(newValue);
@@ -24,8 +25,6 @@ const InputSlider = ({
   const val = fixed ? value.toFixed(fixed) : value;
   const labelFixed = `${label} ${val}${suffix ? `${suffix}` : ''}`;
 
-  // Shared popup for every slider: a one-sentence help tooltip over the whole control (the value
-  // is already in the label, so there is no value bubble).
   const control = (
     <FormControl
       variant="outlined"
@@ -71,10 +70,8 @@ const InputSlider = ({
     </FormControl>
   );
 
-  // Same tooltip as the buttons (TooltipIconButton + the MuiTooltip theme override).
   return help ? (
-    <TooltipIconButton props={{ title: help, offset: [0, 5] }} asChild>
-      {/* A span keeps the tooltip working while the slider is disabled (MUI skips disabled children). */}
+    <TooltipIconButton props={{ title: help, offset: [0, 5], placement: tooltipPlacement }} asChild>
       <span style={{ display: 'block' }}>{control}</span>
     </TooltipIconButton>
   ) : (

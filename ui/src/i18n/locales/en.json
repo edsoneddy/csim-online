@@ -45,10 +45,11 @@
       "clearAll": "Clear All",
       "threshold": "Threshold",
       "thresholdHint": "Minimum similarity to group files.",
-      "prefilter": "Lexical prefilter",
+      "prefilter": "Prefilter",
       "prefilterHint": "Faster: skips pairs with very different tokens.",
       "prefilterMargin": "Margin",
-      "prefilterMarginHint": "Higher = safer, but slower."
+      "prefilterMarginHint": "Higher = safer, but slower.",
+      "settings": "Settings"
     },
     "panel": {
       "upload": "Upload",
@@ -372,8 +373,8 @@
           "a": "Yes, the download and export features are available in the top right corner of the results panel. Currently, this is only available in the \"Bulk Editor\" section."
         },
         "q3": {
-          "q": "What is the lexical prefilter?",
-          "a": "An optional speed-up for the Bulk Editor (the \"Lexical prefilter\" switch, off by default). It first compares the token sequences of each pair of files and runs the structural comparison only on the pairs that are not too different in tokens. Files that take part in no such pair are not parsed at all, so large sets finish much faster. It only affects bulk (group) analysis, never the Dual Editor."
+          "q": "What is the prefilter?",
+          "a": "An optional speed-up for the Bulk Editor (the \"Prefilter\" switch, off by default). It first compares the token sequences of each pair of files and runs the structural comparison only on the pairs that are not too different in tokens. Files that take part in no such pair are not parsed at all, so large sets finish much faster. It only affects bulk (group) analysis, never the Dual Editor."
         },
         "q4": {
           "q": "What does the prefilter margin mean, and what are the risks?",
@@ -385,7 +386,7 @@
         },
         "q6": {
           "q": "How long will a bulk analysis take, and can I cancel it?",
-          "a": "Before a long analysis starts, a window shows the estimated time (with a range) and the number of pairs to compare; short ones start right away. With the lexical prefilter on, long analyses are estimated by comparing the tokens first, so the time is closer to the real one and the window also shows how long it would take without the prefilter; if that takes too long, the estimate is an upper bound and the real time can be shorter. While it runs, the results box shows the phase, a progress bar and the remaining time, with a stop button to cancel it. The service runs one analysis at a time, and very large ones are refused. Keep this page open: if it stops checking, the analysis is cancelled."
+          "a": "Before a long analysis starts, a window shows the estimated time (with a range) and the number of pairs to compare; short ones start right away. With the prefilter on, long analyses are estimated by comparing the tokens first, so the time is closer to the real one and the window also shows how long it would take without the prefilter; if that takes too long, the estimate is an upper bound and the real time can be shorter. While it runs, the results box shows the phase, a progress bar and the remaining time, with a stop button to cancel it. The service runs one analysis at a time, and very large ones are refused. Keep this page open: if it stops checking, the analysis is cancelled."
         }
       },
       "bestPractices": {
@@ -421,10 +422,10 @@
     "blockedTitle": "This analysis is too large",
     "about": "It will take about {{time}} (between {{low}} and {{high}}).",
     "details": "{{files}} files, {{pairs}} pairs to compare.",
-    "prefilterNote": "With the lexical prefilter on it can be shorter.",
+    "prefilterNote": "With the prefilter on it can be shorter.",
     "tooManyFiles": "{{files}} files is above the limit of {{max}}.",
     "tooSlow": "Estimated time {{time}} is above the limit of {{max}}.",
-    "hint": "Use fewer files or turn on the lexical prefilter.",
+    "hint": "Use fewer files or turn on the prefilter.",
     "continue": "Continue",
     "cancel": "Cancel",
     "withoutPrefilter": "Without the prefilter it would be up to {{time}}."

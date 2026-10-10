@@ -45,10 +45,11 @@
       "clearAll": "Borrar Todo",
       "threshold": "Umbral",
       "thresholdHint": "Similitud mínima para agrupar archivos.",
-      "prefilter": "Prefiltro léxico",
+      "prefilter": "Prefiltro",
       "prefilterHint": "Más rápido: omite pares con tokens muy distintos.",
       "prefilterMargin": "Margen",
-      "prefilterMarginHint": "Más alto = más seguro, pero más lento."
+      "prefilterMarginHint": "Más alto = más seguro, pero más lento.",
+      "settings": "Ajustes"
     },
     "panel": {
       "upload": "Subir",
@@ -372,8 +373,8 @@
           "a": "Sí, las funciones de descarga y exportación están disponibles en la esquina superior derecha del panel de resultados. Actualmente, esto solo está disponible en la sección \"Editor Masivo\"."
         },
         "q3": {
-          "q": "¿Qué es el prefiltro léxico?",
-          "a": "Es una aceleración opcional del Editor Masivo (el interruptor \"Prefiltro léxico\", apagado por defecto). Primero compara las secuencias de tokens de cada par de archivos y ejecuta la comparación estructural solo en los pares que no son muy distintos en tokens. Los archivos que no participan en ningún par así ni siquiera se analizan, por lo que los conjuntos grandes terminan mucho más rápido. Solo afecta el análisis masivo (agrupación), nunca el Editor Dual."
+          "q": "¿Qué es el prefiltro?",
+          "a": "Es una aceleración opcional del Editor Masivo (el interruptor \"Prefiltro\", apagado por defecto). Primero compara las secuencias de tokens de cada par de archivos y ejecuta la comparación estructural solo en los pares que no son muy distintos en tokens. Los archivos que no participan en ningún par así ni siquiera se analizan, por lo que los conjuntos grandes terminan mucho más rápido. Solo afecta el análisis masivo (agrupación), nunca el Editor Dual."
         },
         "q4": {
           "q": "¿Qué significa el margen del prefiltro y qué riesgos tiene?",
@@ -385,7 +386,7 @@
         },
         "q6": {
           "q": "¿Cuánto tardará un análisis masivo y puedo cancelarlo?",
-          "a": "Antes de un análisis largo, una ventana muestra el tiempo estimado (con un rango) y el número de pares por comparar; los cortos empiezan de inmediato. Con el prefiltro léxico activado, los análisis largos se estiman comparando primero los tokens, así que el tiempo se acerca más al real y la ventana también indica cuánto tardaría sin el prefiltro; si eso tarda demasiado, la estimación es una cota máxima y el tiempo real puede ser menor. Mientras corre, el cuadro de resultados muestra la fase, una barra de progreso y el tiempo restante, con un botón de parar para cancelarlo. El servicio ejecuta un análisis a la vez y rechaza los muy grandes. Mantén esta página abierta: si deja de consultarlo, el análisis se cancela."
+          "a": "Antes de un análisis largo, una ventana muestra el tiempo estimado (con un rango) y el número de pares por comparar; los cortos empiezan de inmediato. Con el prefiltro activado, los análisis largos se estiman comparando primero los tokens, así que el tiempo se acerca más al real y la ventana también indica cuánto tardaría sin el prefiltro; si eso tarda demasiado, la estimación es una cota máxima y el tiempo real puede ser menor. Mientras corre, el cuadro de resultados muestra la fase, una barra de progreso y el tiempo restante, con un botón de parar para cancelarlo. El servicio ejecuta un análisis a la vez y rechaza los muy grandes. Mantén esta página abierta: si deja de consultarlo, el análisis se cancela."
         }
       },
       "bestPractices": {
@@ -421,10 +422,10 @@
     "blockedTitle": "Este análisis es demasiado grande",
     "about": "Tardará unos {{time}} (entre {{low}} y {{high}}).",
     "details": "{{files}} archivos, {{pairs}} pares por comparar.",
-    "prefilterNote": "Con el prefiltro léxico activado puede ser menos.",
+    "prefilterNote": "Con el prefiltro activado puede ser menos.",
     "tooManyFiles": "{{files}} archivos superan el límite de {{max}}.",
     "tooSlow": "El tiempo estimado de {{time}} supera el límite de {{max}}.",
-    "hint": "Usa menos archivos o activa el prefiltro léxico.",
+    "hint": "Usa menos archivos o activa el prefiltro.",
     "continue": "Continuar",
     "cancel": "Cancelar",
     "withoutPrefilter": "Sin el prefiltro serían hasta {{time}}."
