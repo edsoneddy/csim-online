@@ -17,14 +17,19 @@ import { useEffect, useRef, useState } from 'react';
 import {
   defaultLanguage,
   defaultThreshold,
-  JOB_POLL_INTERVAL_MS,
   PREFILTER_MARGIN,
   SMALL_ESTIMATE_SECONDS,
 } from '../../../constants/ui';
-import { sendDeleteRequest, sendGetRequest, sendPostRequest } from '../../../utils/requestHandler';
+import {
+  sendCancelBeacon,
+  sendDeleteRequest,
+  sendGetRequest,
+  sendPostRequest,
+} from '../../../utils/requestHandler';
 import FileViewerDialog from './FileViewerDialog';
 import FileDiffViewerDialog from '../FileDiffViewerDialog';
 import { blurActiveElement } from '../../../utils/editor';
+import { getPollIntervalMs } from '../../../utils/polling';
 import EstimateDialog from './EstimateDialog';
 
 const BulkEditor = () => {
@@ -183,8 +188,15 @@ const BulkEditor = () => {
           done: 0,
           total: 0,
           etaSeconds: null,
+          receivedAt: Date.now(),
+          estimateSeconds: started.estimate?.estimated_seconds ?? null,
         })
       );
+      if (!mountedRef.current) {
+        // the editor was left while the job was starting: stop it at once
+        sendCancelBeacon(started.job_id);
+        dispatch(updateAnalysisJob(null));
+      }
     } catch (error) {
       if (error.status === 429) {
         showMessage('busy');
@@ -253,11 +265,14 @@ const BulkEditor = () => {
     showMessage('cancelled');
   };
 
-  // Poll the running job (every poll is also the heartbeat that keeps it alive on the server).
+  // Poll the running job. Each poll is also the server heartbeat; the next one is scheduled only
+  // after the previous answer (never piled up) with an interval that follows the estimate.
   const jobId = job?.id;
+  const pollMs = getPollIntervalMs(job?.estimateSeconds);
   useEffect(() => {
     if (!jobId) return undefined;
     let stopped = false;
+    let timer = null;
     const poll = async () => {
       try {
         const snapshot = await sendGetRequest(`/api/jobs/${jobId}`);
@@ -271,28 +286,58 @@ const BulkEditor = () => {
               done: snapshot.done,
               total: snapshot.total,
               etaSeconds: snapshot.eta_seconds,
+              receivedAt: Date.now(),
+              estimateSeconds: jobRef.current?.estimateSeconds ?? null,
             })
           );
+          timer = setTimeout(poll, pollMs);
         } else {
           stopped = true;
-          clearInterval(timer);
           handleJobEnd(snapshot);
         }
       } catch (error) {
         if (stopped) return;
         console.info('Error following csimx analysis:', error);
         stopped = true;
-        clearInterval(timer);
         handleJobEnd({ state: error.status === 404 ? 'cancelled' : 'error' });
       }
     };
-    const timer = setInterval(poll, JOB_POLL_INTERVAL_MS);
+    timer = setTimeout(poll, pollMs);
     return () => {
       stopped = true;
-      clearInterval(timer);
+      clearTimeout(timer);
     };
     // handleJobEnd only reads refs and dispatch; polling restarts only for a new job.
   }, [jobId]);
+
+  // Leaving the page (refresh, close, navigation) or this editor must not leave the job burning
+  // CPU on the server. `pagehide` only: a hidden tab keeps its job (and its heartbeat). The
+  // cleanup runs on a real unmount only if a job is active, so React StrictMode's simulated
+  // unmount (no job yet) cancels nothing.
+  const jobRef = useRef(job);
+  jobRef.current = job;
+  const mountedRef = useRef(true);
+  useEffect(() => {
+    mountedRef.current = true;
+    const onPageHide = () => {
+      if (jobRef.current?.id) sendCancelBeacon(jobRef.current.id);
+    };
+    // Restored from the back/forward cache: that job was cancelled by pagehide, start clean.
+    const onPageShow = (event) => {
+      if (event.persisted) dispatch(updateAnalysisJob(null));
+    };
+    window.addEventListener('pagehide', onPageHide);
+    window.addEventListener('pageshow', onPageShow);
+    return () => {
+      window.removeEventListener('pagehide', onPageHide);
+      window.removeEventListener('pageshow', onPageShow);
+      mountedRef.current = false;
+      if (jobRef.current?.id) {
+        sendCancelBeacon(jobRef.current.id);
+        dispatch(updateAnalysisJob(null));
+      }
+    };
+  }, [dispatch]);
 
   const handleClearAll = () => {
     dispatch(updateFileManagerResultsByEditorKey(BULK_EDITOR_FILES_KEY, null));

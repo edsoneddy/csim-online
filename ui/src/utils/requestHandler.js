@@ -44,6 +44,22 @@ export const sendGetRequest = async (endpoint) => {
 };
 
 /**
+ * Cancels a job when the page is going away. navigator.sendBeacon survives the unload and sends a
+ * body-less POST (a CORS simple request, no preflight); fetch with keepalive is the fallback.
+ */
+export const sendCancelBeacon = (jobId) => {
+  const url = `${API_URL}/api/jobs/${jobId}/cancel`;
+  try {
+    if (typeof navigator !== 'undefined' && navigator.sendBeacon && navigator.sendBeacon(url)) {
+      return;
+    }
+    fetch(url, { method: 'POST', keepalive: true }).catch(() => {});
+  } catch {
+    // nothing else to do while the page is closing
+  }
+};
+
+/**
  * Sends a DELETE request to the API and handles errors safely.
  */
 export const sendDeleteRequest = async (endpoint) => {

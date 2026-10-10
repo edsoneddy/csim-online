@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Response, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -28,7 +28,7 @@ ESTIMATE_TIMEOUT_SECONDS = float(os.environ.get("ESTIMATE_TIMEOUT_SECONDS", "60"
 # is kept instead.
 EXACT_PREFILTER_MIN_SECONDS = float(os.environ.get("EXACT_PREFILTER_MIN_SECONDS", "10"))
 EXACT_ESTIMATE_TIMEOUT_SECONDS = float(os.environ.get("EXACT_ESTIMATE_TIMEOUT_SECONDS", "20"))
-HEARTBEAT_SECONDS = float(os.environ.get("HEARTBEAT_SECONDS", "30"))
+HEARTBEAT_SECONDS = float(os.environ.get("HEARTBEAT_SECONDS", "60"))
 JOB_KEEP_SECONDS = float(os.environ.get("JOB_KEEP_SECONDS", "600"))
 
 # Speed of this machine against the csimx reference (1.0 until the background calibration ends).
@@ -271,6 +271,7 @@ def _busy_response(job):
     return JSONResponse(
         status_code=status.HTTP_429_TOO_MANY_REQUESTS,
         content={"detail": "Another analysis is running.", **manager.snapshot(job)},
+        headers={"Cache-Control": "no-store"},
     )
 
 
@@ -295,20 +296,29 @@ def start_job(data: AnalysisRequest):
         job = manager.start(_payload(data), estimate)
     except Busy as busy:
         return _busy_response(busy.job)
-    return {"job_id": job.id}
+    return {"job_id": job.id, "estimate": estimate}
 
 
-def _job_or_404(job):
+def _job_or_404(job, full=False):
     if job is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Unknown job.")
-    return manager.snapshot(job)
+    return manager.snapshot(job, full)
 
 
 @app.get("/api/jobs/{job_id}")
-def read_job(job_id: str):
-    return _job_or_404(manager.get(job_id))
+def read_job(job_id: str, response: Response, full: bool = False):
+    """Light by default (the estimate comes with POST /api/jobs; `?full=1` adds it again)."""
+    response.headers["Cache-Control"] = "no-store"
+    return _job_or_404(manager.get(job_id), full)
 
 
 @app.delete("/api/jobs/{job_id}")
 def cancel_job(job_id: str):
     return _job_or_404(manager.cancel(job_id))
+
+
+@app.post("/api/jobs/{job_id}/cancel", status_code=status.HTTP_204_NO_CONTENT)
+def cancel_job_post(job_id: str):
+    """Same as DELETE but for navigator.sendBeacon (POST only, a CORS simple request: no body, no
+    custom headers, so no preflight). Idempotent: 204 even if the job is finished or unknown."""
+    manager.cancel(job_id)

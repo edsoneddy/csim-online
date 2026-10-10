@@ -151,9 +151,10 @@ def test_job_lifecycle_matches_analyze_all(fake_manager):
     for extra in ({}, {"prefilter_margin": 0.05}):
         started = client.post("/api/jobs", json=body(**extra))
         assert started.status_code == 202
+        assert started.json()["estimate"]["files"] == 3  # the estimate comes with the start response
         snap = wait_for(started.json()["job_id"], {"done", "error"})
         assert snap["state"] == "done", snap
-        assert snap["eta_seconds"] == 0.0 and snap["estimate"]["files"] == 3
+        assert snap["eta_seconds"] == 0.0 and "estimate" not in snap
         assert snap["result"] == client.post("/api/analyze-all", json=body(**extra)).json()
         assert snap["phase"] in ("parse", "lexical", "structural") and snap["done"] == snap["total"]
 
@@ -230,3 +231,50 @@ def test_finished_jobs_are_dropped(fake_manager):
     wait_for(job_id, {"error"})
     time.sleep(0.5)
     assert client.get(f"/api/jobs/{job_id}").status_code == 404
+
+
+def test_polled_payload_is_light(fake_manager):
+    fake_manager(workers.slow_worker)
+    job_id = client.post("/api/jobs", json=body()).json()["job_id"]
+    light = client.get(f"/api/jobs/{job_id}")
+    assert light.headers["cache-control"] == "no-store"
+    assert "estimate" not in light.json()
+    assert set(light.json()) == {
+        "job_id", "state", "phase", "done", "total", "elapsed_seconds", "eta_seconds",
+        "result", "error",
+    }
+    assert client.get(f"/api/jobs/{job_id}?full=1").json()["estimate"]["files"] == 3
+    client.delete(f"/api/jobs/{job_id}")
+
+
+def test_post_cancel_kills_the_child(fake_manager):
+    manager = fake_manager(workers.slow_worker)
+    job_id = client.post("/api/jobs", json=body()).json()["job_id"]
+    pid = manager.jobs[job_id].process.pid
+    assert pid_alive(pid)
+    r = client.post(f"/api/jobs/{job_id}/cancel")  # what navigator.sendBeacon sends: no body
+    assert r.status_code == 204 and r.content == b""
+    assert manager.jobs[job_id].state == "cancelled" and not pid_alive(pid)
+    assert manager.active is None
+    assert client.post(f"/api/jobs/{job_id}/cancel").status_code == 204  # idempotent
+    assert client.post("/api/jobs/does-not-exist/cancel").status_code == 204  # unknown id
+
+
+def test_post_cancel_after_done_keeps_the_result(fake_manager):
+    fake_manager(main.group_worker)
+    job_id = client.post("/api/jobs", json=body()).json()["job_id"]
+    wait_for(job_id, {"done"})
+    assert client.post(f"/api/jobs/{job_id}/cancel").status_code == 204
+    assert client.get(f"/api/jobs/{job_id}").json()["state"] == "done"
+
+
+def test_cancel_beacon_is_a_cors_simple_request():
+    # sendBeacon from the deployed UI: POST without body or custom headers, so no preflight, and
+    # the response must carry the allowed origin.
+    r = client.post("/api/jobs/x/cancel", headers={"Origin": "https://edsoneddy.github.io"})
+    assert r.status_code == 204
+    assert r.headers["access-control-allow-origin"] == "https://edsoneddy.github.io"
+
+
+def test_heartbeat_default_is_60_seconds():
+    assert main.HEARTBEAT_SECONDS == 60.0

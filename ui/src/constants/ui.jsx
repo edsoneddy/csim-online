@@ -16,7 +16,10 @@ export const DEFAULT_MAX_FILES = 100;
 
 // Bulk analysis jobs: below this estimate (seconds) the analysis starts without asking.
 export const SMALL_ESTIMATE_SECONDS = 5;
-export const JOB_POLL_INTERVAL_MS = 1000;
+// Polling of a running job (also the server heartbeat): estimate / POLL_DIVISOR seconds, clamped.
+export const JOB_POLL_MIN_MS = 2000;
+export const JOB_POLL_MAX_MS = 10000;
+export const JOB_POLL_DIVISOR = 30;
 
 // Lexical prefilter (csimx): default margin sent as `prefilter_margin` (API max is 0.30).
 export const PREFILTER_MARGIN = 0.05;

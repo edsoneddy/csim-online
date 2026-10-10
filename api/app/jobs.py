@@ -87,7 +87,8 @@ class JobManager:
                 self._terminate(self.active)
                 self._finish(self.active, "cancelled")
 
-    def snapshot(self, job):
+    def snapshot(self, job, full=False):
+        """Job state for the client; `estimate` (big, constant) only with full=True."""
         now = job.finished if job.finished is not None else time.monotonic()
         elapsed = now - job.started
         eta = None
@@ -98,7 +99,7 @@ class JobManager:
                 eta = max(0.0, job.estimate.get("estimated_seconds", 0.0) - elapsed)
         elif job.state == "done":
             eta = 0.0
-        return {
+        snapshot = {
             "job_id": job.id,
             "state": job.state,
             "phase": job.phase,
@@ -106,10 +107,12 @@ class JobManager:
             "total": job.total,
             "elapsed_seconds": round(elapsed, 2),
             "eta_seconds": None if eta is None else round(eta, 2),
-            "estimate": job.estimate,
             "result": job.result if job.state == "done" else None,
             "error": job.error,
         }
+        if full:
+            snapshot["estimate"] = job.estimate
+        return snapshot
 
     # -- internals ----------------------------------------------------------------------------
     def tick(self):
