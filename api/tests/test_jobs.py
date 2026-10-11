@@ -82,7 +82,9 @@ def test_estimate_prefilter_below_the_gate_is_the_upper_bound():
     est = client.post("/api/estimate", json=body(prefilter_margin=0.05)).json()
     assert main.EXACT_PREFILTER_MIN_SECONDS == 10  # tiny inputs are far below it
     assert est["exact"] is False and est["exact_reason"] == "below_threshold"
-    assert est["structural_pairs"] == est["pairs"] and est["prefilter_evaluated"] is False
+    # the lower bounds of csimx already drop pairs that cannot reach the threshold
+    assert est["structural_pairs"] + est["bound_skipped"] == est["pairs"]
+    assert est["prefilter_evaluated"] is False
 
 
 def test_estimate_prefilter_above_the_gate_is_exact(monkeypatch):
@@ -91,7 +93,7 @@ def test_estimate_prefilter_above_the_gate_is_exact(monkeypatch):
     assert est["exact"] is True and est["exact_reason"] is None
     assert est["prefilter_evaluated"] is True
     assert est["estimated_seconds"] <= est["upper_bound_seconds"]
-    assert est["structural_pairs"] + est["skipped"] == est["pairs"]
+    assert est["structural_pairs"] + est["skipped"] + est["bound_skipped"] == est["pairs"]
 
 
 def test_gate_value_is_respected(monkeypatch):

@@ -1,4 +1,4 @@
 fastapi==0.111.0
 uvicorn==0.23.2
 pydantic==2.7.1
-csimx==0.3.0
+csimx==0.4.0

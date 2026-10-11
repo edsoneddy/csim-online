@@ -15,9 +15,10 @@ PROGRESS_INTERVAL = 0.2  # seconds between progress messages (phase changes are 
 def run_group(payload, progress=None):
     """Group the files of `payload` and build the payload that analyze-all returns."""
     stats = {}
-    options = {}
+    # skip_connected keeps the groups and compares far fewer pairs; only the group average can change
+    options = {"skip_connected": True}
     if payload["prefilter_margin"] is not None:
-        options = {"prefilter_margin": payload["prefilter_margin"], "stats": stats}
+        options.update(prefilter_margin=payload["prefilter_margin"], stats=stats)
     if progress is not None:
         options["progress"] = progress
     groups, groups_avg, unique, printable = group_by_exhaustive_search(
@@ -29,6 +30,8 @@ def run_group(payload, progress=None):
         printable_output=False,
         **options,
     )
+    # the seconds of the bound pass and the TED vary from run to run; the counts do not
+    stats = {k: v for k, v in stats.items() if not k.endswith("_seconds")}
     return {
         "prefilter_stats": stats or None,
         "similarity_groups": groups,
