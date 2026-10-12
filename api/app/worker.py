@@ -74,6 +74,7 @@ def estimate_worker(conn, payload):
         threshold=payload["threshold"],
         prefilter_margin=payload["prefilter_margin"],
         speed_factor=payload["speed_factor"],
+        skip_connected=True,  # what run_group does: the estimate must price the same run
     )
     names, contents, lang = payload["names"], payload["contents"], payload["lang"]
     try:

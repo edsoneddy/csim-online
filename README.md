@@ -2,7 +2,7 @@
 
 A modern web interface for [csimx](https://pypi.org/project/csimx/) (successor of csim) - a code similarity detection and plagiarism analysis tool. Compare two files side-by-side or analyze multiple files in bulk to identify similar code patterns.
 
-![CSIM Online](https://img.shields.io/badge/csimx-0.4.0-blue)
+![CSIM Online](https://img.shields.io/badge/csimx-0.4.1-blue)
 ![Python](https://img.shields.io/badge/Python-3.13+-green)
 ![React](https://img.shields.io/badge/React-19+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -25,7 +25,7 @@ A modern web interface for [csimx](https://pypi.org/project/csimx/) (successor o
 - **Framework**: FastAPI 0.111.0
 - **Server**: Uvicorn 0.23.2
 - **Validation**: Pydantic 2.7.1
-- **Analysis**: csimx 0.4.0
+- **Analysis**: csimx 0.4.1
 
 ### Frontend
 - **Framework**: React 19
@@ -55,7 +55,7 @@ The API will be available at `http://localhost:8000`
 
 API endpoints:
 - `GET /` - Health check
-- `GET /api/version` - Returns the installed csimx version (`{"csimx_version": "0.4.0"}`), read live via `importlib.metadata`. The UI fetches this on load and shows it next to the app title — bump `csimx` in `api/requirements.txt` and it propagates automatically.
+- `GET /api/version` - Returns the installed csimx version (`{"csimx_version": "0.4.1"}`), read live via `importlib.metadata`. The UI fetches this on load and shows it next to the app title — bump `csimx` in `api/requirements.txt` and it propagates automatically.
 - `POST /api/analyze` - Compare two files
 - `POST /api/analyze-all` - Analyze multiple files with threshold
 
@@ -68,7 +68,7 @@ API endpoints:
 - `GET /api/jobs/{id}`: `state` (`queued`/`running`/`done`/`cancelled`/`error`/`timeout`), `phase` (`parse`/`lexical`/`structural`), `done`, `total`, `elapsed_seconds`, `eta_seconds`, `estimate`, and `result` (the analyze-all payload) when done. `GET` is light (the `estimate` comes with `POST /api/jobs`, or `?full=1`; `Cache-Control: no-store`) and every GET is a heartbeat, polled by the UI every clamp(estimate / 30 s, 2 s, 10 s): a running job with no GET for `HEARTBEAT_SECONDS` is cancelled.
 - `DELETE /api/jobs/{id}`: terminates the job process (idempotent). `POST /api/jobs/{id}/cancel` does the same (204 even if the job is finished or unknown; no body, no custom headers, so `navigator.sendBeacon` can call it cross-origin without a preflight): the UI sends it on `pagehide` and when the Bulk Editor is left, so a refresh or a closed tab stops the job at once instead of waiting for the heartbeat. csimx cannot be interrupted, so cancelling kills the process.
 
-The jobs run `group` with `skip_connected=True` (same groups, far fewer comparisons, see csimx `docs/GROUPING_SPEEDUP.md`); the estimate does not model it, so the real time is usually below the estimate, and the Average Similarity of a group is the mean of its strongest links.
+The jobs run `group` with `skip_connected=True` (same groups, far fewer comparisons, see csimx `docs/GROUPING_SPEEDUP.md`); the estimate models it too (`estimate_group(..., skip_connected=True)`: within -12%..+30% of the real time in 31 of 36 measured cases, never 2-25x over as before), and the Average Similarity of a group is the mean of its strongest links.
 
 With the prefilter on, the estimate is first the cheap upper bound (every pair compared); when that reaches `EXACT_PREFILTER_MIN_SECONDS` (10) the child process also runs the lexical pass for an exact estimate (`exact: true`, with `upper_bound_seconds` for comparison). If that does not finish within `EXACT_ESTIMATE_TIMEOUT_SECONDS` (20) the bound is returned (`exact: false`, `exact_reason: "timeout"`). `POST /api/jobs` decides `allowed` with the same estimate (the exact one when available, the bound otherwise); estimates are memoized for 2 minutes server side so jobs right after an estimate do not repeat the lexical pass.
 
