@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request, Response, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from contextlib import asynccontextmanager, contextmanager
 from csimx import calibrate
 from csimx.utils import MAX_PREFILTER_MARGIN
@@ -94,6 +94,13 @@ async def lifespan(_app):
 
 
 class FileItem(BaseModel):
+    id: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=300,
+        description="Client id of the file. Names can repeat; when every file has an id, the "
+        "groups of a job come back as ids",
+    )
     name: str = Field(..., min_length=1, description="The name of the file")
     content: str = Field(
         ..., min_length=1, description="The source code or content of the file"
@@ -117,6 +124,17 @@ class AnalysisRequest(BaseModel):
         description="Optional similarity threshold between 0.0 and 1.0",
     )
     files: list[FileItem] = Field(..., description="List of files to compare")
+
+    @model_validator(mode="after")
+    def _ids_all_or_none_and_unique(self):
+        ids = [file.id for file in self.files]
+        if all(i is None for i in ids):
+            return self
+        if any(i is None for i in ids):
+            raise ValueError("Either every file has an id or none does")
+        if len(set(ids)) != len(ids):
+            raise ValueError("File ids must be unique")
+        return self
 
 
 app = FastAPI(title="CSIM Online API", lifespan=lifespan)
@@ -298,6 +316,7 @@ def analyze_similarity(data: AnalysisRequest):
 def _payload(data: AnalysisRequest):
     return {
         "names": [file.name for file in data.files],
+        "ids": None if not data.files or data.files[0].id is None else [file.id for file in data.files],
         "contents": [file.content for file in data.files],
         "lang": data.lang,
         "threshold": data.threshold or 0.0,

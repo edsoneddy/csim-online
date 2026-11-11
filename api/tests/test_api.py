@@ -84,6 +84,49 @@ def test_group_with_prefilter_returns_stats():
     assert body["prefilter_stats"]["pairs"] == 3
 
 
+def group_with_repeated_names(with_ids=True):
+    # a zip keeps only the file name of each entry: three files, two of them named "t.py"
+    a, b, _ = SNIPPETS["python_3"]
+    other = "def main():\n    print(input())\n    print('x' * 3)\n"
+    payload = {
+        "names": ["t.py", "m.py", "t.py"],
+        "contents": [other, a, b],
+        "lang": "python_3",
+        "threshold": 0.8,
+        "prefilter_margin": None,
+    }
+    if with_ids:
+        payload["ids"] = ["id-a", "id-b", "id-c"]
+    return run_group(payload)
+
+
+def test_group_returns_ids_when_names_repeat():
+    body = group_with_repeated_names()
+    assert sorted(body["similarity_groups"][0]) == ["id-b", "id-c"]
+    assert body["unique_groups"] == ["id-a"]
+    # the report a person downloads keeps names, told apart
+    assert "t.py (2)" in body["printable_output"] and "id-" not in body["printable_output"]
+
+
+def test_group_without_ids_returns_names():
+    body = group_with_repeated_names(with_ids=False)
+    assert sorted(body["similarity_groups"][0]) == ["m.py", "t.py (2)"]
+    assert body["unique_groups"] == ["t.py"]
+
+
+def test_ids_all_or_none_and_unique():
+    f = files("python_3")
+    f[0]["id"] = "x"
+    r = client.post("/api/estimate", json={"lang": "python_3", "files": f})
+    assert r.status_code == 422
+    f[1]["id"] = "x"
+    r = client.post("/api/estimate", json={"lang": "python_3", "files": f})
+    assert r.status_code == 422
+    f[1]["id"] = "y"
+    r = client.post("/api/estimate", json={"lang": "python_3", "files": f})
+    assert r.status_code == 200
+
+
 def test_analyze_all_is_gone():
     r = client.post("/api/analyze-all", json={"lang": "python_3", "files": files("python_3")})
     assert r.status_code == 410

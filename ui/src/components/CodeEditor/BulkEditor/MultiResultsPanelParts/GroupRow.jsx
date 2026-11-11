@@ -57,9 +57,11 @@ const GroupRow = ({
   const { riskLabel, borderColor, percentageText } = getRiskMeta(avg, isUnique, t, theme);
 
   const groupFilesData = useMemo(() => {
-    return fileNames.map((name) => {
-      const fileData = allFiles.find((file) => file.name === name);
-      return fileData || { name, size: 0, date: null };
+    // The groups hold file ids (names can repeat). Results without ids still hold names.
+    return fileNames.map((key) => {
+      const fileData =
+        allFiles.find((file) => file.id === key) || allFiles.find((file) => file.name === key);
+      return fileData || { name: key, size: 0, date: null };
     });
   }, [allFiles, fileNames]);
 

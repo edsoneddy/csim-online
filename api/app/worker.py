@@ -12,17 +12,45 @@ from csimx.utils import group_by_exhaustive_search
 PROGRESS_INTERVAL = 0.2  # seconds between progress messages (phase changes are always sent)
 
 
+def unique_labels(names):
+    """`names` with the repeated ones told apart ("a.py", "a.py (2)", ...), so that every file has
+    its own label. A zip keeps only the file name of each entry, so equal names are common."""
+    taken = set(names)
+    seen = {}
+    labels = []
+    for name in names:
+        seen[name] = seen.get(name, 0) + 1
+        if seen[name] == 1:
+            labels.append(name)
+            continue
+        number = seen[name]
+        label = f"{name} ({number})"
+        while label in taken:
+            number += 1
+            label = f"{name} ({number})"
+        taken.add(label)
+        labels.append(label)
+    return labels
+
+
 def run_group(payload, progress=None):
-    """Group the files of `payload` and build the payload that analyze-all returns."""
+    """Group the files of `payload` and build the payload that analyze-all returns.
+
+    csimx names each file in its result. The groups and the unique files go back as the file `ids`
+    when the payload has them (the client resolves a file by id, never by name, because names can
+    repeat); without ids they go back as names. `printable_output` always uses the names.
+    """
     stats = {}
     # skip_connected keeps the groups and compares far fewer pairs; only the group average can change
     options = {"skip_connected": True}
+    labels = unique_labels(payload["names"])
+    ids = payload.get("ids")
     if payload["prefilter_margin"] is not None:
         options.update(prefilter_margin=payload["prefilter_margin"], stats=stats)
     if progress is not None:
         options["progress"] = progress
     groups, groups_avg, unique, printable = group_by_exhaustive_search(
-        file_names=payload["names"],
+        file_names=labels,
         file_contents=payload["contents"],
         lang=payload["lang"],
         threshold=payload["threshold"],
@@ -32,6 +60,10 @@ def run_group(payload, progress=None):
     )
     # the seconds of the bound pass and the TED vary from run to run; the counts do not
     stats = {k: v for k, v in stats.items() if not k.endswith("_seconds")}
+    if ids is not None:
+        by_label = dict(zip(labels, ids))
+        groups = [[by_label[label] for label in group] for group in groups]
+        unique = [by_label[label] for label in unique]
     return {
         "prefilter_stats": stats or None,
         "similarity_groups": groups,
